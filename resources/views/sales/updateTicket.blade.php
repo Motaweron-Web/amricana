@@ -11,7 +11,8 @@
         <form class="row">
             <div class="col-lg-9 p-1 ">
                 <div class="multisteps-form__progress mb-5">
-                    <button type="button" class="multisteps-form__progress-btn js-active" title="visitors"> visitors</button>
+                    <button type="button" class="multisteps-form__progress-btn js-active" title="visitors"> visitors
+                    </button>
                     <button type="button" class="multisteps-form__progress-btn" title="products"> products</button>
                     <button type="button" class="multisteps-form__progress-btn" title="payment"> payment</button>
                 </div>
@@ -27,7 +28,7 @@
                                 @if($rate != 0 && $rate != null)
                                     <ul class="rating">
                                         @for($i = 1 ;$i <= 5;$i++)
-                                            <li> <i class='fas fa-star {{($rate >= $i) ? 'gold' : ''}}'></i> </li>
+                                            <li><i class='fas fa-star {{($rate >= $i) ? 'gold' : ''}}'></i></li>
                                         @endfor
                                     </ul>
                                     <label class="form-label"> Client Rate </label>
@@ -70,29 +71,75 @@
                                         </tr>
                                         </thead>
                                         <tbody id="visitorTable">
+                                        {{--                                        @foreach($models as $model)--}}
+                                        {{--                                            <tr class="{{$model->type->title}}">--}}
+                                        {{--                                                <td><span data-type_id="{{$model->type->id}}"--}}
+                                        {{--                                                          id="visitor_type[]">{{$model->type->title}}</span></td>--}}
+                                        {{--                                                <td><span data-price="{{$model->price}}"--}}
+                                        {{--                                                          id="visitor_price[]">{{$model->price}}</span></td>--}}
+                                        {{--                                                <td><input type="text" class="form-control" placeholder="Name"--}}
+                                        {{--                                                           name="visitor_name[]" value="{{$model->name}}"></td>--}}
+                                        {{--                                                <td><input type="date" class="form-control" name="visitor_birthday[]"--}}
+                                        {{--                                                           id="visitor_birthday[]" value="{{$model->birthday}}"></td>--}}
+                                        {{--                                                <td>--}}
+                                        {{--                                                    <div class="choose">--}}
+                                        {{--                                                        <div class="genderOption">--}}
+                                        {{--                                                            <input type="radio" class="btn-check gender" name="gender{{$model->id}}"--}}
+                                        {{--                                                                   value="male" id="option1{{$model->id}}" {{($model->gender == 'male') ? 'checked' : ''}}>--}}
+                                        {{--                                                            <label class=" mb-0 btn btn-outline" for="option1{{$model->id}}">--}}
+                                        {{--                                                                <span> <i class="fas fa-male"></i> </span>--}}
+                                        {{--                                                            </label>--}}
+                                        {{--                                                        </div>--}}
+                                        {{--                                                        <div class="genderOption">--}}
+                                        {{--                                                            <input type="radio" class="btn-check gender" name="gender{{$model->id}}"--}}
+                                        {{--                                                                   value="female" id="option2{{$model->id}}" {{($model->gender == 'female') ? 'checked' : ''}}>--}}
+                                        {{--                                                            <label class=" mb-0 btn btn-outline" for="option2{{$model->id}}">--}}
+                                        {{--                                                                <span> <i class="fas fa-female"></i> </span>--}}
+                                        {{--                                                                <!-- <span> female </span> -->--}}
+                                        {{--                                                            </label>--}}
+                                        {{--                                                        </div>--}}
+                                        {{--                                                    </div>--}}
+                                        {{--                                                </td>--}}
+                                        {{--                                                <td>--}}
+                                        {{--                                                    @if($model->status == 'in')--}}
+                                        {{--                                                        <i class="fa fa-eye"></i>--}}
+                                        {{--                                                    @else--}}
+                                        {{--                                                        <span class="controlIcons">--}}
+                                        {{--                                                    <span class="icon Delete"--}}
+                                        {{--                                                          data-model_id="{{$model->type->id}}"> <i--}}
+                                        {{--                                                            class="far fa-trash-alt"></i> </span>--}}
+                                        {{--                                                    </span>--}}
+                                        {{--                                                        @endif--}}
+
+
+                                        {{--                                                </td>--}}
+                                        {{--                                            </tr>--}}
+                                        {{--                                        @endforeach--}}
                                         @foreach($models as $model)
                                             <tr class="{{$model->type->title}}">
-                                                <td><span data-type_id="{{$model->type->id}}"
-                                                          id="visitor_type[]">{{$model->type->title}}</span></td>
-                                                <td><span data-price="{{$model->price}}"
-                                                          id="visitor_price[]">{{$model->price}}</span></td>
-                                                <td><input type="text" class="form-control" placeholder="Name"
-                                                           name="visitor_name[]" value="{{$model->name}}"></td>
-                                                <td><input type="date" class="form-control" name="visitor_birthday[]"
-                                                           id="visitor_birthday[]" value="{{$model->birthday}}"></td>
+                                                <td><span
+                                                         >{{$model->type->title}}</span></td>
+                                                <td><span data-price="{{$model->price}}">{{$model->price}}</span></td>
+                                                <td><input type="text" class="form-control" placeholder="Name" value="{{$model->name}}"></td>
+                                                <td><input type="date" class="form-control" value="{{$model->birthday}}"></td>
                                                 <td>
                                                     <div class="choose">
                                                         <div class="genderOption">
-                                                            <input type="radio" class="btn-check gender" name="gender{{$model->id}}"
-                                                                   value="male" id="option1{{$model->id}}" {{($model->gender == 'male') ? 'checked' : ''}}>
-                                                            <label class=" mb-0 btn btn-outline" for="option1{{$model->id}}">
+                                                            <input type="radio" class="btn-check gender"
+
+                                                                   value="male"
+                                                                    {{($model->gender == 'male') ? 'checked' : ''}}>
+                                                            <label class=" mb-0 btn btn-outline"
+                                                                   for="option1{{$model->id}}">
                                                                 <span> <i class="fas fa-male"></i> </span>
                                                             </label>
                                                         </div>
                                                         <div class="genderOption">
-                                                            <input type="radio" class="btn-check gender" name="gender{{$model->id}}"
-                                                                   value="female" id="option2{{$model->id}}" {{($model->gender == 'female') ? 'checked' : ''}}>
-                                                            <label class=" mb-0 btn btn-outline" for="option2{{$model->id}}">
+                                                            <input type="radio" class="btn-check gender"
+                                                                   value="female"
+                                                                   {{($model->gender == 'female') ? 'checked' : ''}}>
+                                                            <label class=" mb-0 btn btn-outline"
+                                                                   for="option2{{$model->id}}">
                                                                 <span> <i class="fas fa-female"></i> </span>
                                                                 <!-- <span> female </span> -->
                                                             </label>
@@ -104,11 +151,11 @@
                                                         <i class="fa fa-eye"></i>
                                                     @else
                                                         <span class="controlIcons">
-                                                    <span class="icon Delete"
-                                                          data-model_id="{{$model->type->id}}"> <i
-                                                            class="far fa-trash-alt"></i> </span>
-                                                    </span>
-                                                        @endif
+                                                                        <span class="icon Delete"
+                                                                              data-model_id="{{$model->type->id}}"> <i
+                                                                                class="far fa-trash-alt"></i> </span>
+                                                                        </span>
+                                                    @endif
 
 
                                                 </td>
@@ -129,7 +176,8 @@
 
 
                     <!-- step 3 -->
-                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white " id="productsTab" data-animation="FadeIn">
+                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white " id="productsTab"
+                         data-animation="FadeIn">
                         <h5 class="font-weight-bolder">products</h5>
                         <div class="multisteps-form__content">
                             <div class="row mt-3 align-items-end">
@@ -174,7 +222,8 @@
                                                 <td>
                                                     <div class="countInput">
                                                         <button type="button" class=" sub" id="subBtn">-</button>
-                                                        <input type="number" disabled id="qtyVal{{$product->product_id}}"
+                                                        <input type="number" disabled
+                                                               id="qtyVal{{$product->product_id}}"
                                                                class="qtyVal" value="{{$product->qty}}" min="1"/>
                                                         <button type="button" class=" add plusBtn" id="plusBtn">+
                                                         </button>
@@ -223,7 +272,8 @@
                                         </div>
                                         <div class="screen col">
                                             <span>discount</span>
-                                            <strong id="oldDiscount"> {{$ticket->discount_value}} {{($ticket->discount_type == 'per') ? '%' : ''}} </strong>
+                                            <strong
+                                                id="oldDiscount"> {{$ticket->discount_value}} {{($ticket->discount_type == 'per') ? '%' : ''}} </strong>
                                         </div>
                                         <div class="screen col">
                                             <span>Amount to Pay</span>
@@ -295,7 +345,9 @@
                                         <div class="col-md-12 p-2" id="reasonDiv" style="display: none">
                                             <label class="form-label"> Discount Reason </label>
                                             <select class="form-control" id="choices-discount">
-                                                <option value="" disabled selected>-- Select The Reason Of The Discount --</option>
+                                                <option value="" disabled selected>-- Select The Reason Of The Discount
+                                                    --
+                                                </option>
                                                 {!! optionForEach($discounts,'id','desc') !!}
                                             </select>
                                         </div>
@@ -549,11 +601,12 @@
                                                 <div class="col-8 col-md-9 p-2 ">
                                                     <label> Amount </label>
                                                     <input class="form-control" type="number" id="amount" step="any"
-                                                           onchange="calculateChange()" onkeyup="calculateChange()" value="{{$ticket->paid_amount}}"/>
+                                                           onchange="calculateChange()" onkeyup="calculateChange()"
+                                                           value="{{$ticket->paid_amount}}"/>
                                                 </div>
-                                                                                            <div class="col-4 col-md-3 p-2">
-                                                                                                <button type="button" class="btn w-100 btn-success"> Pay</button>
-                                                                                            </div>
+                                                <div class="col-4 col-md-3 p-2">
+                                                    <button type="button" class="btn w-100 btn-success"> Pay</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -578,8 +631,11 @@
                         <h6 class="billTitle"> ticket <span id="RandTicket">{{$ticket->ticket_num}}</span></h6>
                         <ul>
                             <li><label> Cashier Name : </label> <strong>{{$add_by}}</strong></li>
-                            <li><label> Visit Date : </label> <strong id="dateOfTicket">{{$ticket->visit_date}}</strong></li>
-                            <li><label> Reservation Duration : </label> <strong id="hourOfTicket" style="text-transform: initial !important;">{{$ticket->hours_count}} h</strong></li>
+                            <li><label> Visit Date : </label> <strong id="dateOfTicket">{{$ticket->visit_date}}</strong>
+                            </li>
+                            <li><label> Reservation Duration : </label> <strong id="hourOfTicket"
+                                                                                style="text-transform: initial !important;">{{$ticket->hours_count}}
+                                    h</strong></li>
                         </ul>
                     </div>
                     <div class="info firstInfo">
@@ -593,7 +649,8 @@
                             @foreach($ticket->models->groupBy('visitor_type_id') as $visitor)
                                 <div class="item row insertRows">
                                     <span class="col">{{$visitor[0]->type->title}}</span>
-                                    <span class="col" style="text-transform: initial !important;"> {{$visitor->count()}}</span>
+                                    <span class="col"
+                                          style="text-transform: initial !important;"> {{$visitor->count()}}</span>
                                     <span class="col"> {{$visitor->sum('price')}} EGP</span>
                                 </div>
                             @endforeach
@@ -633,7 +690,8 @@
                                     class="fas fa-sign-out me-2"></i>
                                 Access
                             </a>
-                            <a class="btn btn-info " target="_blank"  id="printBtn"><i class="fal fa-print me-2"></i> Print</a>
+                            <a class="btn btn-info " target="_blank" id="printBtn"><i class="fal fa-print me-2"></i>
+                                Print</a>
                         </div>
                     </div>
                 </div>
@@ -646,32 +704,49 @@
     <script type="text/javascript" src="{{asset('assets/sales')}}/js/plugins/multistep-form.js"></script>
     @include('sales.layouts.assets.editDataTable')
     <script>
-        $('form').on('submit', function(e) {
+        $('form').on('submit', function (e) {
             e.preventDefault();
-            var visitor_type    = $("span[id='visitor_type[]']").map(function(){return $(this).attr('data-type_id');}).get(),
-                visitor_price   = $("span[id='visitor_price[]']").map(function(){return $(this).attr('data-price');}).get(),
-                visitor_birthday= $("input[id='visitor_birthday[]']").map(function(){return $(this).val();}).get(),
-                visitor_name    = $("input[name='visitor_name[]']").map(function(){return $(this).val();}).get(),
-                gender          = $(".choose input:checked").map(function(){return $(this).val();}).get(),
-                product_id      =  $("input[name='product_id[]']").map(function(){return $(this).val();}).get(),
-                product_qty     =  $("input[name='proQtyInput[]']").map(function(){return $(this).val();}).get(),
-                product_price   =  $("input[name='proTotalInput[]']").map(function(){return $(this).val();}).get(),
-                ticket_price    =  $("#beforeTax").text(),
-                ent_tax         =  $("#ent").text(),
-                vat             =  $("#vat").text(),
-                total_price     =  $("#totalPrice").text(),
-                discount_value  =  $("#discount").text().replace('%',''),
-                discount_id     =  $("#choices-discount").val(),
-                RandTicket      =  $("#RandTicket").text(),
-                revenue         =  $("#revenue").text(),
-                amount          =  parseFloat($('#paid').text())-parseFloat($('#change').text()),
-                discount_type   = $(".discType input:checked").map(function(){return $(this).val();}).get(),
-                rem             = parseFloat($("#revenue").text())-amount;
+            var visitor_type = $("span[id='visitor_type[]']").map(function () {
+                    return $(this).attr('data-type_id');
+                }).get(),
+                visitor_price = $("span[id='visitor_price[]']").map(function () {
+                    return $(this).attr('data-price');
+                }).get(),
+                visitor_birthday = $("input[id='visitor_birthday[]']").map(function () {
+                    return $(this).val();
+                }).get(),
+                visitor_name = $("input[name='visitor_name[]']").map(function () {
+                    return $(this).val();
+                }).get(),
+                gender = $(".choose input:checked").map(function () {
+                    return $(this).val();
+                }).get(),
+                product_id = $("input[name='product_id[]']").map(function () {
+                    return $(this).val();
+                }).get(),
+                product_qty = $("input[name='proQtyInput[]']").map(function () {
+                    return $(this).val();
+                }).get(),
+                product_price = $("input[name='proTotalInput[]']").map(function () {
+                    return $(this).val();
+                }).get(),
+                ticket_price = $("#beforeTax").text(),
+                ent_tax = $("#ent").text(),
+                vat = $("#vat").text(),
+                total_price = $("#totalPrice").text(),
+                discount_value = $("#discount").text().replace('%', ''),
+                discount_id = $("#choices-discount").val(),
+                RandTicket = $("#RandTicket").text(),
+                revenue = $("#revenue").text(),
+                amount = parseFloat($('#paid').text()) - parseFloat($('#change').text()),
+                discount_type = $(".discType input:checked").map(function () {
+                    return $(this).val();
+                }).get(),
+                rem = parseFloat($("#revenue").text()) - amount;
 
-            if(discount_value != 0 && discount_id.length == 0){
+            if (discount_value != 0 && discount_id.length == 0) {
                 toastr.error("Choose The Discount Reasons");
-            }
-            else {
+            } else {
 
                 var oldRevenue = $("#oldRevenue").val();
                 var data = {
@@ -685,17 +760,17 @@
                     "product_qty": product_qty,
                     "product_price": product_price,
                     "total_price": total_price,
-                    "ticket_price":ticket_price,
-                    "ent_tax":ent_tax,
-                    "vat":vat,
+                    "ticket_price": ticket_price,
+                    "ent_tax": ent_tax,
+                    "vat": vat,
                     "discount_type": discount_type,
                     "discount_value": discount_value,
-                    "discount_id":discount_id,
+                    "discount_id": discount_id,
                     "rand_ticket": RandTicket,
                     "amount": amount,
                     "revenue": revenue,
                     "rem": (Math.round(rem * 100) / 100).toFixed(2),
-                    "oldRevenue":oldRevenue,
+                    "oldRevenue": oldRevenue,
                 }
                 console.log(data)
                 $.ajax({
@@ -719,7 +794,7 @@
 
             }
             // Prevent form submission
-        } );
+        });
 
     </script>
 @endsection

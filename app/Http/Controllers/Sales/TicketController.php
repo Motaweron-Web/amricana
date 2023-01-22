@@ -437,9 +437,9 @@ class TicketController extends Controller
         $shift_start = $ticket->models->first()->shift_start;
         $shift_end = $ticket->models->first()->shift_end;
         $day = $ticket->models->first()->day;
-        foreach ($ticket->models as $model) {
-            $model->delete();
-        }
+//        foreach ($ticket->models as $model) {
+//            $model->delete();
+//        }
 //        if ($request->rem == 0)
 //            $status = '1';
 //        else
