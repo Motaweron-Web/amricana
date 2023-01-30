@@ -71,75 +71,30 @@
                                         </tr>
                                         </thead>
                                         <tbody id="visitorTable">
-                                        {{--                                        @foreach($models as $model)--}}
-                                        {{--                                            <tr class="{{$model->type->title}}">--}}
-                                        {{--                                                <td><span data-type_id="{{$model->type->id}}"--}}
-                                        {{--                                                          id="visitor_type[]">{{$model->type->title}}</span></td>--}}
-                                        {{--                                                <td><span data-price="{{$model->price}}"--}}
-                                        {{--                                                          id="visitor_price[]">{{$model->price}}</span></td>--}}
-                                        {{--                                                <td><input type="text" class="form-control" placeholder="Name"--}}
-                                        {{--                                                           name="visitor_name[]" value="{{$model->name}}"></td>--}}
-                                        {{--                                                <td><input type="date" class="form-control" name="visitor_birthday[]"--}}
-                                        {{--                                                           id="visitor_birthday[]" value="{{$model->birthday}}"></td>--}}
-                                        {{--                                                <td>--}}
-                                        {{--                                                    <div class="choose">--}}
-                                        {{--                                                        <div class="genderOption">--}}
-                                        {{--                                                            <input type="radio" class="btn-check gender" name="gender{{$model->id}}"--}}
-                                        {{--                                                                   value="male" id="option1{{$model->id}}" {{($model->gender == 'male') ? 'checked' : ''}}>--}}
-                                        {{--                                                            <label class=" mb-0 btn btn-outline" for="option1{{$model->id}}">--}}
-                                        {{--                                                                <span> <i class="fas fa-male"></i> </span>--}}
-                                        {{--                                                            </label>--}}
-                                        {{--                                                        </div>--}}
-                                        {{--                                                        <div class="genderOption">--}}
-                                        {{--                                                            <input type="radio" class="btn-check gender" name="gender{{$model->id}}"--}}
-                                        {{--                                                                   value="female" id="option2{{$model->id}}" {{($model->gender == 'female') ? 'checked' : ''}}>--}}
-                                        {{--                                                            <label class=" mb-0 btn btn-outline" for="option2{{$model->id}}">--}}
-                                        {{--                                                                <span> <i class="fas fa-female"></i> </span>--}}
-                                        {{--                                                                <!-- <span> female </span> -->--}}
-                                        {{--                                                            </label>--}}
-                                        {{--                                                        </div>--}}
-                                        {{--                                                    </div>--}}
-                                        {{--                                                </td>--}}
-                                        {{--                                                <td>--}}
-                                        {{--                                                    @if($model->status == 'in')--}}
-                                        {{--                                                        <i class="fa fa-eye"></i>--}}
-                                        {{--                                                    @else--}}
-                                        {{--                                                        <span class="controlIcons">--}}
-                                        {{--                                                    <span class="icon Delete"--}}
-                                        {{--                                                          data-model_id="{{$model->type->id}}"> <i--}}
-                                        {{--                                                            class="far fa-trash-alt"></i> </span>--}}
-                                        {{--                                                    </span>--}}
-                                        {{--                                                        @endif--}}
-
-
-                                        {{--                                                </td>--}}
-                                        {{--                                            </tr>--}}
-                                        {{--                                        @endforeach--}}
                                         @foreach($models as $model)
+                                            @if($model->status =="append")
                                             <tr class="{{$model->type->title}}">
-                                                <td><span
-                                                         >{{$model->type->title}}</span></td>
-                                                <td><span data-price="{{$model->price}}">{{$model->price}}</span></td>
-                                                <td><input type="text" class="form-control" placeholder="Name" value="{{$model->name}}"></td>
-                                                <td><input type="date" class="form-control" value="{{$model->birthday}}"></td>
+                                                <td><span data-type_id="{{$model->type->id}}"
+                                                          id="visitor_type[]">{{$model->type->title}}</span></td>
+                                                <td><span data-price="{{$model->price}}"
+                                                          id="visitor_price[]">{{$model->price}}</span></td>
+                                                <td><input type="text" class="form-control" placeholder="Name"
+                                                           name="visitor_name[]" value="{{$model->name}}"></td>
+                                                <td><input type="date" class="form-control" name="visitor_birthday[]"
+                                                           id="visitor_birthday[]" value="{{$model->birthday}}"></td>
                                                 <td>
                                                     <div class="choose">
                                                         <div class="genderOption">
-                                                            <input type="radio" class="btn-check gender"
-
-                                                                   value="male"
-                                                                    {{($model->gender == 'male') ? 'checked' : ''}}>
-                                                            <label class=" mb-0 btn btn-outline"
-                                                                   for="option1{{$model->id}}">
+                                                            <input type="radio" class="btn-check gender" name="gender{{$model->id}}"
+                                                                   value="male" id="option1{{$model->id}}" {{($model->gender == 'male') ? 'checked' : ''}}>
+                                                            <label class=" mb-0 btn btn-outline" for="option1{{$model->id}}">
                                                                 <span> <i class="fas fa-male"></i> </span>
                                                             </label>
                                                         </div>
                                                         <div class="genderOption">
-                                                            <input type="radio" class="btn-check gender"
-                                                                   value="female"
-                                                                   {{($model->gender == 'female') ? 'checked' : ''}}>
-                                                            <label class=" mb-0 btn btn-outline"
-                                                                   for="option2{{$model->id}}">
+                                                            <input type="radio" class="btn-check gender" name="gender{{$model->id}}"
+                                                                   value="female" id="option2{{$model->id}}" {{($model->gender == 'female') ? 'checked' : ''}}>
+                                                            <label class=" mb-0 btn btn-outline" for="option2{{$model->id}}">
                                                                 <span> <i class="fas fa-female"></i> </span>
                                                                 <!-- <span> female </span> -->
                                                             </label>
@@ -151,16 +106,114 @@
                                                         <i class="fa fa-eye"></i>
                                                     @else
                                                         <span class="controlIcons">
-                                                                        <span class="icon Delete"
-                                                                              data-model_id="{{$model->type->id}}"> <i
-                                                                                class="far fa-trash-alt"></i> </span>
-                                                                        </span>
-                                                    @endif
+                                                    <span class="icon Delete"
+                                                          data-model_id="{{$model->type->id}}"> <i
+                                                            class="far fa-trash-alt"></i> </span>
+                                                    </span>
+                                                        @endif
 
 
                                                 </td>
                                             </tr>
+
+                                            @else
+
+                                                    <tr class="{{$model->type->title}}">
+                                                        <td><span
+                                                                 >{{$model->type->title}}</span></td>
+                                                        <td><span data-price="{{$model->price}}">{{$model->price}}</span></td>
+                                                        <td><input type="text" class="form-control" placeholder="Name" value="{{$model->name}}"></td>
+                                                        <td><input type="date" class="form-control" value="{{$model->birthday}}"></td>
+                                                        <td>
+                                                            <div class="choose">
+                                                                <div class="genderOption">
+                                                                    <input type="radio" class="btn-check gender"
+
+                                                                           value="male"
+                                                                            {{($model->gender == 'male') ? 'checked' : ''}}>
+                                                                    <label class=" mb-0 btn btn-outline"
+                                                                           for="option1{{$model->id}}">
+                                                                        <span> <i class="fas fa-male"></i> </span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="genderOption">
+                                                                    <input type="radio" class="btn-check gender"
+                                                                           value="female"
+                                                                           {{($model->gender == 'female') ? 'checked' : ''}}>
+                                                                    <label class=" mb-0 btn btn-outline"
+                                                                           for="option2{{$model->id}}">
+                                                                        <span> <i class="fas fa-female"></i> </span>
+                                                                        <!-- <span> female </span> -->
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            @if($model->status == 'in')
+                                                                <i class="fa fa-eye"></i>
+                                                            @else
+                                                                <span class="controlIcons">
+                                                                                <span class="icon Delete"
+                                                                                      data-model_id="{{$model->type->id}}"> <i
+                                                                                        class="far fa-trash-alt"></i> </span>
+                                                                                </span>
+                                                            @endif
+
+
+                                                        </td>
+                                                    </tr>
+
+                                                    @endif
                                         @endforeach
+
+
+
+{{--                                        @foreach($models as $model)--}}
+{{--                                            <tr class="{{$model->type->title}}">--}}
+{{--                                                <td><span--}}
+{{--                                                         >{{$model->type->title}}</span></td>--}}
+{{--                                                <td><span data-price="{{$model->price}}">{{$model->price}}</span></td>--}}
+{{--                                                <td><input type="text" class="form-control" placeholder="Name" value="{{$model->name}}"></td>--}}
+{{--                                                <td><input type="date" class="form-control" value="{{$model->birthday}}"></td>--}}
+{{--                                                <td>--}}
+{{--                                                    <div class="choose">--}}
+{{--                                                        <div class="genderOption">--}}
+{{--                                                            <input type="radio" class="btn-check gender"--}}
+
+{{--                                                                   value="male"--}}
+{{--                                                                    {{($model->gender == 'male') ? 'checked' : ''}}>--}}
+{{--                                                            <label class=" mb-0 btn btn-outline"--}}
+{{--                                                                   for="option1{{$model->id}}">--}}
+{{--                                                                <span> <i class="fas fa-male"></i> </span>--}}
+{{--                                                            </label>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="genderOption">--}}
+{{--                                                            <input type="radio" class="btn-check gender"--}}
+{{--                                                                   value="female"--}}
+{{--                                                                   {{($model->gender == 'female') ? 'checked' : ''}}>--}}
+{{--                                                            <label class=" mb-0 btn btn-outline"--}}
+{{--                                                                   for="option2{{$model->id}}">--}}
+{{--                                                                <span> <i class="fas fa-female"></i> </span>--}}
+{{--                                                                <!-- <span> female </span> -->--}}
+{{--                                                            </label>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </td>--}}
+{{--                                                <td>--}}
+{{--                                                    @if($model->status == 'in')--}}
+{{--                                                        <i class="fa fa-eye"></i>--}}
+{{--                                                    @else--}}
+{{--                                                        <span class="controlIcons">--}}
+{{--                                                                        <span class="icon Delete"--}}
+{{--                                                                              data-model_id="{{$model->type->id}}"> <i--}}
+{{--                                                                                class="far fa-trash-alt"></i> </span>--}}
+{{--                                                                        </span>--}}
+{{--                                                    @endif--}}
+
+
+{{--                                                </td>--}}
+{{--                                            </tr>--}}
+{{--                                        @endforeach--}}
 
                                         </tbody>
                                     </table>

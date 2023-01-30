@@ -442,8 +442,12 @@ class TicketController extends Controller
         $shift_end = $ticket->models->first()->shift_end;
         $day = $ticket->models->first()->day;
 //        foreach ($ticket->models as $model) {
-//            $model->delete();
+//            if($model->status == "append"){
+//                $model->delete();
+//            }
+//
 //        }
+
 //        if ($request->rem == 0)
 //            $status = '1';
 //        else
@@ -480,6 +484,13 @@ class TicketController extends Controller
 
 
            if($request->has('visitor_type') && is_array($request->visitor_type)){
+
+               foreach ($ticket->models as $model) {
+                if($model->status == "append"){
+                    $model->delete();
+                }
+
+               }
                for ($i = 0; $i < count($request->visitor_type); $i++) {
                    TicketRevModel::create([
                        'ticket_id' => $ticket->id,
@@ -494,7 +505,6 @@ class TicketController extends Controller
                        'gender' => ($request->gender[$i]) ?? null,
                    ]);
                }
-
            }
 
 

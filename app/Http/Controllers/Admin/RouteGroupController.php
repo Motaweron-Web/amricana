@@ -112,7 +112,6 @@ class RouteGroupController extends Controller
         $groups = DB::table('groups')->select('id','title')->get();
         $activities = DB::table('activities')->select('id','title')->get();
 
-
         return view('Admin/route_group.parts.edit',compact('groups','activities','route'));
 
     }
