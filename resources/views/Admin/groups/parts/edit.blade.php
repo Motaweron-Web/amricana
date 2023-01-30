@@ -13,10 +13,7 @@
             <label for="name" class="form-control-label">Group Title</label>
             <input type="text" value="{{$group->title}}" class="form-control" name="title" id="title">
         </div>
-        <div class="form-group">
-            <label for="name" class="form-control-label">Group Text</label>
-            <input type="text" class="form-control" name="color" value="{{$group->color}}">
-        </div>
+
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary" id="addButton">Create</button>

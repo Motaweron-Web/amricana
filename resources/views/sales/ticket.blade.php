@@ -1367,7 +1367,7 @@
                                     <div class="row align-items-end">
                                         <div class="col-8 col-md-9 p-2 ">
                                             <label> Amount </label>
-                                            <input class="form-control" type="number" id="amount" onchange="calculateChange()" onkeyup="calculateChange()" min="0" step="any"/>
+                                            <input class="form-control" type="number" id="amount" onchange="calculateChange()" onkeyup="calculateChange()" min="0" step="any"/><br>
                                             <div class="pay mt-5">
                                              {{--start choose pay when remanning amount--}}
 
@@ -1542,7 +1542,8 @@
                             {{--window.setTimeout(function() {--}}
                             {{--    window.location.href="{{route('client.create')}}";--}}
                             {{--}, 300);--}}
-                        } else{
+                        }
+                        else{
                             toastr.error("يوجد خطاء ما برجاء اعاده المحاوله");
                         }
                     },

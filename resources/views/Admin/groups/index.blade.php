@@ -28,7 +28,6 @@
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px">Title</th>
-                                <th class="min-w-50px">Color</th>
                                 <th class="min-w-50px">Status</th>
                                 <th class="min-w-50px rounded-end">Actions</th>
                             </tr>
@@ -89,7 +88,6 @@
         var columns = [
             {data: 'id', name: 'id'},
             {data: 'title', name: 'title'},
-            {data: 'color', name: 'color'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]

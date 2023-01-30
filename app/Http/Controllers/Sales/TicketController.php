@@ -5,9 +5,12 @@ use App\Http\Controllers\Controller;
 use App\Models\CapacityDays;
 use App\Models\Category;
 use App\Models\Clients;
+use App\Models\Configuration;
 use App\Models\DiscountReason;
 use App\Models\Event;
 use App\Models\GeneralSetting;
+use App\Models\GroupCustomer;
+use App\Models\Groups;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Reservations;
@@ -147,6 +150,7 @@ class TicketController extends Controller
 //            return response()->json(['status' => false,]);
 //        } else {
 
+
             $ticket = Ticket::create([
                 'add_by' => auth()->user()->id,
                 'visit_date' => $request->visit_date,
@@ -166,6 +170,8 @@ class TicketController extends Controller
                 'rem_amount' => 0,
                 'payment_method' => $request->payment_method,
             ]);
+
+
 
             if($request->amount == $request->revenue){
                 $total = 0;

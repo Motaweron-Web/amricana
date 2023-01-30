@@ -36,9 +36,7 @@ class GroupController extends Controller
                             </button>
                        ';
                 })
-                ->editColumn('text', function ($group) {
-                    return substr($group->text, 0, 100) . '...';
-                })
+
                 ->escapeColumns([])
                 ->make(true);
         }
@@ -66,7 +64,6 @@ class GroupController extends Controller
     {
         $request->validate([
             'title' => 'required|unique:groups',
-            'color' => 'required',
         ]);
 
         $data = $request->all();
@@ -108,7 +105,6 @@ class GroupController extends Controller
     {
         $request->validate([
             'title' => 'required|unique:groups,title,'. $id,
-            'color' => 'required',
         ]);
 
         $data = $request->all();
