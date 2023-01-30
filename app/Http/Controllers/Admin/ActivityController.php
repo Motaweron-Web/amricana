@@ -30,7 +30,7 @@ class ActivityController extends Controller
                     return '
                             <button type="button" data-id="' . $activity->id . '" class="btn btn-pill btn-info-light editBtn"><i class="fa fa-edit"></i></button>
                             <button class="btn btn-pill btn-danger-light" data-toggle="modal" data-target="#delete_modal"
-                                    data-id="' . $activity->id . '" data-title="' . $activity->title . '">
+                                    data-id="' . $activity->id . '" data-title="' . $activity->name . '">
                                     <i class="fas fa-trash"></i>
                             </button>
                        ';
@@ -66,8 +66,7 @@ class ActivityController extends Controller
         $inputs = $request->validate([
             'photo'      => 'nullable|mimes:jpeg,jpg,png,gif',
             'title'      => 'nullable|max:255',
-            'sub_title'  => 'nullable|max:255',
-            'desc'       => 'required',
+
         ]);
         if($request->has('photo')){
             $file_name = $this->saveImage($request->photo,'assets/uploads/activities');
@@ -103,8 +102,7 @@ class ActivityController extends Controller
             'id'         => 'required',
             'photo'      => 'nullable|mimes:jpeg,jpg,png,gif',
             'title'      => 'nullable|max:255',
-            'sub_title'  => 'nullable|max:255',
-            'desc'       => 'required',
+
         ]);
         $activity = Activity::findOrFail($request->id);
         if($request->has('photo')){

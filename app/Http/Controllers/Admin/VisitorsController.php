@@ -158,7 +158,7 @@ class VisitorsController extends Controller
             $visitorData['photo'] = 'assets/uploads/visitors/'.$file_name;
         }
         $visitor = VisitorTypes::findOrFail($request->id);
-        $visitor->visitor_type_places()->syncWithoutDetaching($request->visitor_place_id);
+        $visitor->visitor_type_places()->sync($request->visitor_place_id);
 
         if($visitor->update($visitorData)){
             if($request->top_1_hours != null && $request->top_2_hours != null && $request->top_3_hours != null && $request->top_4_hours != null && $request->top_5_hours != null){

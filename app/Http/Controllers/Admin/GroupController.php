@@ -36,9 +36,6 @@ class GroupController extends Controller
                             </button>
                        ';
                 })
-                ->editColumn('image', function ($group) {
-                    return '<img alt="image" onclick="window.open(this.src)" class="avatar avatar-md rounded-circle" src="' . get_file($group->image) . '">';
-                })
                 ->editColumn('text', function ($group) {
                     return substr($group->text, 0, 100) . '...';
                 })
@@ -69,17 +66,11 @@ class GroupController extends Controller
     {
         $request->validate([
             'title' => 'required|unique:groups',
-            'text' => 'required',
-            'image' => 'required|image',
+            'color' => 'required',
         ]);
 
         $data = $request->all();
 
-        if ($request->hasFile('image'))
-        {
-            $file_name = $this->saveImage($request->image, 'assets/uploads/groups');
-            $data['image'] = 'assets/uploads/groups/' . $file_name;
-        }
         Groups::create($data);
         return response()->json(['status' => 200]);
     }
@@ -116,18 +107,12 @@ class GroupController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|unique:groups',
-            'text' => 'required',
-            'image' => 'nullable|image',
+            'title' => 'required|unique:groups,title,'. $id,
+            'color' => 'required',
         ]);
 
         $data = $request->all();
 
-        if ($request->hasFile('image'))
-        {
-            $file_name = $this->saveImage($request->image, 'assets/uploads/groups');
-            $data['image'] = 'assets/uploads/groups/' . $file_name;
-        }
         Groups::findOrFail($id)->update($data);
         return response()->json(['status' => 200]);
     }

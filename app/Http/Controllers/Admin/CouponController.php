@@ -190,7 +190,7 @@ class CouponController extends Controller
     }
 
     public function addVisitor($id){
-        return view('Admin/coupons.parts.createVisitor',compact('id'));
+        return view('Supervisor/coupons.parts.createVisitor',compact('id'));
     }
 
     public function AddCouponsVisitor($id){

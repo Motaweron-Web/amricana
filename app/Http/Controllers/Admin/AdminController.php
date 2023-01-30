@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
+use App\Models\Supervisor;
 use App\Models\Product;
 use App\Traits\PhotoTrait;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class AdminController extends Controller
 
         if ($request->ajax()) {
 //            DB::connection('mysql');
-            $admins = Admin::latest()->get();
+            $admins = Supervisor::latest()->get();
             return Datatables::of($admins)
                 ->addColumn('action', function ($admins) {
                     return '
@@ -56,9 +56,9 @@ class AdminController extends Controller
 
     public function delete(Request $request)
     {
-        $admin = Admin::where('id', $request->id)->first();
+        $admin = Supervisor::where('id', $request->id)->first();
         if ($admin == auth()->guard('admin')->user()) {
-            return response(['message' => "You Can't Delete The Logged Admin !", 'status' => 501], 200);
+            return response(['message' => "You Can't Delete The Logged Supervisor !", 'status' => 501], 200);
         } else {
             if (file_exists($admin->photo)) {
                 unlink($admin->photo);
@@ -94,7 +94,7 @@ class AdminController extends Controller
             $inputs['photo'] = 'assets/uploads/admins/' . $file_name;
         }
         $inputs['password'] = Hash::make($request->password);
-        $admin = Admin::create($inputs);
+        $admin = Supervisor::create($inputs);
         $admin->givePermissionTo($request->permissions);
 
         if ($admin)
@@ -103,11 +103,11 @@ class AdminController extends Controller
             return response()->json(['status' => 405]);
     }
 
-    public function edit(Admin $admin)
+    public function edit(Supervisor $admin)
     {
 
         $adminPermissions = DB::table("model_has_permissions")->where("model_id",$admin->id)
-            ->where('model_type','App\Models\Admin')
+            ->where('model_type', 'App\Models\Supervisor')
             ->pluck('model_has_permissions.permission_id')
             ->all();
         $permissions = Permission::where('guard_name', 'admin')->get();
@@ -131,7 +131,7 @@ class AdminController extends Controller
             $inputs['password'] = Hash::make($request->password);
         else
             unset($inputs['password']);
-        $admin = Admin::findOrFail($request->id);
+        $admin = Supervisor::findOrFail($request->id);
 
         $names = $admin->getPermissionNames();
         foreach ($names as $name)

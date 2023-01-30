@@ -4,7 +4,7 @@
 //namespace App\Http\Controllers\Sales\Auth;
 //
 //use App\Http\Controllers\Controller;
-//use App\Models\Admin;
+//use App\Models\Supervisor;
 //use App\Models\Bracelets;
 //use App\Models\Category;
 //use App\Models\DiscountReason;
@@ -79,7 +79,7 @@
 //        $products = \App\Models\Product::get();
 //        $payments = \App\Models\Payment::get();
 //        $users = \App\Models\User::get();
-//        $admins = \App\Models\Admin::get();
+//        $admins = \App\Models\Supervisor::get();
 //        $categories = \App\Models\Category::get();
 //        $visitors = \App\Models\VisitorTypes::get();
 //
@@ -92,7 +92,7 @@
 ////        $products = \App\Models\Product::where('uploaded', false)->get();
 ////        $payments = \App\Models\Payment::where('uploaded', false)->get();
 ////        $users = \App\Models\User::get();
-////        $admins = \App\Models\Admin::where('uploaded', false)->get();
+////        $admins = \App\Models\Supervisor::where('uploaded', false)->get();
 ////        $categories = \App\Models\Category::where('uploaded', false)->get();
 ////        $visitors = \App\Models\VisitorTypes::where('uploaded', false)->get();
 //
@@ -105,7 +105,7 @@
 //        Product::where('uploaded', false)->update(['uploaded' => true]);
 //        Payment::where('uploaded', false)->update(['uploaded' => true]);
 //        User::where('uploaded', false)->update(['uploaded' => true]);
-//        Admin::where('uploaded', false)->update(['uploaded' => true]);
+//        Supervisor::where('uploaded', false)->update(['uploaded' => true]);
 //        Category::where('uploaded', false)->update(['uploaded' => true]);
 //        VisitorTypes::where('uploaded', false)->update(['uploaded' => true]);
 //
@@ -317,7 +317,7 @@
 //            $storeAdminData['password'] = $admin->password;
 //            $storeAdminData['email'] = $admin->email;
 //            $storeAdminData['uploaded'] = 1;
-//            \App\Models\Admin::updateOrCreate(['id' => $admin->id], $storeAdminData);
+//            \App\Models\Supervisor::updateOrCreate(['id' => $admin->id], $storeAdminData);
 //        }
 //
 //
@@ -407,7 +407,7 @@
 //namespace App\Http\Controllers\Sales\Auth;
 //
 //use App\Http\Controllers\Controller;
-//use App\Models\Admin;
+//use App\Models\Supervisor;
 //use App\Models\Bracelets;
 //use App\Models\Category;
 //use App\Models\DiscountReason;
@@ -482,7 +482,7 @@
 //        $products = \App\Models\Product::where('uploaded', false)->get();
 //        $payments = \App\Models\Payment::where('uploaded', false)->get();
 //        $users = \App\Models\User::where('uploaded', false)->get();
-//        $admins = \App\Models\Admin::where('uploaded', false)->get();
+//        $admins = \App\Models\Supervisor::where('uploaded', false)->get();
 //        $categories = \App\Models\Category::where('uploaded', false)->get();
 //        $visitors = \App\Models\VisitorTypes::where('uploaded', false)->get();
 //
@@ -495,7 +495,7 @@
 //        Product::where('uploaded', false)->update(['uploaded' => true]);
 //        Payment::where('uploaded', false)->update(['uploaded' => true]);
 //        User::where('uploaded', false)->update(['uploaded' => true]);
-//        Admin::where('uploaded', false)->update(['uploaded' => true]);
+//        Supervisor::where('uploaded', false)->update(['uploaded' => true]);
 //        Category::where('uploaded', false)->update(['uploaded' => true]);
 //        VisitorTypes::where('uploaded', false)->update(['uploaded' => true]);
 //
@@ -707,7 +707,7 @@
 //            $storeAdminData['password'] = $admin->password;
 //            $storeAdminData['email'] = $admin->email;
 //            $storeAdminData['uploaded'] = 1;
-//            \App\Models\Admin::updateOrCreate($storeAdminData);
+//            \App\Models\Supervisor::updateOrCreate($storeAdminData);
 //        }
 //
 //

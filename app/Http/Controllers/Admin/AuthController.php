@@ -41,7 +41,7 @@ class AuthController extends Controller
     public function login(Request $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->validate([
-            'email'   =>'required|exists:admins',
+            'email'   =>'required|exists:supervisors',
             'password'=>'required'
         ]);
         if (Auth::guard('admin')->attempt($data)){

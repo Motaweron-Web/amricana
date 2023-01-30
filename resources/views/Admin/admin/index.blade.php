@@ -1,7 +1,7 @@
 @extends('Admin/layouts/master')
 
-@section('title') {{$setting->title}} | Admins @endsection
-@section('page_name') Admins @endsection
+@section('title') {{$setting->title}} | Supervisors @endsection
+@section('page_name') Supervisors @endsection
 @section('css')
     @include('layouts.loader.formLoader.loaderCss')
 @endsection
@@ -11,12 +11,12 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">{{$setting->title}} Admins</h3>
+                    <h3 class="card-title">{{$setting->title}} Supervisors</h3>
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
 									<span>
 										<i class="fe fe-plus"></i>
-									</span> Add Admin
+									</span> Add Supervisor
                         </button>
                     </div>
                 </div>
@@ -113,6 +113,7 @@
             }, 500)
         })
 
+
         // Get Add View
         $(document).on('click', '.addBtn', function () {
             $('#modalContent').html(loader)
@@ -136,10 +137,11 @@
                     $('#addButton').html('<span class="spinner-border spinner-border-sm mr-2" ' +
                         ' ></span> <span style="margin-left: 4px;">working</span>').attr('disabled', true);
                 },
+
                 success: function (data) {
                     if (data.status == 200) {
                         $('#dataTable').DataTable().ajax.reload();
-                        toastr.success('Admin added successfully');
+                        toastr.success('Supervisor added successfully');
                     }
                     else
                         toastr.error('There is an error');
@@ -188,7 +190,7 @@
                     $('#updateButton').html(`Update`).attr('disabled', false);
                     if (data.status == 200){
                         $('#dataTable').DataTable().ajax.reload();
-                        toastr.success('Admin updated successfully');
+                        toastr.success('Supervisor updated successfully');
                     }
                     else
                         toastr.error('There is an error');

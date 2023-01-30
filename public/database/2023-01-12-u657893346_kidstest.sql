@@ -585,7 +585,7 @@ CREATE TABLE `model_has_permissions` (
 LOCK TABLES `model_has_permissions` WRITE;
 /*!40000 ALTER TABLE `model_has_permissions` DISABLE KEYS */;
 SET autocommit=0;
-INSERT INTO `model_has_permissions` VALUES (25,'App\\Models\\Admin',1),(24,'App\\Models\\Admin',20),(21,'App\\Models\\Admin',22),(21,'App\\Models\\Admin',24),(21,'App\\Models\\Admin',26),(22,'App\\Models\\Admin',27),(23,'App\\Models\\Admin',27),(21,'App\\Models\\Admin',28),(24,'App\\Models\\Admin',29),(24,'App\\Models\\Admin',31),(24,'App\\Models\\Admin',32),(24,'App\\Models\\Admin',33);
+INSERT INTO `model_has_permissions` VALUES (25,'App\\Models\\Supervisor',1),(24,'App\\Models\\Supervisor',20),(21,'App\\Models\\Supervisor',22),(21,'App\\Models\\Supervisor',24),(21,'App\\Models\\Supervisor',26),(22,'App\\Models\\Supervisor',27),(23,'App\\Models\\Supervisor',27),(21,'App\\Models\\Supervisor',28),(24,'App\\Models\\Supervisor',29),(24,'App\\Models\\Supervisor',31),(24,'App\\Models\\Supervisor',32),(24,'App\\Models\\Supervisor',33);
 /*!40000 ALTER TABLE `model_has_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;

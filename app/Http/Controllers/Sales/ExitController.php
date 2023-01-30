@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Sales;
 
-use App\Http\Controllers\Controller;
+use  App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\Reservations;
 use App\Models\Shifts;
@@ -1108,8 +1108,6 @@ class ExitController extends Controller
 
             //end topdown of ticket
 
-
-
         }
         elseif($request->top_down_hours == 4 && $ticket->hours_count == 4) {
 
@@ -1336,9 +1334,8 @@ class ExitController extends Controller
         }
 
 
-
         $ticket->save();
-
+        $model->cancel = 0;
         $model->save();
 
         // check if all models canceled then mark the ticket as not paid

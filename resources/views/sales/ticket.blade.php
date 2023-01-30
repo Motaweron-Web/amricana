@@ -921,6 +921,8 @@
                             </div>
                         </div>
                     </div>
+
+
                     <!-- step 3 -->
                     <div class="card multisteps-form__panel p-3 border-radius-xl bg-white " id="productsTab" data-animation="FadeIn">
                         <h5 class="font-weight-bolder">products</h5>
@@ -1360,6 +1362,7 @@
                                                 <span class="ms-2"> voucher </span>
                                             </label>
                                         </div>
+
                                     </div>
                                     <div class="row align-items-end">
                                         <div class="col-8 col-md-9 p-2 ">

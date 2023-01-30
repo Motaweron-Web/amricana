@@ -26,11 +26,35 @@
             </a>
         </li>
 
-        @if(admin()->user()->can('Master'))
+
+        <li class="slide">
+            <a class="side-menu__item" href="{{route('group.index')}}">
+                <i class="fe fe-git-commit side-menu__icon"></i>
+                <span class="side-menu__label">Group Page</span>
+            </a>
+        </li>
+
+        <li class="slide">
+            <a class="side-menu__item" href="{{route('activity.index')}}">
+                <i class="fe fe-zap side-menu__icon"></i>
+                <span class="side-menu__label">Activities Page</span>
+            </a>
+        </li>
+
+        <li class="slide">
+            <a class="side-menu__item" href="{{route('routes.index')}}">
+                <i class="fe fe-zap side-menu__icon"></i>
+                <span class="side-menu__label">Set routes</span>
+            </a>
+        </li>
+
+
+
+    @if(admin()->user()->can('Master'))
             <li class="slide">
                 <a class="side-menu__item" href="{{route('admins.index')}}">
                     <i class="fe fe-users side-menu__icon"></i>
-                    <span class="side-menu__label">Admins</span>
+                    <span class="side-menu__label">Supervisors</span>
                 </a>
             </li>
 
@@ -119,7 +143,7 @@
 
         @endif
 
-    @if(auth()->user()->can('Branch Admin') || admin()->user()->can('Master'))
+    @if(auth()->user()->can('Branch Supervisor') || admin()->user()->can('Master'))
 
             <li class="slide">
                 <a class="side-menu__item" data-toggle="slide" href="#">
@@ -183,19 +207,8 @@
                     </a>
                 </li>
 
-                <li class="slide">
-                    <a class="side-menu__item" href="{{route('activity.index')}}">
-                        <i class="fe fe-zap side-menu__icon"></i>
-                        <span class="side-menu__label">Activities Page</span>
-                    </a>
-                </li>
 
-            <li class="slide">
-                <a class="side-menu__item" href="{{route('group.index')}}">
-                    <i class="fe fe-git-commit side-menu__icon"></i>
-                    <span class="side-menu__label">Group Page</span>
-                </a>
-            </li>
+
             @endif
 
         <li class="slide">

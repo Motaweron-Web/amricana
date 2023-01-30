@@ -1,7 +1,7 @@
 <link href="{{asset('assets/admin')}}/plugins/select2/select2.min.css" rel="stylesheet"/>
 
 <div class="modal-header">
-    <h5 class="modal-title" id="example-Modal3">Edit Admin</h5>
+    <h5 class="modal-title" id="example-Modal3">Edit Supervisor</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>

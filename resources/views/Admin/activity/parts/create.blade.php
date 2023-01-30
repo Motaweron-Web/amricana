@@ -18,16 +18,6 @@
             <input type="text" class="form-control" name="title">
         </div>
 
-        <div class="form-group">
-            <label for="sub_title" class="form-control-label">Sub Title</label>
-            <input type="text" class="form-control" name="sub_title">
-        </div>
-
-        <div class="form-group">
-            <label for="desc" class="form-control-label">Description</label>
-            <textarea type="text" rows="4" class="form-control" name="desc"></textarea>
-        </div>
-
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

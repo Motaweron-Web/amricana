@@ -28,9 +28,7 @@
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px">title</th>
-                                <th class="min-w-50px">sub title</th>
                                 <th class="min-w-125px">photo</th>
-                                <th class="min-w-125px">description</th>
                                 <th class="min-w-50px rounded-end">Actions</th>
                             </tr>
                             </thead>
@@ -90,9 +88,7 @@
         var columns = [
             {data: 'id', name: 'id'},
             {data: 'title', name: 'title'},
-            {data: 'sub_title', name: 'sub_title'},
             {data: 'photo', name: 'photo'},
-            {data: 'desc', name: 'desc'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
         showData('{{route('activity.index')}}', columns);

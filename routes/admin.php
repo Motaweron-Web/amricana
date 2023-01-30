@@ -147,6 +147,11 @@ Route::group(['prefix'=>'admin','middleware'=>'auth:admin','namespace'=>'Admin']
 
     Route::get('get/cashierAndPayment','UsersController@getCashierByPayment')->name('admin.getCashierByPayment');
 
+
+    #### RouteGroups ####
+    Route::resource('routes','RouteGroupController');
+    Route::POST('routes.delete','RouteGroupController@delete')->name('routes.delete');
+
 });
 
 Route::group(['prefix'=>'admin','namespace'=>'Admin'],function (){

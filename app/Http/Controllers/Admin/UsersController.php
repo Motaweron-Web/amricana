@@ -18,7 +18,7 @@ class UsersController extends Controller
 
     public function __construct()
     {
-        $this->middleware('adminPermission:Branch Admin');
+        $this->middleware('adminPermission:Branch Supervisor');
     }
 
     public function index(request $request)
@@ -134,7 +134,7 @@ class UsersController extends Controller
             return response()->json(['status' => 405]);
     }
 
-   
+
 
 
 

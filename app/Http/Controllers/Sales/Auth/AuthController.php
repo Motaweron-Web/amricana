@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Sales\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
+use App\Models\Supervisor;
 use App\Models\Bracelets;
 use App\Models\Category;
 use App\Models\DiscountReason;

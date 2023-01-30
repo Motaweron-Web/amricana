@@ -167,7 +167,7 @@ class SaleController extends Controller
 
         $productIds = TicketRevProducts::where('ticket_id','=',$request->id)->pluck('id');
         foreach ($productIds as $productId){
-            TicketRevProducts::where('id',$productId)->update(['price' => 0, 'total_price' => 0,'cancel' => 0]);
+            TicketRevProducts::where('id',$productId)->update(['price' => 0, 'total_price' => 0,'qty' => 0,'cancel' => 0]);
         }
         $payments = Payment::where('ticket_id','=',$request->id)->pluck('id');
         foreach ($payments as $payment){
@@ -614,8 +614,8 @@ class SaleController extends Controller
         if ($request->ajax()) {
             $ticketModels = TicketRevModel::select('visitor_type_id', DB::raw('count(*) as total'))
                 ->where('cancel','=',true)
-                ->whereDate('created_at', '>=', $starting_date)
-                ->whereDate('created_at', '<=', $ending_date)
+                ->whereDate('day', '>=', $starting_date)
+                ->whereDate('day', '<=', $ending_date)
                 ->groupBy('visitor_type_id')
                 ->latest()
                 ->get();

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Skypark | Admin</title>
+    <title>Nemic | Admin</title>
 
     @include('sales.layouts.assets.head')
     @include('layouts.loader.mainLoader.loaderCss')
@@ -17,7 +17,7 @@
             <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-lg-0 ">
                 <div class="card card-plain">
                     <div class="card-header pb-0 text-start">
-                        <h2 class="font-weight-bolder mb-3">Admin Login</h2>
+                        <h2 class="font-weight-bolder mb-3">Supervisor Login</h2>
                         <p class="mb-0">Enter your email and password to Login</p>
                     </div>
                     <div class="card-body">

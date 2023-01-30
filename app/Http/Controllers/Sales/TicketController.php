@@ -428,11 +428,15 @@ class TicketController extends Controller
             ->select('id as visitor_type_id', $ticket->hours_count . '_hours as price')
             ->get();
 //        return $prices;
+
+//        $payments = Payment::where('ticket_id','=',$id)->orderBy('amount','DESC')->get();
         return view('sales.updateTicket', compact('ticket', 'rate', 'add_by', 'discounts', 'prices', 'products', 'models', 'types', 'categories'));
     }
 
     public function restoreTicket(request $request)
     {
+
+
         $ticket = Ticket::findOrFail($request->ticket_id);
         $shift_start = $ticket->models->first()->shift_start;
         $shift_end = $ticket->models->first()->shift_end;
@@ -457,24 +461,43 @@ class TicketController extends Controller
             'rem_amount' => $request->rem,
         ]);
 
-        $payment = Payment::where('ticket_id','=',$request->ticket_id)->where('payment_method','=','cash')->first();
-        $payment->update(['amount' => $request->total_price,]);
+        $payment = Payment::where('ticket_id','=',$request->ticket_id)->where('payment_method','=',$request->pay)->first();
+        if(!$payment){
 
-
-        for ($i = 0; $i < count($request->visitor_type); $i++) {
-            TicketRevModel::create([
+            Payment::create([
                 'ticket_id' => $ticket->id,
-                'shift_start' => $shift_start,
-                'shift_end' => $shift_end,
-                'day' => $day,
-                'visitor_type_id' => $request->visitor_type[$i],
-                'price' => $request->visitor_price[$i],
-                'total_after_discount' => $request->visitor_price[$i],
-                'name' => $request->visitor_name[$i],
-                'birthday' => $request->visitor_birthday[$i],
-                'gender' => ($request->gender[$i]) ?? null,
+                'cashier_id' => auth()->user()->id,
+                'day' => Carbon::now()->format('Y-m-d'),
+                'amount' => ($request->revenue - $request->old_total),
+                'payment_method' => $request->pay
+
             ]);
+        }else{
+            $payment->update(['amount' => ($request->revenue - $request->old_total) + $payment->amount]);
         }
+//        $payment->update(['amount' => $request->total_price,]);
+
+
+
+           if($request->has('visitor_type') && is_array($request->visitor_type)){
+               for ($i = 0; $i < count($request->visitor_type); $i++) {
+                   TicketRevModel::create([
+                       'ticket_id' => $ticket->id,
+                       'shift_start' => $shift_start,
+                       'shift_end' => $shift_end,
+                       'day' => $day,
+                       'visitor_type_id' => $request->visitor_type[$i],
+                       'price' => $request->visitor_price[$i],
+                       'total_after_discount' => $request->visitor_price[$i],
+                       'name' => $request->visitor_name[$i],
+                       'birthday' => $request->visitor_birthday[$i],
+                       'gender' => ($request->gender[$i]) ?? null,
+                   ]);
+               }
+
+           }
+
+
         foreach ($ticket->products as $product) {
             $product->delete();
         }
@@ -492,6 +515,7 @@ class TicketController extends Controller
         }
         $accessUrl = route('familyAccess.index') . '?search=' . $ticket->ticket_num;
         $printUrl = route('ticket.edit', $ticket->id);
+
         return response()->json([
             'status' => true,
             'accessUrl' => $accessUrl,

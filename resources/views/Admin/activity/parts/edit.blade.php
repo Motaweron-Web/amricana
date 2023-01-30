@@ -20,15 +20,7 @@
             <input type="text" class="form-control" name="title" value="{{$activity->title}}">
         </div>
 
-        <div class="form-group">
-            <label for="sub_title" class="form-control-label">Sub Title</label>
-            <input type="text" class="form-control" name="sub_title" value="{{$activity->sub_title}}">
-        </div>
 
-        <div class="form-group">
-            <label for="desc" class="form-control-label">Description</label>
-            <textarea type="text" class="form-control" rows="4" name="desc">{{$activity->desc}}</textarea>
-        </div>
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
