@@ -31,6 +31,7 @@
                                 <th class="min-w-50px">Name</th>
                                 <th class="min-w-125px">Email</th>
                                 <th class="min-w-125px">Register</th>
+                                <th class="min-w-125px">Supervisor type</th>
                                 <th class="min-w-50px rounded-end">Actions</th>
                             </tr>
                             </thead>
@@ -93,6 +94,7 @@
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
             {data: 'created_at', name: 'created_at'},
+            {data: 'supervisor_type', name: 'supervisor_type'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
         showData('{{route('admins.index')}}', columns);

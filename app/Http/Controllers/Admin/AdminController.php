@@ -84,11 +84,13 @@ class AdminController extends Controller
     public function store(request $request): \Illuminate\Http\JsonResponse
     {
         $inputs = $request->validate([
-            'email' => 'required|unique:admins',
+            'email' => 'required|unique:supervisors',
             'name' => 'required',
             'password' => 'required|min:6',
             'photo' => 'nullable|mimes:jpeg,jpg,png,gif',
+            'supervisor_type' => 'required',
         ]);
+
         if ($request->has('photo')) {
             $file_name = $this->saveImage($request->photo, 'assets/uploads/admins');
             $inputs['photo'] = 'assets/uploads/admins/' . $file_name;
@@ -117,11 +119,12 @@ class AdminController extends Controller
     public function update(request $request)
     {
         $inputs = $request->validate([
-            'id' => 'required|exists:admins,id',
-            'email' => 'required|unique:admins,email,' . $request->id,
+            'id' => 'required|exists:supervisors,id',
+            'email' => 'required|unique:supervisors,email,' . $request->id,
             'name' => 'required',
             'photo' => 'nullable',
             'password' => 'nullable|min:6',
+            'supervisor_type' => 'required',
         ]);
         if ($request->has('photo')) {
             $file_name = $this->saveImage($request->photo, 'assets/uploads/admins');

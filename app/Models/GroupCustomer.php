@@ -15,7 +15,8 @@ class GroupCustomer extends Model
         'rev_id',
         'date_time',
         'quantity',
-        'sale_type'
+        'sale_type',
+        'status',
     ];
 
 

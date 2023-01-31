@@ -9,6 +9,7 @@ use App\Models\Configuration;
 use App\Models\DiscountReason;
 use App\Models\Event;
 use App\Models\GeneralSetting;
+use App\Models\GroupColor;
 use App\Models\GroupCustomer;
 use App\Models\Groups;
 use App\Models\Payment;
@@ -169,9 +170,33 @@ class TicketController extends Controller
                 'grand_total' => $request->revenue,
                 'rem_amount' => 0,
                 'payment_method' => $request->payment_method,
+                'capacity' => $request->capacity
             ]);
 
+        $groups = Groups::query()->where('status','=','available')->orderBy('id','ASC')->get();
+        $configration = Configuration::latest()->first();
 
+        $cap = $request->capacity >=$configration->value ? ($request->capacity / $configration->value) : 1;
+
+        $group_id = $groups->first()->id;
+        //10
+        for ($i=1;$i<= $cap;$i++){
+
+          $group_customer =   GroupCustomer::create([
+                'ticket_id' => $ticket->id,
+                'group_id' => $group_id,
+                'date_time' => Carbon::now(),
+                'quantity' => $request->capacity >=$configration->value ? $configration->value : 1,
+                'sale_type' => 'family',
+            ]);
+
+            GroupColor::create([
+                'group_id' => $group_customer->group_id,
+                'date_time' => $group_customer->date_time
+            ]);
+            Groups::where('id','=',$group_id)->update(['status' => 'not_available']);
+            $group_id++;
+        }
 
             if($request->amount == $request->revenue){
                 $total = 0;
@@ -512,7 +537,6 @@ class TicketController extends Controller
                    ]);
                }
            }
-
 
         foreach ($ticket->products as $product) {
             $product->delete();

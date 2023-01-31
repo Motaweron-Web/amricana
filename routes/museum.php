@@ -5,6 +5,6 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix'=>'admin','middleware'=>'auth:admin'], function (){
 
 
-
+//  Route::group(['pr'])
 
 });

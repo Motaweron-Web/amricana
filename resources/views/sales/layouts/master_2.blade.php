@@ -10,14 +10,14 @@
 <body class="g-sidenav-show  bg-gray-100">
 @include('layouts.loader.mainLoader.loader')
 
-@include('sales.layouts.inc.sidebar')
-    <main class="main-content position-relative h-100 border-radius-lg ">
-        @include('sales.layouts.inc.navbar')
-        <content class="container-fluid pt-4">
+@include('sales.layouts.inc_2.sidebar')
+<main class="main-content position-relative h-100 border-radius-lg ">
+    @include('sales.layouts.inc_2.navbar')
+    <content class="container-fluid pt-4">
         @yield('content')
-            @include('sales.layouts.inc.footer')
-        </content>
-    </main>
+        @include('sales.layouts.inc_2.footer')
+    </content>
+</main>
 @include('sales.layouts.assets.scripts')
 
 {{--start js for museum--}}

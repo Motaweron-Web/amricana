@@ -104,3 +104,10 @@ Route::post('changeDbConnection', 'Sales\Auth\AuthController@uploadData')->name(
 //    $dir_1 = public_path() . '/table-skypark.sql';
 //    return exec("mysqldump --user=u657893346_skyparkunittes --password=Hyaadodo@1010 --host=45.84.204.1 u657893346_skyparkunittes --result-file={$dir_1} 2>&1", $output_1);
 //});
+
+
+Route::get('platform', function (){
+
+    $activities = \App\Models\Activity::get();
+    return view('platform.activities.index',compact('activities'));
+})->name('platform');

@@ -27,6 +27,20 @@
             <label for="password" class="form-control-label">Password</label>
             <input type="password" class="form-control" name="password" id="password" placeholder="********">
         </div>
+        @php
+            $roles = ["platform","admin","activity"];
+        @endphp
+
+        <div class="form-group">
+            <label for="text" class="form-control-label">Supervisor type</label>
+            <select class="form-control" name="supervisor_type">
+                <option disabled>choose role</option>
+                @foreach($roles as $role)
+                    <option value="{{$role}}" {{$admin->supervisor_type == $role ? 'selected' : ''}}>{{$role}}</option>
+
+                @endforeach
+            </select>
+        </div>
         <div class="form-group">
             <label class="form-label">Assign Roles</label>
             <select name="permissions[]" class="form-control select2" data-placeholder="Choose Roles" multiple>
@@ -35,6 +49,7 @@
                 @endforeach
             </select>
         </div>
+
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-success" id="updateButton">Update</button>

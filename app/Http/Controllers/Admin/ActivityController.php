@@ -65,7 +65,7 @@ class ActivityController extends Controller
     {
         $inputs = $request->validate([
             'photo'      => 'nullable|mimes:jpeg,jpg,png,gif',
-            'title'      => 'nullable|max:255',
+            'title'      => 'required|max:255',
 
         ]);
         if($request->has('photo')){
@@ -101,7 +101,7 @@ class ActivityController extends Controller
         $inputs = $request->validate([
             'id'         => 'required',
             'photo'      => 'nullable|mimes:jpeg,jpg,png,gif',
-            'title'      => 'nullable|max:255',
+            'title'      => 'required|max:255',
 
         ]);
         $activity = Activity::findOrFail($request->id);

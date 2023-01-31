@@ -25,6 +25,22 @@
         <label for="password" class="form-control-label">Password</label>
         <input type="password" class="form-control" name="password" id="password">
     </div>
+
+        @php
+        $roles = ["platform","admin","activity"];
+        @endphp
+
+        <div class="form-group">
+            <label for="text" class="form-control-label">Supervisor type</label>
+            <select class="form-control" name="supervisor_type">
+                <option disabled>choose role</option>
+                @foreach($roles as $role)
+                    <option value="{{$role}}">{{$role}}</option>
+
+                @endforeach
+            </select>
+        </div>
+
         <div class="form-group">
             <label class="form-label">Assign Roles</label>
             <select name="permissions[]" class="form-control select2" data-placeholder="Choose Roles" multiple>

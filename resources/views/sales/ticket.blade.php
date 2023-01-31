@@ -1368,6 +1368,7 @@
                                         <div class="col-8 col-md-9 p-2 ">
                                             <label> Amount </label>
                                             <input class="form-control" type="number" id="amount" onchange="calculateChange()" onkeyup="calculateChange()" min="0" step="any"/><br>
+                                            <input class="form-control" type="number" id="capacity" min="1" value="20" step="any"/><br>
                                             <div class="pay mt-5">
                                              {{--start choose pay when remanning amount--}}
 
@@ -1489,7 +1490,7 @@
             }
             else{
               var pay  = $('input[name="pay"]:checked').val();
-
+                var capacity   = $('#capacity').val();
                 var data = {
 
                     "duration":duration,
@@ -1519,6 +1520,7 @@
                     "rem":(Math.round(rem * 100) / 100).toFixed(2),
                     "payment_method":payment_method,
                     "pay":pay,
+                    "capacity":capacity,
 
                 }
 
