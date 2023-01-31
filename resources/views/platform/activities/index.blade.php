@@ -24,10 +24,10 @@
                 style="  background-image: linear-gradient(rgba(246, 238, 207, 0.7), rgba(246, 238, 207,0.9)), url({{URL::to($activity->photo)}}) !important;">
                     <h3 class="title-box">{{$activity->title}}</h3>
                     <div class="d-flex justify-content-between">
-                        <button class="btn-report mb-2" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModalReport">
-                            Report
-                        </button>
-                        <button class="btn-report btn-end mb-2" type="submit">End Tour</button>
+{{--                        <button class="btn-report mb-2" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModalReport">--}}
+{{--                            Report--}}
+{{--                        </button>--}}
+{{--                        <button class="btn-report btn-end mb-2" type="submit">End Tour</button>--}}
                     </div>
                     <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
                     <div class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll">

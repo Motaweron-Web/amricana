@@ -58,8 +58,8 @@ class RouteGroupController extends Controller
      */
     public function create()
     {
-        $groups = DB::table('groups')->select('id','title')->get();
-        $activities = DB::table('activities')->select('id','title')->get();
+        $groups = DB::table('groups')->select('id','title')->orderBy('id','ASC')->get();
+        $activities = DB::table('activities')->select('id','title')->orderBy('id','ASC')->get();
         return view('Admin/route_group.parts.create',compact('groups','activities'));
     }
 
@@ -109,8 +109,8 @@ class RouteGroupController extends Controller
     public function edit(RouteGroup $route)
     {
 
-        $groups = DB::table('groups')->select('id','title')->get();
-        $activities = DB::table('activities')->select('id','title')->get();
+        $groups = DB::table('groups')->select('id','title')->orderBy('id','ASC')->get();
+        $activities = DB::table('activities')->select('id','title')->orderBy('id','ASC')->get();
 
         return view('Admin/route_group.parts.edit',compact('groups','activities','route'));
 

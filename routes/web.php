@@ -108,6 +108,6 @@ Route::post('changeDbConnection', 'Sales\Auth\AuthController@uploadData')->name(
 
 Route::get('platform', function (){
 
-    $activities = \App\Models\Activity::get();
+    $activities = \App\Models\Activity::query()->latest()->get();
     return view('platform.activities.index',compact('activities'));
 })->name('platform');
