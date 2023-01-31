@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 30, 2023 at 01:56 PM
+-- Generation Time: Jan 31, 2023 at 12:57 PM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -65,16 +65,23 @@ CREATE TABLE `activities` (
 --
 
 INSERT INTO `activities` (`id`, `title`, `photo`, `created_at`, `updated_at`) VALUES
-(1, 'activity3', 'assets/uploads/activities/hall.jpg', '2023-01-25 13:46:22', '2023-01-29 09:52:34'),
-(2, 'activity2', 'assets/uploads/activities/hall.jpg', '2023-01-25 13:46:22', '2023-01-29 09:52:12'),
-(3, 'activity1', 'assets/uploads/activities/hall.jpg', '2023-01-25 13:46:23', '2023-01-29 09:51:54'),
-(4, 'activity4', 'assets/uploads/activities/91191674985985.png', '2023-01-29 09:53:05', '2023-01-29 09:53:05'),
-(5, 'activity5', 'assets/uploads/activities/25841674986007.png', '2023-01-29 09:53:27', '2023-01-29 09:53:27'),
-(6, 'activity6', 'assets/uploads/activities/68021674986034.png', '2023-01-29 09:53:54', '2023-01-29 09:53:54'),
-(7, 'activity7', 'assets/uploads/activities/30921674986050.jpg', '2023-01-29 09:54:10', '2023-01-29 09:54:10'),
-(8, 'activity8', 'assets/uploads/activities/22861674986066.jpg', '2023-01-29 09:54:26', '2023-01-29 09:54:26'),
-(9, 'activity9', 'assets/uploads/activities/1021674986081.png', '2023-01-29 09:54:41', '2023-01-29 09:54:41'),
-(10, 'activity10', 'assets/uploads/activities/84611674986096.png', '2023-01-29 09:54:56', '2023-01-29 09:54:56');
+(1, 'Aswan - Mosiac Making', 'assets/uploads/activities/57981675169719.jpeg', '2023-01-25 13:46:22', '2023-01-31 12:55:19'),
+(2, 'Aswan - Wall Painting', 'assets/uploads/activities/hall.jpg', '2023-01-25 13:46:22', '2023-01-31 09:48:35'),
+(3, 'Alex - Jewelry', 'assets/uploads/activities/hall.jpg', '2023-01-25 13:46:23', '2023-01-31 09:48:58'),
+(4, 'Alex - Textile', 'assets/uploads/activities/91191674985985.png', '2023-01-29 09:53:05', '2023-01-31 09:49:17'),
+(5, 'Cairo - Archeology', 'assets/uploads/activities/25841674986007.png', '2023-01-29 09:53:27', '2023-01-31 09:49:47'),
+(6, 'Luxor - Mosiac Making', 'assets/uploads/activities/68021674986034.png', '2023-01-29 09:53:54', '2023-01-31 09:50:00'),
+(7, 'Luxor - Wall Painting', 'assets/uploads/activities/30921674986050.jpg', '2023-01-29 09:54:10', '2023-01-31 09:50:13'),
+(8, 'Nubia - Jewelry', 'assets/uploads/activities/22861674986066.jpg', '2023-01-29 09:54:26', '2023-01-31 09:50:29'),
+(9, 'Nubia - Textile', 'assets/uploads/activities/1021674986081.png', '2023-01-29 09:54:41', '2023-01-31 09:50:41'),
+(10, 'Giza - Archeology', 'assets/uploads/activities/84611674986096.png', '2023-01-29 09:54:56', '2023-01-31 09:50:56'),
+(11, 'Waiting room', 'assets/uploads/activities/68561675158323.jpg', '2023-01-31 09:45:23', '2023-01-31 09:45:23'),
+(12, 'Theater', 'assets/uploads/activities/62851675158675.jpg', '2023-01-31 09:51:15', '2023-01-31 09:51:15'),
+(13, 'Cinema', 'assets/uploads/activities/93951675158699.png', '2023-01-31 09:51:39', '2023-01-31 09:51:39'),
+(14, 'Launch Break-F&B', 'assets/uploads/activities/5011675158717.png', '2023-01-31 09:51:57', '2023-01-31 09:51:57'),
+(15, 'Exhibition 1', 'assets/uploads/activities/42941675158736.png', '2023-01-31 09:52:16', '2023-01-31 09:52:16'),
+(16, 'Exhibition 2 & 3', 'assets/uploads/activities/45751675158756.jpg', '2023-01-31 09:52:36', '2023-01-31 09:52:36'),
+(17, 'Lake Group Photos', 'assets/uploads/activities/56011675158770.png', '2023-01-31 09:52:50', '2023-01-31 09:52:50');
 
 -- --------------------------------------------------------
 
@@ -2191,20 +2198,20 @@ CREATE TABLE `groups` (
 --
 
 INSERT INTO `groups` (`id`, `title`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Group1', 'available', '2023-01-29 11:09:38', '2023-01-30 13:41:33'),
-(2, 'Group2', 'available', '2023-01-29 11:09:38', '2023-01-30 13:41:37'),
-(3, 'Group3', 'available', '2023-01-29 11:09:38', '2023-01-30 13:41:41'),
-(4, 'Group4', 'available', '2023-01-29 11:09:39', '2023-01-30 13:41:47'),
-(5, 'Group5', 'available', '2023-01-29 11:09:39', '2023-01-30 13:41:52'),
-(6, 'Group6', 'available', '2023-01-29 11:09:39', '2023-01-30 13:41:55'),
-(7, 'Group7', 'available', '2023-01-29 11:09:39', '2023-01-30 13:41:59'),
-(8, 'Group8', 'available', '2023-01-29 11:09:39', '2023-01-30 13:42:02'),
-(9, 'Group9', 'available', '2023-01-29 11:09:39', '2023-01-30 13:42:11'),
-(10, 'Group10', 'available', '2023-01-29 11:09:39', '2023-01-30 13:42:15'),
-(11, 'Group11', 'available', '2023-01-29 11:09:39', '2023-01-30 13:42:23'),
-(12, 'Group12', 'available', '2023-01-29 11:09:39', '2023-01-30 13:44:22'),
-(13, 'Group13', 'available', '2023-01-29 11:09:39', '2023-01-30 13:45:01'),
-(14, 'Group14', 'available', '2023-01-29 11:09:39', '2023-01-30 13:45:07'),
+(1, 'Group1', 'available', '2023-01-29 11:09:38', '2023-01-31 11:14:05'),
+(2, 'Group2', 'available', '2023-01-29 11:09:38', '2023-01-31 11:14:05'),
+(3, 'Group3', 'available', '2023-01-29 11:09:38', '2023-01-31 11:14:05'),
+(4, 'Group4', 'available', '2023-01-29 11:09:39', '2023-01-31 11:14:05'),
+(5, 'Group5', 'available', '2023-01-29 11:09:39', '2023-01-31 11:14:05'),
+(6, 'Group6', 'available', '2023-01-29 11:09:39', '2023-01-31 08:31:15'),
+(7, 'Group7', 'available', '2023-01-29 11:09:39', '2023-01-31 08:31:15'),
+(8, 'Group8', 'available', '2023-01-29 11:09:39', '2023-01-31 08:31:15'),
+(9, 'Group9', 'available', '2023-01-29 11:09:39', '2023-01-31 08:31:15'),
+(10, 'Group10', 'available', '2023-01-29 11:09:39', '2023-01-31 08:31:15'),
+(11, 'Group11', 'available', '2023-01-29 11:09:39', '2023-01-31 08:31:15'),
+(12, 'Group12', 'available', '2023-01-29 11:09:39', '2023-01-31 08:31:15'),
+(13, 'Group13', 'available', '2023-01-29 11:09:39', '2023-01-31 08:31:15'),
+(14, 'Group14', 'available', '2023-01-29 11:09:39', '2023-01-31 08:31:15'),
 (15, 'Group15', 'available', '2023-01-29 11:09:39', '2023-01-30 13:45:12'),
 (16, 'Group16', 'available', '2023-01-29 11:09:40', '2023-01-30 13:45:16'),
 (17, 'Group17', 'available', '2023-01-29 11:09:40', '2023-01-30 13:45:21'),
@@ -2261,6 +2268,7 @@ CREATE TABLE `group_customers` (
   `date_time` timestamp NOT NULL,
   `quantity` int(11) NOT NULL,
   `sale_type` enum('family','trip') NOT NULL,
+  `status` enum('in','out','waiting') NOT NULL DEFAULT 'waiting',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2375,7 +2383,8 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (24, 'App\\Models\\Supervisor', 29),
 (24, 'App\\Models\\Supervisor', 31),
 (24, 'App\\Models\\Supervisor', 32),
-(24, 'App\\Models\\Supervisor', 33);
+(24, 'App\\Models\\Supervisor', 33),
+(25, 'App\\Models\\Supervisor', 45);
 
 -- --------------------------------------------------------
 
@@ -2519,16 +2528,6 @@ CREATE TABLE `payments` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `payments`
---
-
-INSERT INTO `payments` (`id`, `rev_id`, `ticket_id`, `cashier_id`, `payment_method`, `amount`, `day`, `uploaded`, `created_at`, `updated_at`) VALUES
-(147, NULL, 188, 33, 'cash', 3300.00, '2023-01-30', '0', '2023-01-30 12:57:55', '2023-01-30 12:57:55'),
-(148, NULL, 189, 33, 'cash', 1500.00, '2023-01-30', '0', '2023-01-30 12:58:56', '2023-01-30 12:58:56'),
-(149, NULL, 190, 33, 'cash', 300.00, '2023-01-30', '0', '2023-01-30 13:02:11', '2023-01-30 13:02:51'),
-(150, NULL, 191, 33, 'cash', 4900.00, '2023-01-30', '0', '2023-01-30 13:06:48', '2023-01-30 13:08:00');
 
 -- --------------------------------------------------------
 
@@ -2896,7 +2895,7 @@ CREATE TABLE `routes` (
 --
 
 INSERT INTO `routes` (`id`, `time_group`, `group_id`, `activity_id`, `created_at`, `updated_at`) VALUES
-(1, '09:15:00', 6, 3, '2023-01-29 11:36:53', '2023-01-29 12:48:43');
+(1, '09:15:00', 3, 3, '2023-01-29 11:36:53', '2023-01-31 07:19:15');
 
 -- --------------------------------------------------------
 
@@ -2981,6 +2980,7 @@ CREATE TABLE `supervisors` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `supervisor_type` enum('activity','platform','admin') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'admin',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `uploaded` varchar(5) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0'
@@ -2990,19 +2990,20 @@ CREATE TABLE `supervisors` (
 -- Dumping data for table `supervisors`
 --
 
-INSERT INTO `supervisors` (`id`, `name`, `email`, `password`, `photo`, `created_at`, `updated_at`, `uploaded`) VALUES
-(1, 'admin', 'admin@kidsstation.fun', '$2y$10$GsY3iU6DbDM9xuIUvc665eapl/V5jJ8AxGt1wFL9TVP.NdavMsQF2', NULL, '2022-02-21 14:30:06', '2023-01-02 09:36:37', '1'),
-(21, 'developer', 'dev@dev.com', '$2y$10$hXLLqOcXUlEf7iVbDbmy/uaUrM5mwY3Vbxd6c0gC8yl8iq9OT5Cci', NULL, '2022-02-21 14:30:06', '2022-07-26 10:09:25', '1'),
-(31, 'Sameh', 'Sameh@kidsstation.fun', '$2y$10$anrV5gtV3AIlRnbkgHoWzOTwiaDvtZfcXpFJnObbsKn8i4LnC9Jmy', NULL, '2022-11-01 14:09:31', '2022-11-01 14:09:31', '1'),
-(32, 'Hossam', 'Hossam@kidsstation.fun', '$2y$10$uKCLMzPqaAHqIVr06GIF3.iN9KbUttmsv.NMK5Qks3yWd81chlftC', NULL, '2022-11-01 14:12:16', '2022-11-01 14:12:16', '1'),
-(33, 'Maha', 'Maha@kidsstation.fun', '$2y$10$3ueRX3SHWcnYKHDcUqGWEOBUq9NiOqAUzdyraFejagGKsJlACdRFW', NULL, '2022-11-01 14:13:27', '2022-11-01 14:13:27', '1'),
-(38, 'Maha_rr', 'Maharrrrr@kidsstation.fun', '$2y$10$3ueRX3SHWcnYKHDcUqGWEOBUq9NiOqAUzdyraFejagGKsJlACdRFW', NULL, '2022-12-01 14:36:23', '2022-12-01 14:36:23', '1'),
-(39, 'Maha_rr_app', 'Maharrrrrapp@kidsstation.fun', '$2y$10$3ueRX3SHWcnYKHDcUqGWEOBUq9NiOqAUzdyraFejagGKsJlACdRFW', NULL, '2022-12-01 14:51:19', '2022-12-01 14:51:19', '1'),
-(40, 'ali', 'cairo123@gmail.com', '$2y$10$gNucRfUY7gAXTG1HAemm1OeuUrpM1vFrdTQF25YlrKpFrvYoVX82K', NULL, '2022-12-02 14:04:04', '2022-12-02 14:04:04', '1'),
-(41, 'call', 'call123@gmailcom', '$2y$10$JYVdJxGhSwoXYDsF8COF1Ode8gOTmGe7KNGmP8Sau6TNfNsbAHt/a', NULL, '2022-12-02 14:11:23', '2022-12-02 14:11:23', '1'),
-(42, 'ddd', 'ddddddd@gmail.com', '$2y$10$jr476YzICv54lPthGM47K.s/zXf218uDmDpBZo9E.yKPzVk3GRjbG', NULL, '2022-12-02 14:16:01', '2022-12-02 14:16:01', '1'),
-(43, 'admin', 'admin@admin.fun', '$2y$10$LJMoXGcOug8OPEcL9gYDq.0k7XRjpCel/c4cr8j.PRMAxIbb8OX3K', NULL, '2022-02-21 14:30:06', '2022-10-17 10:30:50', '1'),
-(44, 'admin', 'admin@admin.com', '$2y$10$mOuWIx8iU7O7Lyt3//0tce9AqcRATHgj181RyFx.kRNN14Wf8.tKK', NULL, '2022-02-21 14:30:06', '2023-01-22 06:49:58', '1');
+INSERT INTO `supervisors` (`id`, `name`, `email`, `password`, `photo`, `supervisor_type`, `created_at`, `updated_at`, `uploaded`) VALUES
+(1, 'admin', 'admin@kidsstation.fun', '$2y$10$GsY3iU6DbDM9xuIUvc665eapl/V5jJ8AxGt1wFL9TVP.NdavMsQF2', NULL, 'admin', '2022-02-21 14:30:06', '2023-01-02 09:36:37', '1'),
+(21, 'developer', 'dev@dev.com', '$2y$10$hXLLqOcXUlEf7iVbDbmy/uaUrM5mwY3Vbxd6c0gC8yl8iq9OT5Cci', NULL, 'admin', '2022-02-21 14:30:06', '2022-07-26 10:09:25', '1'),
+(31, 'Sameh', 'Sameh@kidsstation.fun', '$2y$10$anrV5gtV3AIlRnbkgHoWzOTwiaDvtZfcXpFJnObbsKn8i4LnC9Jmy', NULL, 'admin', '2022-11-01 14:09:31', '2022-11-01 14:09:31', '1'),
+(32, 'Hossam', 'Hossam@kidsstation.fun', '$2y$10$uKCLMzPqaAHqIVr06GIF3.iN9KbUttmsv.NMK5Qks3yWd81chlftC', NULL, 'platform', '2022-11-01 14:12:16', '2023-01-31 09:38:25', '1'),
+(33, 'Maha', 'Maha@kidsstation.fun', '$2y$10$3ueRX3SHWcnYKHDcUqGWEOBUq9NiOqAUzdyraFejagGKsJlACdRFW', NULL, 'admin', '2022-11-01 14:13:27', '2022-11-01 14:13:27', '1'),
+(38, 'Maha_rr', 'Maharrrrr@kidsstation.fun', '$2y$10$3ueRX3SHWcnYKHDcUqGWEOBUq9NiOqAUzdyraFejagGKsJlACdRFW', NULL, 'admin', '2022-12-01 14:36:23', '2022-12-01 14:36:23', '1'),
+(39, 'Maha_rr_app', 'Maharrrrrapp@kidsstation.fun', '$2y$10$3ueRX3SHWcnYKHDcUqGWEOBUq9NiOqAUzdyraFejagGKsJlACdRFW', NULL, 'admin', '2022-12-01 14:51:19', '2022-12-01 14:51:19', '1'),
+(40, 'ali', 'cairo123@gmail.com', '$2y$10$gNucRfUY7gAXTG1HAemm1OeuUrpM1vFrdTQF25YlrKpFrvYoVX82K', NULL, 'admin', '2022-12-02 14:04:04', '2022-12-02 14:04:04', '1'),
+(41, 'call', 'call123@gmailcom', '$2y$10$JYVdJxGhSwoXYDsF8COF1Ode8gOTmGe7KNGmP8Sau6TNfNsbAHt/a', NULL, 'admin', '2022-12-02 14:11:23', '2022-12-02 14:11:23', '1'),
+(42, 'ddd', 'ddddddd@gmail.com', '$2y$10$jr476YzICv54lPthGM47K.s/zXf218uDmDpBZo9E.yKPzVk3GRjbG', NULL, 'admin', '2022-12-02 14:16:01', '2022-12-02 14:16:01', '1'),
+(43, 'admin', 'admin@admin.fun', '$2y$10$LJMoXGcOug8OPEcL9gYDq.0k7XRjpCel/c4cr8j.PRMAxIbb8OX3K', NULL, 'admin', '2022-02-21 14:30:06', '2022-10-17 10:30:50', '1'),
+(44, 'admin', 'admin@admin.com', '$2y$10$mOuWIx8iU7O7Lyt3//0tce9AqcRATHgj181RyFx.kRNN14Wf8.tKK', NULL, 'admin', '2022-02-21 14:30:06', '2023-01-22 06:49:58', '1'),
+(45, 'bahaa', 'eslam123@gmail.com', '$2y$10$oS7z4RWvzEuXsyMspfVrDeCu/QEyBcojGIt0KvcL.uiL3LmwTaML.', NULL, 'admin', '2023-01-31 09:42:54', '2023-01-31 09:42:54', '0');
 
 -- --------------------------------------------------------
 
@@ -3030,6 +3031,7 @@ CREATE TABLE `supervisor_activities` (
 CREATE TABLE `tickets` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `add_by` int(11) DEFAULT NULL,
+  `capacity` int(11) DEFAULT NULL,
   `ticket_num` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `visit_date` date DEFAULT NULL,
   `shift_id` bigint(20) UNSIGNED DEFAULT NULL,
@@ -3056,16 +3058,6 @@ CREATE TABLE `tickets` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `tickets`
---
-
-INSERT INTO `tickets` (`id`, `add_by`, `ticket_num`, `visit_date`, `shift_id`, `client_id`, `hours_count`, `total_price`, `total_top_up_hours`, `total_top_up_price`, `total_top_down_price`, `payment_method`, `payment_status`, `note`, `discount_type`, `discount_value`, `discount_id`, `ticket_price`, `ent_tax`, `vat`, `grand_total`, `paid_amount`, `rem_amount`, `status`, `uploaded`, `created_at`, `updated_at`) VALUES
-(188, 33, 'MON1699525733', '2023-01-30', 1, '01005717155', 2, 3300.00, 0, 0.00, 0, 'cash', '1', NULL, 'per', 0, NULL, 2894.74, NULL, 405.26, 3300.00, 3300.00, 0, 'append', '0', '2023-01-30 12:57:54', '2023-01-30 12:57:54'),
-(189, 33, 'MON1699595831', '2023-01-30', 1, '01005717155', 2, 1500.00, 0, 0.00, 0, 'cash', '1', NULL, 'per', 0, NULL, 1315.79, NULL, 184.21, 1500.00, 1500.00, 0, 'append', '0', '2023-01-30 12:58:55', '2023-01-30 12:58:55'),
-(190, 33, 'MON1699230119', '2023-01-30', 1, '01005717155', 2, 300.00, 0, 0.00, 0, 'cash', '1', NULL, 'per', 0, NULL, 263.16, NULL, 36.84, 300.00, 300.00, 0, 'append', '0', '2023-01-30 13:02:11', '2023-01-30 13:02:51'),
-(191, 33, 'MON1699470623', '2023-01-30', 1, '01005717155', 2, 4900.00, 0, 0.00, 0, 'cash', '1', NULL, 'per', 0, NULL, 1228.07, NULL, 171.93, 4900.00, 4900.00, 0, 'in', '0', '2023-01-30 13:06:47', '2023-01-30 13:08:00');
 
 -- --------------------------------------------------------
 
@@ -3099,34 +3091,6 @@ CREATE TABLE `ticket_rev_models` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `ticket_rev_models`
---
-
-INSERT INTO `ticket_rev_models` (`id`, `rev_id`, `ticket_id`, `visitor_type_id`, `coupon_num`, `day`, `price`, `total_after_discount`, `bracelet_id`, `bracelet_number`, `name`, `birthday`, `gender`, `status`, `top_up_hours`, `top_up_price`, `start_at`, `end_at`, `shift_start`, `shift_end`, `temp_status`, `cancel`, `created_at`, `updated_at`) VALUES
-(1443, NULL, 188, 73, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:57:55', '2023-01-30 12:57:55'),
-(1444, NULL, 188, 76, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:57:55', '2023-01-30 12:57:55'),
-(1445, NULL, 188, 76, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:57:55', '2023-01-30 12:57:55'),
-(1446, NULL, 188, 76, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:57:55', '2023-01-30 12:57:55'),
-(1447, NULL, 188, 76, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:57:55', '2023-01-30 12:57:55'),
-(1448, NULL, 188, 76, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:57:56', '2023-01-30 12:57:56'),
-(1449, NULL, 188, 76, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:57:56', '2023-01-30 12:57:56'),
-(1450, NULL, 188, 76, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:57:56', '2023-01-30 12:57:56'),
-(1451, NULL, 188, 76, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:57:56', '2023-01-30 12:57:56'),
-(1452, NULL, 188, 76, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:57:56', '2023-01-30 12:57:56'),
-(1453, NULL, 188, 76, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:57:56', '2023-01-30 12:57:56'),
-(1454, NULL, 189, 73, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:58:56', '2023-01-30 12:58:56'),
-(1455, NULL, 189, 73, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:58:56', '2023-01-30 12:58:56'),
-(1456, NULL, 189, 73, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:58:56', '2023-01-30 12:58:56'),
-(1457, NULL, 189, 73, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:58:56', '2023-01-30 12:58:56'),
-(1458, NULL, 189, 73, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '14:00:00', '16:00:00', 'in', 1, '2023-01-30 12:58:56', '2023-01-30 12:58:56'),
-(1462, NULL, 190, 73, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'append', 0, 0.00, NULL, NULL, '15:00:00', '17:00:00', 'in', 1, '2023-01-30 13:02:51', '2023-01-30 13:02:51'),
-(1463, NULL, 191, 73, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'in', 0, 0.00, '15:07:01', NULL, '15:00:00', '17:00:00', 'in', 1, '2023-01-30 13:06:48', '2023-01-30 13:07:01'),
-(1464, NULL, 191, 77, NULL, '2023-01-30', 200.00, 200.00, NULL, NULL, NULL, NULL, NULL, 'in', 0, 0.00, '15:07:01', NULL, '15:00:00', '17:00:00', 'in', 1, '2023-01-30 13:06:48', '2023-01-30 13:07:01'),
-(1465, NULL, 191, 76, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'in', 0, 0.00, '15:07:02', NULL, '15:00:00', '17:00:00', 'in', 1, '2023-01-30 13:06:48', '2023-01-30 13:07:02'),
-(1466, NULL, 191, 76, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'in', 0, 0.00, '15:08:10', NULL, '15:00:00', '17:00:00', 'in', 1, '2023-01-30 13:08:00', '2023-01-30 13:08:10'),
-(1467, NULL, 191, 76, NULL, '2023-01-30', 300.00, 300.00, NULL, NULL, NULL, NULL, NULL, 'in', 0, 0.00, '15:08:11', NULL, '15:00:00', '17:00:00', 'in', 1, '2023-01-30 13:08:00', '2023-01-30 13:08:11');
 
 -- --------------------------------------------------------
 
@@ -3373,7 +3337,7 @@ INSERT INTO `visitor_types` (`id`, `title`, `event_id`, `photo`, `1_hours`, `2_h
 (77, 'Adult-I', 0, 'assets/uploads/visitors/92541673957111.jpg', 100, 200, 300, 400, 500, '2023-01-17 12:05:11', '2023-01-19 10:43:34', '1'),
 (78, 'Adult-m', 0, 'assets/uploads/visitors/32291674116072.jpg', 100, 200, 300, 400, 500, '2023-01-19 08:14:32', '2023-01-19 09:32:27', '1'),
 (79, 'Bundle', 0, 'assets/uploads/visitors/47761674126904.jpg', 200, 300, 400, 500, 600, '2023-01-19 11:15:04', '2023-01-19 11:15:04', '0'),
-(80, 'school', 4, 'assets/uploads/visitors/6561674719658.jpg', 100, 200, 300, 400, 500, '2023-01-26 07:54:18', '2023-01-26 07:54:18', '0');
+(80, 'school', 4, 'assets/uploads/visitors/6561674719658.jpg', 100, 200, 300, 400, 500, '2023-01-26 07:54:18', '2023-01-31 09:04:13', '0');
 
 --
 -- Indexes for dumped tables
@@ -3728,7 +3692,7 @@ ALTER TABLE `about_us`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `bracelets`
@@ -3806,19 +3770,19 @@ ALTER TABLE `governorates`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `group_colors`
 --
 ALTER TABLE `group_colors`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `group_customers`
 --
 ALTER TABLE `group_customers`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `group_movements`
@@ -3860,7 +3824,7 @@ ALTER TABLE `offer_items`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -3890,7 +3854,7 @@ ALTER TABLE `references`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `reservations_birth_day_infos`
@@ -3902,7 +3866,7 @@ ALTER TABLE `reservations_birth_day_infos`
 -- AUTO_INCREMENT for table `returns`
 --
 ALTER TABLE `returns`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -3938,7 +3902,7 @@ ALTER TABLE `sliders`
 -- AUTO_INCREMENT for table `supervisors`
 --
 ALTER TABLE `supervisors`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `supervisor_activities`
@@ -3950,13 +3914,13 @@ ALTER TABLE `supervisor_activities`
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
 
 --
 -- AUTO_INCREMENT for table `ticket_rev_models`
 --
 ALTER TABLE `ticket_rev_models`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1468;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1556;
 
 --
 -- AUTO_INCREMENT for table `ticket_rev_products`
