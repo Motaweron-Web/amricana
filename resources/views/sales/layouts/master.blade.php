@@ -5,7 +5,6 @@
     @include('sales.layouts.assets.head')
     @include('layouts.loader.mainLoader.loaderCss')
     {{--start css for museum--}}
-    @yield('css')
 </head>
 <body class="g-sidenav-show  bg-gray-100">
 @include('layouts.loader.mainLoader.loader')
@@ -21,7 +20,6 @@
 @include('sales.layouts.assets.scripts')
 
 {{--start js for museum--}}
-@yield('js')
 </body>
 </html>
 

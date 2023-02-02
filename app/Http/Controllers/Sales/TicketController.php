@@ -182,21 +182,22 @@ class TicketController extends Controller
         //10
         for ($i=1;$i<= $cap;$i++){
 
-          $group_customer =   GroupCustomer::create([
+          GroupCustomer::create([
                 'ticket_id' => $ticket->id,
                 'group_id' => $group_id,
                 'date_time' => Carbon::now(),
                 'quantity' => $request->capacity >=$configration->value ? $configration->value : 1,
                 'sale_type' => 'family',
             ]);
-
-            GroupColor::create([
-                'group_id' => $group_customer->group_id,
-                'date_time' => $group_customer->date_time
-            ]);
             Groups::where('id','=',$group_id)->update(['status' => 'not_available']);
+            GroupColor::create([
+             'group_id' => $group_id,
+             'date_time' => Carbon::now()
+
+            ]);
             $group_id++;
         }
+
 
             if($request->amount == $request->revenue){
                 $total = 0;

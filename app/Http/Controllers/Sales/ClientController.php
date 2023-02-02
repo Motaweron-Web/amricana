@@ -59,10 +59,6 @@ class ClientController extends Controller
             'family_size'   =>'nullable|max:11',
         ]);
         $client = Clients::create($data);
-        // check if code is run on domain not local host
-        if($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1:8000')
-            $client->update(['uploaded' => true]);
-
 
         if ($client)
             return response()->json(['data' => $client,'status' => 200],200);

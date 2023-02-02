@@ -18,7 +18,7 @@
 {{--<link href="{{asset('assets/admin')}}/css-rtl/skin-modes.css" rel="stylesheet"/>--}}
 {{--<link href="{{asset('assets/admin')}}/css-rtl/dark-style.css" rel="stylesheet"/>--}}
 
-{{--end style css-- rtl--}}
+{{--end style css-- ltr--}}
 
 <link href="{{asset('assets/admin')}}/css/style.css" rel="stylesheet"/>
 <link href="{{asset('assets/admin')}}/css/skin-modes.css" rel="stylesheet"/>
