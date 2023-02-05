@@ -1,10 +1,10 @@
 @extends('sales.layouts.master_2')
 @section('css')
-    <link id="pagestyle" href="{{asset('museum/css/app.min.css')}}" rel="stylesheet" />
-    <link href="{{asset('museum/css/font.awesome.css')}}" rel="stylesheet" />
-    <link href="{{asset('museum/css/style.css')}}" rel="stylesheet" />
+    <link id="pagestyle" href="{{asset('museum/css/app.min.css')}}" rel="stylesheet"/>
+    <link href="{{asset('museum/css/font.awesome.css')}}" rel="stylesheet"/>
+    <link href="{{asset('museum/css/style.css')}}" rel="stylesheet"/>
 
-    <link href="{{asset('museum/css/bootstrap.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('museum/css/bootstrap.min.css')}}" rel="stylesheet"/>
 
 @endsection
 @section('content')
@@ -30,7 +30,13 @@
                     <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
 
                     @foreach($group_customers_waiting as $group_customer)
-                        <div class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll">
+                            <?php
+                            $groupColor = \App\Models\GroupColor::where('group_id', $group_customer->group->id)
+                                ->get();
+                            ?>
+                        <div style="background-color: {{ $groupColor }}"
+                             class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal"
+                             data-bs-target="#exampleModalAll">
                             {{ $group_customer->group->title}}
                             <span class="me-2">{{$group_customer->quantity}}</span>
                         </div>
@@ -39,7 +45,8 @@
                             <div class="modal-dialog">
                                 <div class="modal-content modal-All">
                                     <div class="d-flex justify-content-end m-3">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <table class="table">
@@ -54,7 +61,8 @@
                                                 <td class="info">
 
                                                     @foreach($group_customer->ticket->models as $model)
-                                                        <div class="member" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        <div class="member" data-bs-toggle="modal"
+                                                             data-bs-target="#exampleModal">
                                                             {{$model->name}}
                                                         </div>
                                                     @endforeach
@@ -89,7 +97,8 @@
                                 <div class="modal-content">
                                     <div class="d-flex justify-content-end m-3">
                                         <!-- <button type="button" class="btn-back" data-bs-toggle="modal" data-bs-target="#exampleModalAll"><i class="fa-solid fa-arrow-left"></i></button> -->
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class=" d-flex justify-content-center mb-5">
@@ -131,7 +140,6 @@
             @foreach($activities as $activity)
                 <div class="col-md-6 col-12">
 
-
                     {{--start div box--}}
                     <div class="box"
                          style="  background-image: linear-gradient(rgba(246, 238, 207, 0.7), rgba(246, 238, 207,0.9)), url({{URL::to($activity->photo)}}) !important;">
@@ -146,10 +154,14 @@
 
 
                         @foreach($activity->group_movements_today as $group_movement)
-
-                            <div class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll">
+                                <?php $groupColor = \App\Models\GroupColor::where('group_id', $group_movement->group->id)
+                                ->first();
+                                ?>
+                            <div style="background-color: {{ $groupColor->color}}" class="items item d-flex justify-content-between" draggable="true"
+                                 data-bs-toggle="modal" data-bs-target="#exampleModalAll">
                                 {{ $group_movement->group->title}}
-                                <span class="me-2">{{ $group_movement->group->group_coustomer->quantity}}</span>
+                                <input hidden name="group_id" id="groupId" value="{{ $group_movement->group->id }}">
+                                                                <span class="me-2">{{ $group_movement->group->group_coustomer->quantity ?? ''}}</span>
                             </div>
 
                             <!-- popup all student -->
@@ -157,7 +169,8 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content modal-All">
                                         <div class="d-flex justify-content-end m-3">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <table class="table">
@@ -170,7 +183,8 @@
                                                     <td class="name-members"><h6 class="fw-bold">Name of students</h6>
                                                     </td>
                                                     <td class="info">
-                                                        <div class="member" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        <div class="member" data-bs-toggle="modal"
+                                                             data-bs-target="#exampleModal">
                                                             Student Number 1
                                                         </div>
                                                         <div class="member">Student Number 2</div>
@@ -203,7 +217,8 @@
                                     <div class="modal-content">
                                         <div class="d-flex justify-content-end m-3">
                                             <!-- <button type="button" class="btn-back" data-bs-toggle="modal" data-bs-target="#exampleModalAll"><i class="fa-solid fa-arrow-left"></i></button> -->
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class=" d-flex justify-content-center mb-5">
@@ -233,20 +248,84 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- popup choose tourguide -->
+                            <div class="modal modalChoose" id="exampleModalAll">
+                                <div class="modal-dialog">
+                                    <div class="modal-content modalContentChoose modal-All">
+                                        <div class="d-flex justify-content-end m-3">
+                                            <button type="button" class="btn-close btn-close-choose"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @if($groupColor->color == null)
+                                                <div class="tourguid">
+                                                <h5 class="mb-3 fw-bold">Select Group Color</h5>
+                                                <div class="d-flex">
+                                                    <!-- <div> -->
+                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c1"> -->
+                                                    <span class="box-color" data-color="#5FB7D4"
+                                                          style="background-color: #5FB7D4;"></span>
+                                                    <!-- </div> -->
+                                                    <!-- <div> -->
+                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c2"> -->
+                                                    <span class="box-color" data-color="#DA323F"
+                                                          style="background-color: #DA323F;"></span>
+                                                    <!-- </div> -->
+                                                    <!-- <div> -->
+                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c3"> -->
+                                                    <span class="box-color" data-color="#87554B"
+                                                          style="background-color: #87554B;"></span>
+                                                    <!-- </div> -->
+                                                    <!-- <div> -->
+                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c4"> -->
+                                                    <span class="box-color" data-color="#2F366C"
+                                                          style="background-color: #2F366C;"></span>
+                                                    <!-- </div> -->
+                                                    <!-- <div> -->
+                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c5"> -->
+                                                    <span class="box-color" data-color="red"
+                                                          style="background-color: red;"></span>
+                                                    <!-- </div> -->
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                                <div class="activity">
+                                                    <h5 class="title-choose mb-2">Select Activity</h5>
+                                                    <div class="form-check">
+                                                        <select name="activity" class="form-select" id="activitySelect">
+                                                            @foreach($activities as $activity)
+                                                                <option value="{{ $activity->id }}">{{ $activity->title }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="activity">
+                                                    <h5 class="title-choose mb-2">Select Tourguide</h5>
+                                                    <div class="form-check">
+                                                        <select name="tourguide" class="form-select" id="tourGuideSelect">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            <!-- <div class="d-flex justify-content-end">
+                                              <button class="btn-select mb-2 mt-3" type="submit">Done</button>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                         <!-- </div> -->
                     </div>
                     {{--end div box--}}
 
 
-
                 </div>
             @endforeach
         </div>
-
-
-
-
 
 
         {{--            <div class="col-md-6 col-12">--}}
@@ -281,7 +360,8 @@
         {{--        </div>--}}
 
         <!-- popup report -->
-        <div class="modal fade" id="exampleModalReport" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModalReport" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -313,7 +393,8 @@
             <div class="modal-dialog">
                 <div class="modal-content modalContentChoose modal-All">
                     <div class="d-flex justify-content-end m-3">
-                        <button type="button" class="btn-close btn-close-choose" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close btn-close-choose" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="tourguid">
@@ -345,31 +426,36 @@
                         <div class="tourguid">
                             <h5 class="title-choose mb-2">Select Tourguide</h5>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault1">
                                 <label class="form-check-label" for="flexRadioDefault1">
                                     Tourguide N1
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2">
                                 <label class="form-check-label" for="flexRadioDefault2">
                                     Tourguide N2
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault3">
                                 <label class="form-check-label" for="flexRadioDefault3">
                                     Tourguide N3
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault4">
                                 <label class="form-check-label" for="flexRadioDefault4">
                                     Tourguide N4
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault5">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault5">
                                 <label class="form-check-label" for="flexRadioDefault5">
                                     Tourguide N5
                                 </label>
@@ -389,7 +475,6 @@
         <!-- ================================ end Footer ================== -->
         </div>
     </content>
-
 
 @endsection
 
@@ -426,4 +511,44 @@
         })
       })
     </script> -->
+
+    <script>
+        $('.box-color').on('click', function () {
+            var boxColor = $(this).data('color');
+            var group = $('#groupId').val();
+            var url = '{{ route('groupMove') }}';
+
+            // alert('color : '+boxColor + ' group Id : '+group);
+            $.ajax({
+                url: url,
+                type: 'post',
+                _token: '{{ csrf_token() }}',
+                data: {
+                    'groupId': group,
+                    'boxColor': boxColor,
+                },
+                success: function (data) {
+                    return data;
+                }
+            })
+        })
+
+        $('#activitySelect').on('click', function () {
+            var activity = $(this).val();
+            var url = '{{ route('selectTourguide') }}';
+
+            // alert('color : '+boxColor + ' group Id : '+group);
+            $.ajax({
+                url: url,
+                type: 'post',
+                _token: '{{ csrf_token() }}',
+                data: {
+                    'activity_id': activity,
+                },
+                success: function (data) {
+                    $('#tourGuideSelect').html(data);
+                }
+            })
+        })
+    </script>
 @endsection
