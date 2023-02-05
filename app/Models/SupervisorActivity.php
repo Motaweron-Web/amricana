@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class SupervisorActivity extends Model
 {
     protected $table = 'supervisor_activities';
+
+    public function supervisors()
+    {
+        return $this->belongsTo(Supervisor::class,'supervisor_id','id');
+    }
 }

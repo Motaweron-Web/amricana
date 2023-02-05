@@ -80,11 +80,29 @@
             },
             success: function (data) {
                 if (data == 200){
+
+                    console.log(data);
                     toastr.success('login successfully');
+
+
                     window.setTimeout(function() {
+
+                        window.location.href='{{ route('platform') }}';
+                    }, 1000);
+
+                } else if (data == 201){
+
+                    console.log(data);
+                    toastr.success('login successfully');
+
+
+                    window.setTimeout(function() {
+
                         window.location.href='{{ route('adminHome') }}';
                     }, 1000);
-                }else {
+
+                }
+                else {
                     toastr.error('wrong password');
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> Login`).attr('disabled', false);
                 }

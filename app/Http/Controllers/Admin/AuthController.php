@@ -44,13 +44,25 @@ class AuthController extends Controller
             'email'   =>'required|exists:supervisors',
             'password'=>'required'
         ]);
-        if (Auth::guard('admin')->attempt($data)){
+        if (Auth::guard('admin')->attempt($data) && (Auth::guard('admin')->user()->supervisor_type == 'platform') || (Auth::guard('admin')->user()->supervisor_type == 'activity') ){
             return response()->json(200);
+        }elseif (Auth::guard('admin')->attempt($data) && (Auth::guard('admin')->user()->supervisor_type == 'admin')){
+
+            return response()->json(201);
+
+        }else{
+            return response()->json(405);
+
         }
-        return response()->json(405);
     }
 
     public function logout(){
+        Auth::guard('admin')->logout();
+        toastr()->info('logged out successfully');
+        return redirect('admin/login');
+    }
+
+    public function logoutPlatform(){
         Auth::guard('admin')->logout();
         toastr()->info('logged out successfully');
         return redirect('admin/login');
