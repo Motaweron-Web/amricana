@@ -15,7 +15,7 @@ class SupervisorController extends Controller
 {
     public function index(){
 
-        $activities = Activity::with(['groups'])->orderBy('id', 'asc')->get();
+        $activities = Activity::with(['group_movements_today'])->orderBy('id', 'asc')->get();
 
         $group_customers_waiting = GroupCustomer::with(['group','ticket','reservation'])->where('status','=','waiting')->whereDate('created_at','=',Carbon::now()->format('Y-m-d'))->get();
         return view('platform.activities.index',compact('activities','group_customers_waiting'));

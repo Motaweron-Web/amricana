@@ -29,6 +29,7 @@
                     </div>
                     <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
 
+
                     @foreach($group_customers_waiting as $group_customer)
                         <div class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal"
                              data-bs-target="#exampleModalAll">
@@ -82,6 +83,55 @@
                                             </tbody>
                                         </table>
                                     </div>
+
+
+                    @foreach($activity->group_movements_today as $group_movement)
+
+                    <div class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll">
+                     {{ $group_movement->group->title}}
+                        <span class="me-2">{{ $group_movement->group->group_coustomer->quantity}}</span>
+                    </div>
+
+                    <!-- popup all student -->
+                    <div class="modal" id="exampleModalAll">
+                        <div class="modal-dialog">
+                            <div class="modal-content modal-All">
+                                <div class="d-flex justify-content-end m-3">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <td><h6 class="fw-bold">No student</h6></td>
+                                            <td class="info">8</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="name-members"><h6 class="fw-bold">Name of students</h6>
+                                            </td>
+                                            <td class="info">
+                                                <div class="member" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                    Student Number 1
+                                                </div>
+                                                <div class="member">Student Number 2</div>
+                                                <div class="member">Student Number 3</div>
+                                                <div class="member">Student Number 4</div>
+                                                <div class="member">Student Number 5</div>
+                                                <div class="member">Student Number 6</div>
+                                                <div class="member">Student Number 7</div>
+                                                <div class="member">Student Number 8</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><h6 class="fw-bold">Name of school</h6></td>
+                                            <td class="info">Secondary school</td>
+                                        </tr>
+                                        <tr>
+                                            <td><h6 class="fw-bold">Tourguide</h6></td>
+                                            <td class="info">Name of Tourguide</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
