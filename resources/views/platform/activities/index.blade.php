@@ -145,11 +145,11 @@
                     <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
 
 
-                    @foreach($activity->groups as $group)
+                    @foreach($activity->group_movements_today as $group_movement)
 
                     <div class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll">
-                     {{$group->title}}
-                        <span class="me-2">{{$group->group_coustomer->quantity ?? ''}}</span>
+                     {{ $group_movement->group->title}}
+                        <span class="me-2">{{ $group_movement->group->group_coustomer->quantity}}</span>
                     </div>
 
                     <!-- popup all student -->
