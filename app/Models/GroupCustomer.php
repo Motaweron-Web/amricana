@@ -26,4 +26,9 @@ class GroupCustomer extends Model
         return $this->belongsTo(Groups::class,'group_id','id');
 
     }
+
+    public function group_movement(){
+
+        return $this->hasMany(GroupMovement::class,'group_customer_id','id');
+    }
 }

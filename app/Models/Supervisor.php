@@ -19,7 +19,10 @@ class Supervisor extends Authenticatable
         'password',
     ];
 
+    public function supervisors(){
 
+        return $this->hasMany(GroupMovement::class,'supervisor_accept_id ', 'id');
+    }
 
 
 }

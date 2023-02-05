@@ -11,5 +11,11 @@ class Activity extends Model
     protected $guarded = [];
 
 
+    public function groups(){
+
+        return $this->belongsToMany(Groups::class,'group_movements','activity_id','group_id', 'id','id');
+    }
+
+
 
 }

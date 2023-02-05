@@ -31,8 +31,8 @@
 
                 @foreach($group_customers_waiting as $group_customer)
                 <div class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll">
-                    {{ $group_customer->group_title}}
-                    <span class="me-2">2</span>
+                    {{ $group_customer->group->title}}
+                    <span class="me-2">{{$group_customer->quantity}}</span>
                 </div>
                 <!-- popup all student -->
                 <div class="modal" id="exampleModalAll">
@@ -46,22 +46,26 @@
                                     <tbody>
                                     <tr>
                                         <td><h6 class="fw-bold">No student</h6></td>
-                                        <td class="info">8</td>
+                                        <td class="info">{{$group_customer->quantity}}</td>
                                     </tr>
                                     <tr>
                                         <td class="name-members"><h6 class="fw-bold">Name of students</h6>
                                         </td>
                                         <td class="info">
-                                            <div class="member" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                Student Number 1
-                                            </div>
-                                            <div class="member">Student Number 2</div>
-                                            <div class="member">Student Number 3</div>
-                                            <div class="member">Student Number 4</div>
-                                            <div class="member">Student Number 5</div>
-                                            <div class="member">Student Number 6</div>
-                                            <div class="member">Student Number 7</div>
-                                            <div class="member">Student Number 8</div>
+
+                                            @foreach($group_customer->ticket->models as $model)
+                                                <div class="member" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                    {{$model->name}}
+                                                </div>
+                                            @endforeach
+
+{{--                                            <div class="member">Student Number 2</div>--}}
+{{--                                            <div class="member">Student Number 3</div>--}}
+{{--                                            <div class="member">Student Number 4</div>--}}
+{{--                                            <div class="member">Student Number 5</div>--}}
+{{--                                            <div class="member">Student Number 6</div>--}}
+{{--                                            <div class="member">Student Number 7</div>--}}
+{{--                                            <div class="member">Student Number 8</div>--}}
                                         </td>
                                     </tr>
                                     <tr>
@@ -123,6 +127,7 @@
             </div>
 
 
+            {{--------------------------------------------------------------------------------------------------------- start activity-----------------------}}
             @foreach($activities as $activity)
             <div class="col-md-6 col-12">
 
@@ -139,11 +144,12 @@
                     </div>
                     <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
 
-                    @foreach($group_customers_in as $group_customer_in)
+
+                    @foreach($activity->groups as $group)
 
                     <div class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll">
-                     {{$group_customer_in->group_title}}
-                        <span class="me-2">2</span>
+                     {{$group->title}}
+                        <span class="me-2">{{$group->group_coustomer->quantity ?? ''}}</span>
                     </div>
 
                     <!-- popup all student -->
