@@ -22,24 +22,24 @@
     </div>
     <div class="collapse navbar-collapse  me-md-0 me-sm-4" id="navbar">
         <ul class="ms-md-auto navbar-nav  justify-content-end">
-            @if(auth()->check())
+{{--            @if(auth()->check())--}}
                 <li class="nav-item d-flex align-items-center">
                     <span class="d-inline p-3">Cashier : name</span>
-                    <a href="{{route('logout')}}" class="nav-link text-body font-weight-bold px-0">
+                    <a href="{{route('platform.logout')}}" class="nav-link text-body font-weight-bold px-0">
                         <span class="d-inline">Log out</span>
 
                     </a>
 
                 </li>
 
-            @else
-                <li class="nav-item d-flex align-items-center">
-                    <a href="{{route('login')}}" class="nav-link text-body font-weight-bold px-0">
-                        <span class="d-inline">Log In</span>
-                        <i class="fa fa-user ms-2"></i>
-                    </a>
-                </li>
-            @endif
+{{--            @else--}}
+{{--                <li class="nav-item d-flex align-items-center">--}}
+{{--                    <a href="{{route('lo')}}" class="nav-link text-body font-weight-bold px-0">--}}
+{{--                        <span class="d-inline">Log In</span>--}}
+{{--                        <i class="fa fa-user ms-2"></i>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            @endif--}}
 
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                 <a href="#!" class="nav-link text-body p-0" id="iconNavbarSidenav">

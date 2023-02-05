@@ -63,30 +63,30 @@
 <script>
     $('.spinner').fadeOut('slow')
 
-    setInterval(function () {
-        var n = localStorage.getItem('counter');
-        if (n === null) {
-            n = 0;
-        } else {
-            n++;
-        }
-        console.log(n)
-        if (n >= 1000){
-            n = 1
-            var method = {
-                _token : "{{csrf_token()}}"
-            }
-            $.post("{{route('changeDbConnection')}}",method,function (data) {
-                if (data.status == 200)
-                    // window.location.reload()
-                console.log(data)
-            })
+    {{--setInterval(function () {--}}
+    {{--    var n = localStorage.getItem('counter');--}}
+    {{--    if (n === null) {--}}
+    {{--        n = 0;--}}
+    {{--    } else {--}}
+    {{--        n++;--}}
+    {{--    }--}}
+    {{--    console.log(n)--}}
+    {{--    if (n >= 1000){--}}
+    {{--        n = 1--}}
+    {{--        var method = {--}}
+    {{--            _token : "{{csrf_token()}}"--}}
+    {{--        }--}}
+    {{--        $.post("{{route('changeDbConnection')}}",method,function (data) {--}}
+    {{--            if (data.status == 200)--}}
+    {{--                // window.location.reload()--}}
+    {{--            console.log(data)--}}
+    {{--        })--}}
 
-        }
-        // console.log(n)
+    {{--    }--}}
+    {{--    // console.log(n)--}}
 
-        localStorage.setItem("counter", n);
-    },1000)
+    {{--    localStorage.setItem("counter", n);--}}
+    {{--},1000)--}}
 
     window.addEventListener("offline",function () {
         toastr.warning('No Internet')

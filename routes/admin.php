@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::group(['prefix'=>'admin','middleware'=>'auth:admin','namespace'=>'Admin'],function (){
+Route::group(['prefix'=>'admin','middleware'=>['auth:admin','CheckAdmin'],'namespace'=>'Admin'],function (){
 
     Route::get('/','HomeController@index')->name('adminHome');
 
