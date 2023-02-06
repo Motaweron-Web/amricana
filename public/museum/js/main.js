@@ -2,10 +2,10 @@
 let boxs = document.querySelectorAll('.box');
 
 let items = document.querySelectorAll('.item');
-let modalChoose = document.querySelector('.modalChoose');
-let btnclose = document.querySelector('.btn-close-choose');
-let modalContentChoose = document.querySelector('.modalContentChoose');
-let btnColor = document.querySelectorAll('.box-color');
+// let modalChoose = document.querySelector('.modalChoose');
+// let btnclose = document.querySelector('.btn-close-choose');
+// let modalContentChoose = document.querySelector('.modalContentChoose');
+// let btnColor = document.querySelectorAll('.box-color');
 
 
 

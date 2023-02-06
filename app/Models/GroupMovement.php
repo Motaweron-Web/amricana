@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class GroupMovement extends Model
 {
     protected $table = 'group_movements';
-    protected $fillable = ['supervisor_accept_id','group_id','activity_id','date_time','accept'];
+    protected $fillable = ['supervisor_accept_id','group_id','activity_id','date_time','accept','status'];
 
 
     public function supervisor(){
