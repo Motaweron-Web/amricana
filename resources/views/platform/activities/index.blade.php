@@ -1,10 +1,10 @@
 @extends('sales.layouts.master_2')
 @section('css')
-    <link id="pagestyle" href="{{asset('museum/css/app.min.css')}}" rel="stylesheet" />
-    <link href="{{asset('museum/css/font.awesome.css')}}" rel="stylesheet" />
-    <link href="{{asset('museum/css/style.css')}}" rel="stylesheet" />
+    <link id="pagestyle" href="{{asset('museum/css/app.min.css')}}" rel="stylesheet"/>
+    <link href="{{asset('museum/css/font.awesome.css')}}" rel="stylesheet"/>
+    <link href="{{asset('museum/css/style.css')}}" rel="stylesheet"/>
 
-    <link href="{{asset('museum/css/bootstrap.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('museum/css/bootstrap.min.css')}}" rel="stylesheet"/>
 
 @endsection
 @section('content')
@@ -30,23 +30,116 @@
                     <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
 
                     @foreach($group_customers_waiting as $group_customer)
-
-                            <?php
-                            $groupColor = \App\Models\GroupColor::where('group_id', $group_customer->group->id)
-                                ->get();
-                            ?>
-                        <div style="background-color: {{ $groupColor }}"
+                        <div style="background-color: {{ $group_customer->group->group_color->color ?? '' }}"
                              class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal"
-                             data-bs-target="#exampleModalAll">
+                             data-bs-target="#moveGroup-{{ $group_customer->group->id }}">
                             {{ $group_customer->group->title}}
                             <span class="me-2">{{$group_customer->quantity}}</span>
                         </div>
+
+                        <!-- popup choose tourguide -->
+                        <div class="modal modalChoose chooseColor"
+                             id="moveGroup-{{ $group_customer->group->id }}"
+                             data-id="{{$group_customer->group->id}}">
+                            <div class="modal-dialog">
+                                {{--                                    <input class="input-group" data-id="{{ $group_movement->group->id }}" value="{{ $group_movement->group->id }}">--}}
+                                <div class="modal-content modalContentChoose modal-All">
+                                    <div class="d-flex justify-content-end m-3">
+                                        <button type="button" class="btn-close btn-close-choose"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                            <div class="tourguid">
+                                                <h5 class="mb-3 fw-bold">Select Group Color</h5>
+                                                <div class="d-flex">
+                                                    <!-- <div> -->
+                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c1"> -->
+                                                    <span class="box-color"
+                                                          data-group="{{ $group_customer->group->id }}"
+                                                          data-color="#5FB7D4"
+                                                          style="background-color: #5FB7D4;"></span>
+                                                    <!-- </div> -->
+                                                    <!-- <div> -->
+                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c2"> -->
+                                                    <span class="box-color"
+                                                          data-group="{{ $group_customer->group->id }}"
+                                                          data-color="#DA323F"
+                                                          style="background-color: #DA323F;"></span>
+                                                    <!-- </div> -->
+                                                    <!-- <div> -->
+                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c3"> -->
+                                                    <span class="box-color"
+                                                          data-group="{{ $group_customer->group->id }}"
+                                                          data-color="#87554B"
+                                                          style="background-color: #87554B;"></span>
+                                                    <!-- </div> -->
+                                                    <!-- <div> -->
+                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c4"> -->
+                                                    <span class="box-color"
+                                                          data-group="{{ $group_customer->group->id }}"
+                                                          data-color="#2F366C"
+                                                          style="background-color: #2F366C;"></span>
+                                                    <!-- </div> -->
+                                                    <!-- <div> -->
+                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c5"> -->
+                                                    <span class="box-color"
+                                                          data-group="{{ $group_customer->group->id }}"
+                                                          data-color="#ff0000"
+                                                          style="background-color: #ff0000;"></span>
+                                                    <!-- </div> -->
+                                                </div>
+                                            </div>
+                                        <form action="{{ route('groupMoveCreate') }}" method="post">
+                                            @csrf
+
+                                            <input type="text" name="group_id" value="{{ $group_customer->group->id }}"
+                                                   hidden>
+                                            <input type="text" name="supervisor_old"
+                                                   value="{{ $group_customer->supervisor_accept_id }}" hidden>
+                                            <div class="activity">
+                                                <h5 class="title-choose mb-2">Select Activity</h5>
+                                                <div class="form-check">
+                                                    <select name="activity_id" class="form-select" id="activitySelect">
+                                                        @foreach($activities as $activity)
+                                                            <option
+                                                                value="{{ $activity->id }}">{{ $activity->title }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="activity">
+                                                <h5 class="title-choose mb-2">Select Tourguide</h5>
+                                                <div class="form-check">
+                                                    <select name="supervisor_accept_id" class="form-select"
+                                                            id="tourGuideSelect">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="button">
+                                                <button class="btn tn-sm btn-primary-gradient"
+                                                        type="submit">
+                                                    Submit
+                                                </button>
+                                            </div>
+                                        </form>
+                                        <!-- <div class="d-flex justify-content-end">
+                                          <button class="btn-select mb-2 mt-3" type="submit">Done</button>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- popup all student -->
                         <div class="modal" id="exampleModalAll">
                             <div class="modal-dialog">
                                 <div class="modal-content modal-All">
                                     <div class="d-flex justify-content-end m-3">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <table class="table">
@@ -61,7 +154,8 @@
                                                 <td class="info">
 
                                                     @foreach($group_customer->ticket->models as $model)
-                                                        <div class="member" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        <div class="member" data-bs-toggle="modal"
+                                                             data-bs-target="#exampleModal">
                                                             {{$model->name}}
                                                         </div>
                                                     @endforeach
@@ -96,7 +190,8 @@
                                 <div class="modal-content">
                                     <div class="d-flex justify-content-end m-3">
                                         <!-- <button type="button" class="btn-back" data-bs-toggle="modal" data-bs-target="#exampleModalAll"><i class="fa-solid fa-arrow-left"></i></button> -->
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class=" d-flex justify-content-center mb-5">
@@ -158,7 +253,8 @@
                                  data-bs-toggle="modal"
                                  data-bs-target="#exampleModalAll-{{ $group_movement->group->id }}"
                                  data-id="{{ $group_movement->group->id }}">
-                                {{ $group_movement->group->title . '_' . $group_movement->group->id }}
+                                {{ $group_movement->group->title }}
+                                <span>{{ ($group_movement->accept == 'waiting') ? 'Pending' : 'Active' }}</span>
                                 {{--                                <button type="button" ">Group-{{$group_movement->group->id}}</button>--}}
                                 <span class="me-2">{{ $group_movement->group->group_coustomer->quantity ?? ''}}</span>
                             </div>
@@ -222,12 +318,15 @@
                                             <form action="{{ route('groupMove') }}" method="post">
                                                 @csrf
 
-                                                <input type="text" name="group_id" value="{{ $group_movement->group->id }}" hidden >
-                                                <input type="text" name="supervisor_old" value="{{ $group_movement->supervisor_accept_id }}" hidden >
+                                                <input type="text" name="group_id"
+                                                       value="{{ $group_movement->group->id }}" hidden>
+                                                <input type="text" name="supervisor_old"
+                                                       value="{{ $group_movement->supervisor_accept_id }}" hidden>
                                                 <div class="activity">
                                                     <h5 class="title-choose mb-2">Select Activity</h5>
                                                     <div class="form-check">
-                                                        <select name="activity_id" class="form-select" id="activitySelect">
+                                                        <select name="activity_id" class="form-select"
+                                                                id="activitySelect">
                                                             @foreach($activities as $activity)
                                                                 <option
                                                                     value="{{ $activity->id }}">{{ $activity->title }}</option>
@@ -247,14 +346,14 @@
                                                 </div>
                                                 <div class="button">
                                                     <button class="btn tn-sm btn-primary-gradient"
-                                                    type="submit">
+                                                            type="submit">
                                                         Submit
                                                     </button>
                                                 </div>
                                             </form>
-                                                <!-- <div class="d-flex justify-content-end">
-                                                  <button class="btn-select mb-2 mt-3" type="submit">Done</button>
-                                                </div> -->
+                                            <!-- <div class="d-flex justify-content-end">
+                                              <button class="btn-select mb-2 mt-3" type="submit">Done</button>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -265,7 +364,8 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content modal-All">
                                         <div class="d-flex justify-content-end m-3">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <table class="table">
@@ -278,7 +378,8 @@
                                                     <td class="name-members"><h6 class="fw-bold">Name of students</h6>
                                                     </td>
                                                     <td class="info">
-                                                        <div class="member" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        <div class="member" data-bs-toggle="modal"
+                                                             data-bs-target="#exampleModal">
                                                             Student Number 1
                                                         </div>
                                                         <div class="member">Student Number 2</div>
@@ -311,7 +412,8 @@
                                     <div class="modal-content">
                                         <div class="d-flex justify-content-end m-3">
                                             <!-- <button type="button" class="btn-back" data-bs-toggle="modal" data-bs-target="#exampleModalAll"><i class="fa-solid fa-arrow-left"></i></button> -->
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class=" d-flex justify-content-center mb-5">
@@ -347,14 +449,9 @@
                     {{--end div box--}}
 
 
-
                 </div>
             @endforeach
         </div>
-
-
-
-
 
 
         {{--            <div class="col-md-6 col-12">--}}
@@ -389,7 +486,8 @@
         {{--        </div>--}}
 
         <!-- popup report -->
-        <div class="modal fade" id="exampleModalReport" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModalReport" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -486,7 +584,7 @@
         {{--        </div>--}}
 
 
-        <input id="color_id" name="color" value="">
+{{--        <input id="color_id" name="color" value="">--}}
 
 
         <!-- ================================ Footer ================== -->
@@ -494,7 +592,6 @@
         <!-- ================================ end Footer ================== -->
         </div>
     </content>
-
 
 @endsection
 
@@ -554,7 +651,7 @@
                     'boxColor': boxColor,
                 },
                 success: function () {
-                    location.reload();
+                    // location.reload();
                 }
             })
         })

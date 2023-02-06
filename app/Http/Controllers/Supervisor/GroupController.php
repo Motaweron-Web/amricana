@@ -77,11 +77,37 @@ class GroupController extends Controller
 
 
 
-        $supervisor_new = SupervisorActivity::where('supervisor_id',$request->supervisor_accept_id)
-            ->where('activity_id', $request->activity_id)
-            ->update(['status' => 'not_available']);
+//        $supervisor_new = SupervisorActivity::where('supervisor_id',$request->supervisor_accept_id)
+//            ->where('activity_id', $request->activity_id)
+//            ->update(['status' => 'not_available']);
 
         return redirect()->back()->with('success','Group Move Success');
 
+    } // end group_move
+
+    public function groupMoveCreate(Request $request)
+    {
+        $date_time = Carbon::now()->format('Y-m-d');
+        $accept = 'waiting';
+        $request->all();
+
+
+         GroupMovement::create([
+            'date_time' => $date_time,
+            'group_id' => $request->group_id,
+            'activity_id' => $request->activity_id,
+            'supervisor_accept_id' => $request->supervisor_accept_id,
+            'accept' => $accept,
+            'status' => 'in',
+        ]);
+
+         GroupCustomer::where('group_id',$request->group_id)
+             ->whereDate('created_at','=',$date_time)
+             ->update([
+                 'status' => 'in'
+             ]);
+
+         return redirect()->back();
     }
+
 }
