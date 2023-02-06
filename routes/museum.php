@@ -6,7 +6,7 @@ use App\Http\Controllers\Supervisor\SupervisorController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::group(['prefix' => 'platform', 'middleware' => 'CheckPlatform'], function () {
+Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatform']], function () {
 
     Route::get('/', [SupervisorController::class, 'index'])->name('platform');
     Route::post('groupColor', [GroupController::class, 'groupColor'])->name('groupColor');

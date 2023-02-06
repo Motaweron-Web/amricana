@@ -174,6 +174,8 @@
             });
         });
 
+
+
         // Update By Ajax
         $(document).on('submit','Form#updateForm',function(e) {
             e.preventDefault();

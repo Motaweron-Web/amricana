@@ -1,10 +1,10 @@
 @extends('sales.layouts.master_2')
 @section('css')
-    <link id="pagestyle" href="{{asset('museum/css/app.min.css')}}" rel="stylesheet"/>
-    <link href="{{asset('museum/css/font.awesome.css')}}" rel="stylesheet"/>
-    <link href="{{asset('museum/css/style.css')}}" rel="stylesheet"/>
+    <link id="pagestyle" href="{{asset('museum/css/app.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('museum/css/font.awesome.css')}}" rel="stylesheet" />
+    <link href="{{asset('museum/css/style.css')}}" rel="stylesheet" />
 
-    <link href="{{asset('museum/css/bootstrap.min.css')}}" rel="stylesheet"/>
+    <link href="{{asset('museum/css/bootstrap.min.css')}}" rel="stylesheet" />
 
 @endsection
 @section('content')
@@ -30,6 +30,7 @@
                     <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
 
                     @foreach($group_customers_waiting as $group_customer)
+
                             <?php
                             $groupColor = \App\Models\GroupColor::where('group_id', $group_customer->group->id)
                                 ->get();
@@ -45,8 +46,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content modal-All">
                                     <div class="d-flex justify-content-end m-3">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <table class="table">
@@ -61,8 +61,7 @@
                                                 <td class="info">
 
                                                     @foreach($group_customer->ticket->models as $model)
-                                                        <div class="member" data-bs-toggle="modal"
-                                                             data-bs-target="#exampleModal">
+                                                        <div class="member" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                             {{$model->name}}
                                                         </div>
                                                     @endforeach
@@ -97,8 +96,7 @@
                                 <div class="modal-content">
                                     <div class="d-flex justify-content-end m-3">
                                         <!-- <button type="button" class="btn-back" data-bs-toggle="modal" data-bs-target="#exampleModalAll"><i class="fa-solid fa-arrow-left"></i></button> -->
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class=" d-flex justify-content-center mb-5">
@@ -139,6 +137,7 @@
             {{--------------------------------------------------------------------------------------------------------- start activity-----------------------}}
             @foreach($activities as $activity)
                 <div class="col-md-6 col-12">
+
 
                     {{--start div box--}}
                     <div class="box"
@@ -266,8 +265,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content modal-All">
                                         <div class="d-flex justify-content-end m-3">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <table class="table">
@@ -280,8 +278,7 @@
                                                     <td class="name-members"><h6 class="fw-bold">Name of students</h6>
                                                     </td>
                                                     <td class="info">
-                                                        <div class="member" data-bs-toggle="modal"
-                                                             data-bs-target="#exampleModal">
+                                                        <div class="member" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                             Student Number 1
                                                         </div>
                                                         <div class="member">Student Number 2</div>
@@ -314,8 +311,7 @@
                                     <div class="modal-content">
                                         <div class="d-flex justify-content-end m-3">
                                             <!-- <button type="button" class="btn-back" data-bs-toggle="modal" data-bs-target="#exampleModalAll"><i class="fa-solid fa-arrow-left"></i></button> -->
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class=" d-flex justify-content-center mb-5">
@@ -351,9 +347,14 @@
                     {{--end div box--}}
 
 
+
                 </div>
             @endforeach
         </div>
+
+
+
+
 
 
         {{--            <div class="col-md-6 col-12">--}}
@@ -388,8 +389,7 @@
         {{--        </div>--}}
 
         <!-- popup report -->
-        <div class="modal fade" id="exampleModalReport" tabindex="-1" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
+        <div class="modal fade" id="exampleModalReport" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -494,6 +494,7 @@
         <!-- ================================ end Footer ================== -->
         </div>
     </content>
+
 
 @endsection
 
