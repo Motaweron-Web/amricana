@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatform']], function () {
 
     Route::get('/', [SupervisorController::class, 'index'])->name('platform');
+    Route::post('groupColor', [GroupController::class, 'groupColor'])->name('groupColor');
     Route::post('groupMove', [GroupController::class, 'groupMove'])->name('groupMove');
     Route::post('selectTourguide', [GroupController::class, 'selectTourguide'])->name('selectTourguide');
 

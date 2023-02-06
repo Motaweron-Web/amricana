@@ -20,4 +20,9 @@ class Groups extends Model
 
         return $this->hasOne(GroupCustomer::class,'group_id','id')->whereDate('created_at','=',Carbon::now()->format('Y-m-d'));
     }
+
+    public function group_color()
+    {
+        return $this->hasOne(GroupColor::class,'group_id','id')->whereDate('created_at', Carbon::now()->format('Y-m-d'));
+    }
 }//end class

@@ -30,7 +30,14 @@
                     <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
 
                     @foreach($group_customers_waiting as $group_customer)
-                        <div class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll">
+
+                            <?php
+                            $groupColor = \App\Models\GroupColor::where('group_id', $group_customer->group->id)
+                                ->get();
+                            ?>
+                        <div style="background-color: {{ $groupColor }}"
+                             class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal"
+                             data-bs-target="#exampleModalAll">
                             {{ $group_customer->group->title}}
                             <span class="me-2">{{$group_customer->quantity}}</span>
                         </div>
@@ -146,10 +153,111 @@
 
 
                         @foreach($activity->group_movements_today as $group_movement)
+                            <div style="background-color: {{ $group_movement->group->group_color->color ?? ''}}"
+                                 class="items item d-flex justify-content-between divGroup" draggable="true"
+                                 data-bs-toggle="modal"
+                                 data-bs-target="#exampleModalAll-{{ $group_movement->group->id }}"
+                                 data-id="{{ $group_movement->group->id }}">
+                                {{ $group_movement->group->title . '_' . $group_movement->group->id }}
+                                {{--                                <button type="button" ">Group-{{$group_movement->group->id}}</button>--}}
+                                <span class="me-2">{{ $group_movement->group->group_coustomer->quantity ?? ''}}</span>
+                            </div>
 
-                            <div class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll">
-                                {{ $group_movement->group->title}}
-                                <span class="me-2">{{ $group_movement->group->group_coustomer->quantity}}</span>
+
+                            <!-- popup choose tourguide -->
+                            <div class="modal modalChoose chooseColor"
+                                 id="exampleModalAll-{{ $group_movement->group->id }}"
+                                 data-id="{{$group_movement->group->id}}">
+                                <div class="modal-dialog">
+                                    {{--                                    <input class="input-group" data-id="{{ $group_movement->group->id }}" value="{{ $group_movement->group->id }}">--}}
+                                    <div class="modal-content modalContentChoose modal-All">
+                                        <div class="d-flex justify-content-end m-3">
+                                            <button type="button" class="btn-close btn-close-choose"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @if($group_movement->group->group_color->color == null)
+                                                <div class="tourguid">
+                                                    <h5 class="mb-3 fw-bold">Select Group Color</h5>
+                                                    <div class="d-flex">
+                                                        <!-- <div> -->
+                                                        <!-- <input type="radio" class="custom-check" name="box-color" id="c1"> -->
+                                                        <span class="box-color"
+                                                              data-group="{{ $group_movement->group->id }}"
+                                                              data-color="#5FB7D4"
+                                                              style="background-color: #5FB7D4;"></span>
+                                                        <!-- </div> -->
+                                                        <!-- <div> -->
+                                                        <!-- <input type="radio" class="custom-check" name="box-color" id="c2"> -->
+                                                        <span class="box-color"
+                                                              data-group="{{ $group_movement->group->id }}"
+                                                              data-color="#DA323F"
+                                                              style="background-color: #DA323F;"></span>
+                                                        <!-- </div> -->
+                                                        <!-- <div> -->
+                                                        <!-- <input type="radio" class="custom-check" name="box-color" id="c3"> -->
+                                                        <span class="box-color"
+                                                              data-group="{{ $group_movement->group->id }}"
+                                                              data-color="#87554B"
+                                                              style="background-color: #87554B;"></span>
+                                                        <!-- </div> -->
+                                                        <!-- <div> -->
+                                                        <!-- <input type="radio" class="custom-check" name="box-color" id="c4"> -->
+                                                        <span class="box-color"
+                                                              data-group="{{ $group_movement->group->id }}"
+                                                              data-color="#2F366C"
+                                                              style="background-color: #2F366C;"></span>
+                                                        <!-- </div> -->
+                                                        <!-- <div> -->
+                                                        <!-- <input type="radio" class="custom-check" name="box-color" id="c5"> -->
+                                                        <span class="box-color"
+                                                              data-group="{{ $group_movement->group->id }}"
+                                                              data-color="#ff0000"
+                                                              style="background-color: #ff0000;"></span>
+                                                        <!-- </div> -->
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            <form action="{{ route('groupMove') }}" method="post">
+                                                @csrf
+
+                                                <input type="text" name="group_id" value="{{ $group_movement->group->id }}" hidden >
+                                                <input type="text" name="supervisor_old" value="{{ $group_movement->supervisor_accept_id }}" hidden >
+                                                <div class="activity">
+                                                    <h5 class="title-choose mb-2">Select Activity</h5>
+                                                    <div class="form-check">
+                                                        <select name="activity_id" class="form-select" id="activitySelect">
+                                                            @foreach($activities as $activity)
+                                                                <option
+                                                                    value="{{ $activity->id }}">{{ $activity->title }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="activity">
+                                                    <h5 class="title-choose mb-2">Select Tourguide</h5>
+                                                    <div class="form-check">
+                                                        <select name="supervisor_accept_id" class="form-select"
+                                                                id="tourGuideSelect">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="button">
+                                                    <button class="btn tn-sm btn-primary-gradient"
+                                                    type="submit">
+                                                        Submit
+                                                    </button>
+                                                </div>
+                                            </form>
+                                                <!-- <div class="d-flex justify-content-end">
+                                                  <button class="btn-select mb-2 mt-3" type="submit">Done</button>
+                                                </div> -->
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- popup all student -->
@@ -308,80 +416,77 @@
             </div>
         </div>
 
-        <!-- popup choose tourguide -->
-        <div class="modal modalChoose" id="exampleModalAll">
-            <div class="modal-dialog">
-                <div class="modal-content modalContentChoose modal-All">
-                    <div class="d-flex justify-content-end m-3">
-                        <button type="button" class="btn-close btn-close-choose" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="tourguid">
-                            <h5 class="mb-3 fw-bold">Select Group Color</h5>
-                            <div class="d-flex">
-                                <!-- <div> -->
-                                <!-- <input type="radio" class="custom-check" name="box-color" id="c1"> -->
-                                <span class="box-color" data-color="#5FB7D4" style="background-color: #5FB7D4;"></span>
-                                <!-- </div> -->
-                                <!-- <div> -->
-                                <!-- <input type="radio" class="custom-check" name="box-color" id="c2"> -->
-                                <span class="box-color" data-color="#DA323F" style="background-color: #DA323F;"></span>
-                                <!-- </div> -->
-                                <!-- <div> -->
-                                <!-- <input type="radio" class="custom-check" name="box-color" id="c3"> -->
-                                <span class="box-color" data-color="#87554B" style="background-color: #87554B;"></span>
-                                <!-- </div> -->
-                                <!-- <div> -->
-                                <!-- <input type="radio" class="custom-check" name="box-color" id="c4"> -->
-                                <span class="box-color" data-color="#2F366C" style="background-color: #2F366C;"></span>
-                                <!-- </div> -->
-                                <!-- <div> -->
-                                <!-- <input type="radio" class="custom-check" name="box-color" id="c5"> -->
-                                <span class="box-color" data-color="red" style="background-color: red;"></span>
-                                <!-- </div> -->
-                            </div>
-                        </div>
+        {{--        <!-- popup choose tourguide -->--}}
+        {{--        <div class="modal modalChoose" id="exampleModalAll">--}}
+        {{--            <div class="modal-dialog">--}}
+        {{--                <div class="modal-content modalContentChoose modal-All">--}}
+        {{--                    <div class="d-flex justify-content-end m-3">--}}
+        {{--                        <button type="button" class="btn-close btn-close-choose"--}}
+        {{--                                data-bs-dismiss="modal" aria-label="Close"></button>--}}
+        {{--                    </div>--}}
+        {{--                    <div class="modal-body">--}}
+        {{--                        --}}{{--                                            @if($groupColor->color == null)--}}
+        {{--                        <div class="tourguid">--}}
+        {{--                            <h5 class="mb-3 fw-bold">Select Group Color</h5>--}}
+        {{--                            <div class="d-flex">--}}
+        {{--                                <!-- <div> -->--}}
+        {{--                                <!-- <input type="radio" class="custom-check" name="box-color" id="c1"> -->--}}
+        {{--                                <span class="box-color" data-color="#5FB7D4"--}}
+        {{--                                      style="background-color: #5FB7D4;"></span>--}}
+        {{--                                <!-- </div> -->--}}
+        {{--                                <!-- <div> -->--}}
+        {{--                                <!-- <input type="radio" class="custom-check" name="box-color" id="c2"> -->--}}
+        {{--                                <span class="box-color" data-color="#DA323F"--}}
+        {{--                                      style="background-color: #DA323F;"></span>--}}
+        {{--                                <!-- </div> -->--}}
+        {{--                                <!-- <div> -->--}}
+        {{--                                <!-- <input type="radio" class="custom-check" name="box-color" id="c3"> -->--}}
+        {{--                                <span class="box-color" data-color="#87554B"--}}
+        {{--                                      style="background-color: #87554B;"></span>--}}
+        {{--                                <!-- </div> -->--}}
+        {{--                                <!-- <div> -->--}}
+        {{--                                <!-- <input type="radio" class="custom-check" name="box-color" id="c4"> -->--}}
+        {{--                                <span class="box-color" data-color="#2F366C"--}}
+        {{--                                      style="background-color: #2F366C;"></span>--}}
+        {{--                                <!-- </div> -->--}}
+        {{--                                <!-- <div> -->--}}
+        {{--                                <!-- <input type="radio" class="custom-check" name="box-color" id="c5"> -->--}}
+        {{--                                <span class="box-color" data-color="red"--}}
+        {{--                                      style="background-color: red;"></span>--}}
+        {{--                                <!-- </div> -->--}}
+        {{--                            </div>--}}
+        {{--                        </div>--}}
+        {{--                        --}}{{--                                            @endif--}}
 
-                        <div class="tourguid">
-                            <h5 class="title-choose mb-2">Select Tourguide</h5>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    Tourguide N1
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                                <label class="form-check-label" for="flexRadioDefault2">
-                                    Tourguide N2
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
-                                <label class="form-check-label" for="flexRadioDefault3">
-                                    Tourguide N3
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4">
-                                <label class="form-check-label" for="flexRadioDefault4">
-                                    Tourguide N4
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault5">
-                                <label class="form-check-label" for="flexRadioDefault5">
-                                    Tourguide N5
-                                </label>
-                            </div>
-                        </div>
-                        <!-- <div class="d-flex justify-content-end">
-                          <button class="btn-select mb-2 mt-3" type="submit">Done</button>
-                        </div> -->
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{--                        <div class="activity">--}}
+        {{--                            <h5 class="title-choose mb-2">Select Activity</h5>--}}
+        {{--                            <div class="form-check">--}}
+        {{--                                <select name="activity" class="form-select" id="activitySelect">--}}
+        {{--                                    @foreach($activities as $activity)--}}
+        {{--                                        <option value="{{ $activity->id }}">{{ $activity->title }}</option>--}}
+        {{--                                    @endforeach--}}
+        {{--                                </select>--}}
+        {{--                            </div>--}}
+        {{--                        </div>--}}
+
+        {{--                        <div class="activity">--}}
+        {{--                            <h5 class="title-choose mb-2">Select Tourguide</h5>--}}
+        {{--                            <div class="form-check">--}}
+        {{--                                <select name="tourguide" class="form-select" id="tourGuideSelect">--}}
+
+        {{--                                </select>--}}
+        {{--                            </div>--}}
+        {{--                        </div>--}}
+        {{--                        <!-- <div class="d-flex justify-content-end">--}}
+        {{--                          <button class="btn-select mb-2 mt-3" type="submit">Done</button>--}}
+        {{--                        </div> -->--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
+
+
+        <input id="color_id" name="color" value="">
 
 
         <!-- ================================ Footer ================== -->
@@ -426,4 +531,51 @@
         })
       })
     </script> -->
+
+    <script>
+
+
+        // $('.box-color').on('click', function(){
+        //     var color = $(this).data('color');
+        //     alert(color);
+        // });
+
+
+        $('.box-color').on('click', function () {
+            var boxColor = $(this).data('color');
+            var group = $(this).data('group');
+            var url = '{{ route('groupColor') }}';
+            $.ajax({
+                url: url,
+                type: 'post',
+                _token: '{{ csrf_token() }}',
+                data: {
+                    'groupId': group,
+                    'boxColor': boxColor,
+                },
+                success: function () {
+                    location.reload();
+                }
+            })
+        })
+
+        $('#activitySelect').on('click', function () {
+            var activity = $(this).val();
+            var url = '{{ route('selectTourguide') }}';
+
+            // alert('color : '+boxColor + ' group Id : '+group);
+            $.ajax({
+                url: url,
+                type: 'post',
+                _token: '{{ csrf_token() }}',
+                data: {
+                    'activity_id': activity,
+                },
+                success: function (data) {
+                    $('#tourGuideSelect').html(data);
+                }
+            })
+        })
+
+    </script>
 @endsection

@@ -17,6 +17,6 @@ class GroupColor extends Model{
 
     public function group(){
 
-        return $this->belongsTo(Groups::class,'group_id','id');
+        return $this->hasOne(Groups::class,'group_id','id');
     }
 }
