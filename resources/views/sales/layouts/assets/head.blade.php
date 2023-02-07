@@ -30,6 +30,11 @@
     width: 100% !important;
     height: 100% !important;
 }
+#toast-container > .toast {
+    background-color: #B58744 !important;
+    color: white !important;
+    font-weight: bold !important;
+}
 </style>
 @toastr_css
 @yield('css')

@@ -8,6 +8,7 @@ use App\Models\GroupCustomer;
 use App\Models\GroupMovement;
 use App\Models\SupervisorActivity;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -41,7 +42,7 @@ class GroupController extends Controller
 
             if ($tourguides->count() > 0) {
                 foreach ($tourguides as $tourguide)
-                    $output .= '<option value="'. $tourguide->supervisor_id .'">'. $tourguide->supervisors->name .'</option>';
+                    $output .= '<option value="' . $tourguide->supervisor_id . '">' . $tourguide->supervisors->name . '</option>';
             }
 
             return response($output, 200);
@@ -57,31 +58,42 @@ class GroupController extends Controller
         $request->all();
 
 
-        $outGroup = GroupMovement::where('group_id', $request->group_id)
-            ->whereDate('created_at','=',$date_time)
-            ->update(['status' => 'out']);
+        try {
 
-        $supervisor_old = SupervisorActivity::where('supervisor_id',$request->supervisor_old)
-        ->where('activity_id', $request->activity_id)
-        ->update(['status' => 'available']);
+            $inGroup = GroupMovement::create([
+                'date_time' => $date_time,
+                'group_id' => $request->group_id,
+                'activity_id' => $request->activity_id,
+                'supervisor_accept_id' => $request->supervisor_accept_id,
+                'accept' => $accept,
+                'status' => 'in',
+            ]);
 
+            if ($inGroup){
+                $outGroup = GroupMovement::where('group_id', $request->group_id)
+                    ->whereDate('created_at', '=', $date_time)
+                    ->update(['status' => 'out']);
 
-        $inGroup = GroupMovement::create([
-            'date_time' => $date_time,
-            'group_id' => $request->group_id,
-            'activity_id' => $request->activity_id,
-            'supervisor_accept_id' => $request->supervisor_accept_id,
-            'accept' => $accept,
-            'status' => 'in',
-        ]);
+                $supervisor_old = SupervisorActivity::where('supervisor_id', $request->supervisor_old)
+                    ->where('activity_id', $request->activity_id)
+                    ->update(['status' => 'available']);
+            }
 
+            if ($inGroup) {
+                return redirect()->back()->with('success', 'Group moved successfully');
+            } else {
+                return redirect()->back()->with('error', 'please fill data and try again');
+            }
 
+        } catch (Exception $e) {
 
+            return redirect()->back()->with('error', 'please fill data and try again');
+        }
 //        $supervisor_new = SupervisorActivity::where('supervisor_id',$request->supervisor_accept_id)
 //            ->where('activity_id', $request->activity_id)
 //            ->update(['status' => 'not_available']);
 
-        return redirect()->back()->with('success','Group Move Success');
+
 
     } // end group_move
 
@@ -90,24 +102,42 @@ class GroupController extends Controller
         $date_time = Carbon::now()->format('Y-m-d');
         $accept = 'waiting';
         $request->all();
+        $color = $request->color;
+        $group = $request->group_id;
 
 
-         GroupMovement::create([
-            'date_time' => $date_time,
-            'group_id' => $request->group_id,
-            'activity_id' => $request->activity_id,
-            'supervisor_accept_id' => $request->supervisor_accept_id,
-            'accept' => $accept,
-            'status' => 'in',
-        ]);
+//        dd($request->all());
+        try {
 
-         GroupCustomer::where('group_id',$request->group_id)
-             ->whereDate('created_at','=',$date_time)
-             ->update([
-                 'status' => 'in'
-             ]);
+            $groupMovement = GroupMovement::create([
+                'date_time' => $date_time,
+                'group_id' => $request->group_id,
+                'activity_id' => $request->activity_id,
+                'supervisor_accept_id' => $request->supervisor_accept_id,
+                'accept' => $accept,
+                'status' => 'in',
+            ]);
 
-         return redirect()->back();
+            if ($request->has('color')) {
+                GroupColor::where('group_id', $group)
+                    ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
+                    ->update(['color' => $color]);
+            }
+
+            $GroupCustomer = GroupCustomer::where('group_id', $request->group_id)
+                ->whereDate('created_at', '=', $date_time)
+                ->update([
+                    'status' => 'in'
+                ]);
+
+            if ($groupMovement && $GroupCustomer) {
+                return redirect()->back()->with('success', 'Group moved successfully');
+            } else {
+                return redirect()->back()->with('error', 'error try again');
+            }
+        } catch (Exception $e){
+            return redirect()->back()->with('error', 'please fill data and try again');
+    }
     }
 
 }
