@@ -45,9 +45,10 @@
                                     <td>{{ $group->accept }}</td>
                                     <td id="status" data-id="{{ $group->status }}">{{ $group->status }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-pill btn-info-light btnAccept"><i
+                                        <button type="button" class="btn btn-pill btn-success btnAccept"><i
                                                 class="fa fa-check"></i></button>
-                                        {{--                                            <button class="btn btn-pill btn-danger-light"><i class="fa-thin fa-xmark"></i></button>--}}
+                                        <button type="button" class="btn btn-pill btn-danger btnNotAccept"><i
+                                                class="fa fa-xing-square"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -80,6 +81,7 @@
 
 
     <script>
+        // Accept Group
         $('.btnAccept').on('click', function (e) {
             e.preventDefault();
 
@@ -93,13 +95,35 @@
                 data: {
                     'group_id': group,
                     'supervisor': supervisor,
-                }, success: function (data) {
-                    if (data.status == 200) {
-                        alert('aaa');
-                    }
+                }, success: function () {
+                    toastr.success('Accept success');
+                    location.reload();
                 }
             });
         });
+        // End Accept Group
+
+        // Not Accept Group
+        $('.btnNotAccept').on('click', function (e) {
+            e.preventDefault();
+
+
+            var group = $('#group_id').data('id');
+            var supervisor = $('#supervisor_id').val();
+            $.ajax({
+                url: "{{ route('groupNotAccept') }}",
+                method: 'POST',
+                _token: "{{ csrf_token() }}",
+                data: {
+                    'group_id': group,
+                    'supervisor': supervisor,
+                }, success: function () {
+                    toastr.success('Not Accept success');
+                    location.reload();
+                }
+            });
+        });
+        // End Not Accept Group
     </script>
 
 @endsection

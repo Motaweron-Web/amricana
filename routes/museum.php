@@ -21,6 +21,7 @@ Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatfo
     #### Requests Activities ####
     Route::get('requestsActivity', [SupervisorController::class, 'showRequest'])->name('requests');
     Route::post('groupAccept', [SupervisorController::class, 'groupAccept'])->name('groupAccept');
+    Route::post('groupNotAccept', [SupervisorController::class, 'groupNotAccept'])->name('groupNotAccept');
 
 
     // logout

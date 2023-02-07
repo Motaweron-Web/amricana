@@ -47,21 +47,35 @@ class SupervisorController extends Controller
 
     public function showRequest()
     {
-        $groupMovment = GroupMovement::where('accept','=','waiting')->get();
+        $groupMovment = GroupMovement::where('accept','=','waiting')->where('supervisor_accept_id', auth('admin')->id())->get();
        return view('platform.Accept_groups.index', compact('groupMovment'));
     }
 
     public function groupAccept(Request $request)
     {
-        $accept = 'accept';
-        $group = GroupMovement::where('group_id',$request->group_id)
-            ->where('supervisor_accept_id ',$request->supervisor)
-            ->update(['accept' => $accept]);
-        if ($group) {
-            return response()->json('success');
-        } else {
-            return response()->json('error',405);
+        try {
+            $accept = 'accept';
+            $group = GroupMovement::where('group_id',$request->group_id)
+                ->update(['accept' => $accept]);
+            if ($group) {
+                return response()->json('success',200);
+            }
+        } catch (Exception $e) {
+          return response()->json('error');
         }
+    }
 
+    public function groupNotAccept(Request $request)
+    {
+        try {
+            $not_accept = 'not_accept';
+            $group = GroupMovement::where('group_id',$request->group_id)
+                ->update(['accept' => $not_accept]);
+            if ($group) {
+                return response()->json('success',200);
+            }
+        } catch (Exception $e) {
+            return response()->json('error');
+        }
     }
 }
