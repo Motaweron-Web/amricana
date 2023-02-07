@@ -5,7 +5,6 @@
     <link href="{{asset('museum/css/style.css')}}" rel="stylesheet"/>
 
     <link href="{{asset('museum/css/bootstrap.min.css')}}" rel="stylesheet"/>
-
 @endsection
 @section('content')
 
@@ -30,11 +29,11 @@
                     <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
 
                     @foreach($group_customers_waiting as $group_customer)
-                        <div style="background-color: {{ $group_customer->group->group_color->color ?? '' }}"
+                        <div style="background-color: {{ $group_customer->color ?? '' }}"
                              class="items item d-flex justify-content-between" draggable="true" data-bs-toggle="modal"
                              data-bs-target="#moveGroup-{{ $group_customer->group->id }}">
                             {{ $group_customer->group->title}}
-                            <span class="me-2">{{$group_customer->quantity}}</span>
+                            <span class="me-2">{{$group_customer->group->group_quantity}}</span>
                         </div>
 
                         <!-- popup choose tourguide -->
@@ -42,65 +41,33 @@
                              id="moveGroup-{{ $group_customer->group->id }}"
                              data-id="{{$group_customer->group->id}}">
                             <div class="modal-dialog">
-                                {{--                                    <input class="input-group" data-id="{{ $group_movement->group->id }}" value="{{ $group_movement->group->id }}">--}}
                                 <div class="modal-content modalContentChoose modal-All">
                                     <div class="d-flex justify-content-end m-3">
                                         <button type="button" class="btn-close btn-close-choose"
                                                 data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                     </div>
+                                    <h5>Recommended Activity : {{ $group_customer->route }}</h5>
                                     <div class="modal-body">
-                                            <div class="tourguid">
-                                                <h5 class="mb-3 fw-bold">Select Group Color</h5>
-                                                <div class="d-flex">
-                                                    <!-- <div> -->
-                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c1"> -->
-                                                    <span class="box-color"
-                                                          data-group="{{ $group_customer->group->id }}"
-                                                          data-color="#5FB7D4"
-                                                          style="background-color: #5FB7D4;"></span>
-                                                    <!-- </div> -->
-                                                    <!-- <div> -->
-                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c2"> -->
-                                                    <span class="box-color"
-                                                          data-group="{{ $group_customer->group->id }}"
-                                                          data-color="#DA323F"
-                                                          style="background-color: #DA323F;"></span>
-                                                    <!-- </div> -->
-                                                    <!-- <div> -->
-                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c3"> -->
-                                                    <span class="box-color"
-                                                          data-group="{{ $group_customer->group->id }}"
-                                                          data-color="#87554B"
-                                                          style="background-color: #87554B;"></span>
-                                                    <!-- </div> -->
-                                                    <!-- <div> -->
-                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c4"> -->
-                                                    <span class="box-color"
-                                                          data-group="{{ $group_customer->group->id }}"
-                                                          data-color="#2F366C"
-                                                          style="background-color: #2F366C;"></span>
-                                                    <!-- </div> -->
-                                                    <!-- <div> -->
-                                                    <!-- <input type="radio" class="custom-check" name="box-color" id="c5"> -->
-                                                    <span class="box-color"
-                                                          data-group="{{ $group_customer->group->id }}"
-                                                          data-color="#ff0000"
-                                                          style="background-color: #ff0000;"></span>
-                                                    <!-- </div> -->
-                                                </div>
-                                            </div>
                                         <form action="{{ route('groupMoveCreate') }}" method="post">
                                             @csrf
-
                                             <input type="text" name="group_id" value="{{ $group_customer->group->id }}"
                                                    hidden>
+
+                                            <div class="activity mb-lg-3">
+                                                <h5 class="title-choose mb-2">Select color</h5>
+                                                <input style="width:200px;right: 66px;top: 16px;position: absolute;"
+                                                       type="color" name="color">
+                                            </div>
+
                                             <input type="text" name="supervisor_old"
                                                    value="{{ $group_customer->supervisor_accept_id }}" hidden>
+
                                             <div class="activity">
                                                 <h5 class="title-choose mb-2">Select Activity</h5>
                                                 <div class="form-check">
-                                                    <select name="activity_id" class="form-select" id="activitySelect">
+                                                    <select name="activity_id" class="form-select activitySelect"
+                                                            id="activitySelect">
                                                         @foreach($activities as $activity)
                                                             <option
                                                                 value="{{ $activity->id }}">{{ $activity->title }}</option>
@@ -112,13 +79,14 @@
                                             <div class="activity">
                                                 <h5 class="title-choose mb-2">Select Tourguide</h5>
                                                 <div class="form-check">
-                                                    <select name="supervisor_accept_id" class="form-select"
+                                                    <select name="supervisor_accept_id"
+                                                            class="form-select tourGuideSelect"
                                                             id="tourGuideSelect">
 
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="button">
+                                            <div style="text-align: center; margin-top: 10px" class="button">
                                                 <button class="btn tn-sm btn-primary-gradient"
                                                         type="submit">
                                                     Submit
@@ -146,19 +114,19 @@
                                             <tbody>
                                             <tr>
                                                 <td><h6 class="fw-bold">No student</h6></td>
-                                                <td class="info">{{$group_customer->quantity}}</td>
+                                                <td class="info">{{$group_customer->group->group_quantity}}</td>
                                             </tr>
                                             <tr>
                                                 <td class="name-members"><h6 class="fw-bold">Name of students</h6>
                                                 </td>
                                                 <td class="info">
 
-                                                    @foreach($group_customer->ticket->models as $model)
-                                                        <div class="member" data-bs-toggle="modal"
-                                                             data-bs-target="#exampleModal">
-                                                            {{$model->name}}
-                                                        </div>
-                                                    @endforeach
+{{--                                                    @foreach($group_customer->ticket->models as $model)--}}
+{{--                                                        <div class="member" data-bs-toggle="modal"--}}
+{{--                                                             data-bs-target="#exampleModal">--}}
+{{--                                                            {{$model->name}}--}}
+{{--                                                        </div>--}}
+{{--                                                    @endforeach--}}
 
                                                     {{--                                            <div class="member">Student Number 2</div>--}}
                                                     {{--                                            <div class="member">Student Number 3</div>--}}
@@ -247,25 +215,25 @@
                         <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
 
 
-                        @foreach($activity->group_movements_today as $group_movement)
-                            <div style="background-color: {{ $group_movement->group->group_color->color ?? ''}}"
+                        @foreach($activity->groups as $group)
+                            <div style="background-color: {{ $group->group_movement->group_color->color ?? ''}}"
                                  class="items item d-flex justify-content-between divGroup" draggable="true"
                                  data-bs-toggle="modal"
-                                 data-bs-target="#exampleModalAll-{{ $group_movement->group->id }}"
-                                 data-id="{{ $group_movement->group->id }}">
-                                {{ $group_movement->group->title }}
-                                <span>{{ ($group_movement->accept == 'waiting') ? 'Pending' : 'Active' }}</span>
-                                {{--                                <button type="button" ">Group-{{$group_movement->group->id}}</button>--}}
-                                <span class="me-2">{{ $group_movement->group->group_coustomer->quantity ?? ''}}</span>
+                                 data-bs-target="#exampleModalAll-{{ $group->id }}"
+                                 data-id="{{ $group->id }}">
+                                {{ $group->title }}
+                                <span>{{ ($group->group_movement->accept == 'waiting') ? 'Pending' : 'Active' }}</span>
+                                {{--                                <button type="button" ">Group-{{$group->group->id}}</button>--}}
+                                <span class="me-2">{{ $group->group_quantity ?? ''}}</span>
                             </div>
 
 
                             <!-- popup choose tourguide -->
                             <div class="modal modalChoose chooseColor"
-                                 id="exampleModalAll-{{ $group_movement->group->id }}"
-                                 data-id="{{$group_movement->group->id}}">
+                                 id="exampleModalAll-{{ $group->id }}"
+                                 data-id="{{$group->id}}">
                                 <div class="modal-dialog">
-                                    {{--                                    <input class="input-group" data-id="{{ $group_movement->group->id }}" value="{{ $group_movement->group->id }}">--}}
+                                    {{--                                    <input class="input-group" data-id="{{ $group->group->id }}" value="{{ $group->group->id }}">--}}
                                     <div class="modal-content modalContentChoose modal-All">
                                         <div class="d-flex justify-content-end m-3">
                                             <button type="button" class="btn-close btn-close-choose"
@@ -273,42 +241,42 @@
                                                     aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            @if($group_movement->group->group_color->color == null)
+                                            @if($group->group_movement->group_color->color == null)
                                                 <div class="tourguid">
                                                     <h5 class="mb-3 fw-bold">Select Group Color</h5>
                                                     <div class="d-flex">
                                                         <!-- <div> -->
                                                         <!-- <input type="radio" class="custom-check" name="box-color" id="c1"> -->
                                                         <span class="box-color"
-                                                              data-group="{{ $group_movement->group->id }}"
+                                                              data-group="{{ $group->id }}"
                                                               data-color="#5FB7D4"
                                                               style="background-color: #5FB7D4;"></span>
                                                         <!-- </div> -->
                                                         <!-- <div> -->
                                                         <!-- <input type="radio" class="custom-check" name="box-color" id="c2"> -->
                                                         <span class="box-color"
-                                                              data-group="{{ $group_movement->group->id }}"
+                                                              data-group="{{ $group->id }}"
                                                               data-color="#DA323F"
                                                               style="background-color: #DA323F;"></span>
                                                         <!-- </div> -->
                                                         <!-- <div> -->
                                                         <!-- <input type="radio" class="custom-check" name="box-color" id="c3"> -->
                                                         <span class="box-color"
-                                                              data-group="{{ $group_movement->group->id }}"
+                                                              data-group="{{ $group->id }}"
                                                               data-color="#87554B"
                                                               style="background-color: #87554B;"></span>
                                                         <!-- </div> -->
                                                         <!-- <div> -->
                                                         <!-- <input type="radio" class="custom-check" name="box-color" id="c4"> -->
                                                         <span class="box-color"
-                                                              data-group="{{ $group_movement->group->id }}"
+                                                              data-group="{{ $group->id }}"
                                                               data-color="#2F366C"
                                                               style="background-color: #2F366C;"></span>
                                                         <!-- </div> -->
                                                         <!-- <div> -->
                                                         <!-- <input type="radio" class="custom-check" name="box-color" id="c5"> -->
                                                         <span class="box-color"
-                                                              data-group="{{ $group_movement->group->id }}"
+                                                              data-group="{{ $group->id }}"
                                                               data-color="#ff0000"
                                                               style="background-color: #ff0000;"></span>
                                                         <!-- </div> -->
@@ -319,13 +287,13 @@
                                                 @csrf
 
                                                 <input type="text" name="group_id"
-                                                       value="{{ $group_movement->group->id }}" hidden>
+                                                       value="{{ $group->id }}" hidden>
                                                 <input type="text" name="supervisor_old"
-                                                       value="{{ $group_movement->supervisor_accept_id }}" hidden>
+                                                       value="{{ $group->group_movement->supervisor_accept_id }}" hidden>
                                                 <div class="activity">
                                                     <h5 class="title-choose mb-2">Select Activity</h5>
                                                     <div class="form-check">
-                                                        <select name="activity_id" class="form-select"
+                                                        <select name="activity_id" class="form-select activitySelect"
                                                                 id="activitySelect">
                                                             @foreach($activities as $activity)
                                                                 <option
@@ -338,14 +306,16 @@
                                                 <div class="activity">
                                                     <h5 class="title-choose mb-2">Select Tourguide</h5>
                                                     <div class="form-check">
-                                                        <select name="supervisor_accept_id" class="form-select"
+                                                        <select name="supervisor_accept_id"
+                                                                class="form-select tourGuideSelect"
                                                                 id="tourGuideSelect">
 
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="button">
-                                                    <button class="btn tn-sm btn-primary-gradient"
+                                                <div style="text-align: center; margin-top: 10px" class="button">
+                                                    <button style="align-content: center"
+                                                            class="btn btn-sm btn-primary-gradient"
                                                             type="submit">
                                                         Submit
                                                     </button>
@@ -584,7 +554,7 @@
         {{--        </div>--}}
 
 
-{{--        <input id="color_id" name="color" value="">--}}
+        {{--        <input id="color_id" name="color" value="">--}}
 
 
         <!-- ================================ Footer ================== -->
@@ -638,26 +608,28 @@
         // });
 
 
-        $('.box-color').on('click', function () {
-            var boxColor = $(this).data('color');
-            var group = $(this).data('group');
-            var url = '{{ route('groupColor') }}';
-            $.ajax({
-                url: url,
-                type: 'post',
-                _token: '{{ csrf_token() }}',
-                data: {
-                    'groupId': group,
-                    'boxColor': boxColor,
-                },
-                success: function () {
-                    // location.reload();
-                }
-            })
-        })
+        {{--$('.box-color').on('click', function () {--}}
+        {{--    var boxColor = $(this).data('color');--}}
+        {{--    var group = $(this).data('group');--}}
+        {{--    var url = '{{ route('groupColor') }}';--}}
+        {{--    $.ajax({--}}
+        {{--        url: url,--}}
+        {{--        type: 'post',--}}
+        {{--        _token: '{{ csrf_token() }}',--}}
+        {{--        data: {--}}
+        {{--            'groupId': group,--}}
+        {{--            'boxColor': boxColor,--}}
+        {{--        },--}}
+        {{--        success: function () {--}}
+        {{--            // location.reload();--}}
+        {{--        }--}}
+        {{--    })--}}
+        {{--})--}}
 
-        $('#activitySelect').on('click', function () {
+        $('.activitySelect').on('click', function () {
             var activity = $(this).val();
+            // var color = $('.input-color').val();
+            // alert(color);
             var url = '{{ route('selectTourguide') }}';
 
             // alert('color : '+boxColor + ' group Id : '+group);
@@ -669,10 +641,20 @@
                     'activity_id': activity,
                 },
                 success: function (data) {
-                    $('#tourGuideSelect').html(data);
+                    $('.tourGuideSelect').html(data);
                 }
             })
         })
+
+        $(document).ready(function () {
+            toastr.options.timeOut = 5000;
+            @if (Session::has('error'))
+            toastr.error('{{ Session::get('error') }}');
+            @elseif(Session::has('success'))
+            toastr.success('{{ Session::get('success') }}');
+            @endif
+        });
+
 
     </script>
 @endsection
