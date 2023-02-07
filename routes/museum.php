@@ -10,6 +10,7 @@ Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatfo
 
     Route::get('/', [SupervisorController::class, 'index'])->name('platform');
     Route::post('groupColor', [GroupController::class, 'groupColor'])->name('groupColor');
+    Route::post('groupMoveCreate', [GroupController::class, 'groupMoveCreate'])->name('groupMoveCreate');
     Route::post('groupMove', [GroupController::class, 'groupMove'])->name('groupMove');
     Route::post('selectTourguide', [GroupController::class, 'selectTourguide'])->name('selectTourguide');
 
