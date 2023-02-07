@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Sales;
 use App\Http\Controllers\Controller;
 use App\Models\CapacityDays;
 use App\Models\Category;
+use App\Models\Configuration;
 use App\Models\DiscountReason;
 use App\Models\Event;
 use App\Models\GeneralSetting;
 use App\Models\Governorate;
+use App\Models\GroupColor;
+use App\Models\GroupCustomer;
+use App\Models\Groups;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Reservations;
@@ -311,6 +315,7 @@ class ReservationController extends Controller
             'rem_amount'     => $request->rem,
             'payment_method'     => $request->payment_method,
             'note'           => $request->note,
+            'capacity'           => $request->capacity,
 
         ]);
 
@@ -325,8 +330,33 @@ class ReservationController extends Controller
         ]);
 
         // check if code is run on domain not local host
-        if($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1:8000')
-            Reservations::where('id',$request->rev_id)->first()->update(['uploaded' => true]);
+//        if($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1:8000')
+//            Reservations::where('id',$request->rev_id)->first()->update(['uploaded' => true]);
+
+        $groups = Groups::query()->where('status','=','available')->orderBy('id','ASC')->get();
+        $configration = Configuration::latest()->first();
+
+        $cap = $request->capacity >=$configration->value ? ($request->capacity / $configration->value) : 1;
+
+        $group_id = $groups->first()->id;
+        //10
+        for ($i=1;$i<= $cap;$i++){
+
+            GroupCustomer::create([
+                'rev_id' => $request->rev_id,
+                'group_id' => $group_id,
+                'date_time' => Carbon::now(),
+                'quantity' => $request->capacity >=$configration->value ? $configration->value : 1,
+                'sale_type' => 'trip',
+            ]);
+            Groups::where('id','=',$group_id)->update(['status' => 'not_available']);
+            GroupColor::create([
+                'group_id' => $group_id,
+                'date_time' => Carbon::now()
+
+            ]);
+            $group_id++;
+        }
 
         for ($i = 0 ; $i < count($request->visitor_type); $i++) {
 

@@ -571,8 +571,9 @@
                                     <div class="row align-items-end">
                                         <div class="col-8 col-md-9 p-2 ">
                                             <label> Amount </label>
-                                            <input class="form-control" type="number" id="amount"
-                                                   onchange="calculateChange()" onkeyup="calculateChange()" min="0" step="any"/>
+                                            <input class="form-control" type="number" id="amount" onchange="calculateChange()" onkeyup="calculateChange()" min="0" step="any"/><br>
+                                            <input class="form-control" type="number" id="capacity" min="1" value="20" step="any"/><br>
+
 
                                         </div>
                                         {{--                                            <div class="col-4 col-md-3 p-2">--}}
@@ -699,6 +700,8 @@
             else {
 
                 var pay  = $('input[name="pay"]:checked').val();
+                var capacity   = $('#capacity').val();
+
                 var data = {
                     "duration": duration,
                     "visit_date": visit_date,
@@ -728,6 +731,7 @@
                     "rev_id": "{{$reservation->id}}",
                     "rem": (Math.round(rem * 100) / 100).toFixed(2),
                     "payment_method" : $('input[name="payment"]:checked').val(),
+                    "capacity":capacity,
 
                 }
                 $.ajax({
