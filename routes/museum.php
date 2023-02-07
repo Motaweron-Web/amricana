@@ -18,6 +18,10 @@ Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatfo
     #### Add Activaties ####
     Route::post('addActivity', [SupervisorController::class, 'addActivity'])->name('addActivity');
 
+    #### Requests Activities ####
+    Route::get('requestsActivity', [SupervisorController::class, 'showRequest'])->name('requests');
+    Route::post('groupAccept', [SupervisorController::class, 'groupAccept'])->name('groupAccept');
+
 
     // logout
     Route::get('logout', [AuthController::class,'logoutPlatform'])->name('platform.logout');

@@ -39,4 +39,29 @@ class SupervisorController extends Controller
 
         return redirect()->back();
     }
+
+    public function requestsActivity()
+    {
+        return view('platform.Accept_groups.index');
+    }
+
+    public function showRequest()
+    {
+        $groupMovment = GroupMovement::where('accept','=','waiting')->get();
+       return view('platform.Accept_groups.index', compact('groupMovment'));
+    }
+
+    public function groupAccept(Request $request)
+    {
+        $accept = 'accept';
+        $group = GroupMovement::where('group_id',$request->group_id)
+            ->where('supervisor_accept_id ',$request->supervisor)
+            ->update(['accept' => $accept]);
+        if ($group) {
+            return response()->json('success');
+        } else {
+            return response()->json('error',405);
+        }
+
+    }
 }
