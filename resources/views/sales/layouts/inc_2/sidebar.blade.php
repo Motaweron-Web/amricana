@@ -44,6 +44,10 @@
                                     <span class="sidenav-mini-icon"> A </span>
                                     <span class="sidenav-normal"> All Activities </span>
                                 </a>
+                                <a class="nav-link createReservation" href="{{route('joinActivaties')}}">
+                                    <span class="sidenav-mini-icon"> A </span>
+                                    <span class="sidenav-normal"> Join Activities </span>
+                                </a>
                             </li>
 
 

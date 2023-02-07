@@ -7,6 +7,7 @@ use App\Models\Activity;
 use App\Models\GroupCustomer;
 use App\Models\GroupMovement;
 use App\Models\RouteGroup;
+use App\Models\SupervisorActivity;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,5 +20,23 @@ class SupervisorController extends Controller
 
         $group_customers_waiting = GroupCustomer::with(['group','ticket','reservation'])->where('status','=','waiting')->whereDate('created_at','=',Carbon::now()->format('Y-m-d'))->get();
         return view('platform.activities.index',compact('activities','group_customers_waiting'));
+    }
+
+    public function joinActivaties()
+    {
+        $activities = Activity::get();
+        return view('platform.activities.join_activaties', compact('activities'));
+    }
+
+    public function addActivity(Request $request)
+    {
+        SupervisorActivity::create([
+            'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
+            'status' => 'available',
+            'activity_id' => $request->activaty,
+            'supervisor_id' => $request->supervisor,
+        ]);
+
+        return redirect()->back();
     }
 }
