@@ -100,7 +100,16 @@
                     // 'supervisor': supervisor,
                 }, success: function () {
                     toastr.success('Accept success');
-                    href.reload();
+
+
+                    var title = "Accept success";
+                    // icon = 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png';
+                    var body = "It's Your boarding time";
+                    var notification = new Notification(title, { body });
+                    if (("Notification" in window)) {
+                        toastr.success('Notification success');
+                    }
+                    // location.reload();
                 }
             });
         });
@@ -123,7 +132,7 @@
                     // 'supervisor': supervisor,
                 }, success: function () {
                     toastr.success('Not Accept success');
-                    window.reload();
+                    location.reload();
                 }
             });
         });
