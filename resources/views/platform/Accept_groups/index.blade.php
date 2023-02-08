@@ -37,6 +37,7 @@
 
                                 <tr>
                                     <input type="text" hidden value="{{ auth()->user()->id }}" id="supervisor_id">
+                                    <input id="movementId" type="text" hidden value="{{ $group->id }}" name="id">
                                     <td>{{ $group->id }}</td>
                                     <td>{{ $group->date_time }}</td>
                                     <td id="group_id" data-id="{{ $group->group_id }}">{{ $group->group->title  }}</td>
@@ -87,17 +88,19 @@
 
 
             var group = $('#group_id').data('id');
-            var supervisor = $('#supervisor_id').val();
+            var movementId = $('#movementId').val();
+            // var supervisor = $('#supervisor_id').val();
             $.ajax({
                 url: "{{ route('groupAccept') }}",
                 method: 'POST',
                 _token: "{{ csrf_token() }}",
                 data: {
                     'group_id': group,
-                    'supervisor': supervisor,
+                    'id': movementId,
+                    // 'supervisor': supervisor,
                 }, success: function () {
                     toastr.success('Accept success');
-                    location.reload();
+                    href.reload();
                 }
             });
         });
@@ -109,17 +112,18 @@
 
 
             var group = $('#group_id').data('id');
-            var supervisor = $('#supervisor_id').val();
+            var movementId = $('#movementId').val();
             $.ajax({
                 url: "{{ route('groupNotAccept') }}",
                 method: 'POST',
                 _token: "{{ csrf_token() }}",
                 data: {
                     'group_id': group,
-                    'supervisor': supervisor,
+                    'id': movementId,
+                    // 'supervisor': supervisor,
                 }, success: function () {
                     toastr.success('Not Accept success');
-                    location.reload();
+                    window.reload();
                 }
             });
         });
