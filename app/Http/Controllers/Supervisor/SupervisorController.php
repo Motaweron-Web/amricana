@@ -85,7 +85,11 @@ class SupervisorController extends Controller
                 ->orderBy('date_time', 'desc')->update(['status' => 'in']);
 
             if (!$checkOutActivity) {
-                GroupMovement::find($request->id)->delete();
+                GroupMovement::find($request->id)
+                ->update([
+                    'accept' => $not_accept,
+                    'status' => 'out'
+                ]);
 
                 GroupCustomer::where('group_id' ,$request->group_id)
                     ->update(['status' => 'waiting']);
@@ -94,16 +98,9 @@ class SupervisorController extends Controller
 
             }
 
-            $group = GroupMovement::find($request->id)
-                ->update([
-                    'accept' => $not_accept,
-                    'status' => 'out',
-                ]);
 
+                return response()->json('Not Accept Successfully', 200);
 
-            if ($group) {
-                return response()->json('success', 200);
-            }
         } catch (Exception $e) {
             return response()->json('error');
         }
