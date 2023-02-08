@@ -36,4 +36,7 @@ class Activity extends Model
             ->orderBy('date_time','desc');
     }
 
+
+
+
 }
