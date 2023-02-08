@@ -240,8 +240,9 @@
                                                     data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                         </div>
+{{--                                        <h5>Recommended Activity : {{ route }}</h5>--}}
                                         <div class="modal-body">
-                                            @if($group->group_movement->group_color->color == null)
+                                            @if(@$group->group_movement->group_color->color == null)
                                                 <div class="tourguid">
                                                     <h5 class="mb-3 fw-bold">Select Group Color</h5>
                                                     <div class="d-flex">
