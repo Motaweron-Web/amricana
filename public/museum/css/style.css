@@ -136,17 +136,21 @@ content {
 /* .item{
   cursor: move;
 } */
+/* btn report */
 .btn-report{
-  border: 2px solid #5c4523;
+  border: 2px solid #B58744;
   background-color: transparent;
   color: white;
-  width: 80px;
+  width: 200px;
   height: 30px;
   position: relative;
   overflow: hidden;
   z-index: 0;
   font-weight: normal;
   font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .btn-report:hover{
   color: #5c4523;
@@ -154,10 +158,10 @@ content {
 }
 .btn-report::before{
   content: '';
-  width: 40px;
+  width: 100px;
   height: 100%;
   position: absolute;
-  background-color: #4a381c;
+  background-color: #B58744;
   top: 0;
   left: 0;
   z-index: -1;
@@ -165,10 +169,10 @@ content {
 }
 .btn-report::after{
   content: '';
-  width: 40px;
+  width: 100px;
   height: 100%;
   position: absolute;
-  background-color: #4a381c;
+  background-color: #B58744;
   top: 0;
   right: 0;
   z-index: -1;
@@ -180,6 +184,122 @@ content {
 .btn-report:hover::after{
   right: -55%;
 }
+/* btn report */
+
+/* btn accept */
+.btn-accept{
+    border: 2px solid #B58744;
+    background-color: transparent;
+    color: white;
+    width: 100px;
+    height: 30px;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+    font-weight: normal;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-accept:hover{
+    color: #5c4523;
+    font-weight: bold;
+}
+.btn-accept::before{
+    content: '';
+    width: 50px;
+    height: 100%;
+    position: absolute;
+    background-color: #B58744;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: 0.5s ease;
+}
+.btn-accept::after{
+    content: '';
+    width: 50px;
+    height: 100%;
+    position: absolute;
+    background-color: #B58744;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    transition: 0.5s ease;
+}
+.btn-accept:hover::before{
+    left: -55%;
+}
+.btn-accept:hover::after{
+    right: -55%;
+}
+/* btn accept */
+
+
+
+/* selectform */
+.selectform:focus{
+    box-shadow: none !important;
+    outline: none !important;
+    border: 1px solid #5c4523 !important;
+}
+/* selectform */
+
+
+
+
+/* btn group */
+.btn-group{
+    border: 2px solid #5c4523;
+    background-color: transparent;
+    color: white;
+    width: 200px;
+    height: 30px;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+    font-weight: normal;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-group:hover{
+    color: #5c4523;
+    font-weight: bold;
+}
+.btn-group::before{
+    content: '';
+    width: 100px;
+    height: 100%;
+    position: absolute;
+    background-color: #5c4523;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: 0.5s ease;
+}
+.btn-group::after{
+    content: '';
+    width: 100px;
+    height: 100%;
+    position: absolute;
+    background-color: #5c4523;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    transition: 0.5s ease;
+}
+.btn-group:hover::before{
+    left: -55%;
+}
+.btn-group:hover::after{
+    right: -55%;
+}
+/* btn group */
+
+
 .btn-end{
   color: #5c4523;
   font-weight: bold;

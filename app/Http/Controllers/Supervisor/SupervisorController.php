@@ -25,6 +25,8 @@ class SupervisorController extends Controller
 
         $group_colors_active = GroupColor::groupColored()->get();
 
+//        return $group_colors_active
+
 
         return view('platform.activities.index', compact('group_customers_waiting', 'activities'));
     }
