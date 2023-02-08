@@ -19,7 +19,20 @@
     </content>
 </main>
 @include('sales.layouts.assets.scripts')
+<script>
+    setInterval(function(){
 
+        $.ajax({url: "{{url('platform/getLastRequests')}}", success: function(result){
+            if(result){
+                toastr.info('please check your requests you have new');
+                var body = 'please check your requests you have new';
+                 new Notification("New Requests", { body });
+            }
+
+            }});
+
+    }, 450000);
+</script>
 {{--start js for museum--}}
 @yield('js')
 </body>

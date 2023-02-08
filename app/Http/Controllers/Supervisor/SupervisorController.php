@@ -105,4 +105,13 @@ class SupervisorController extends Controller
             return response()->json('error');
         }
     }
+
+    public function getLastRequests()
+    {
+        $groupMovment = GroupMovement::where('accept', '=', 'waiting')->where('supervisor_accept_id', auth('admin')->id())->get();
+        if($groupMovment->count() == 0) {
+            return response()->json(false);
+        }
+        return response()->json(true);
+    }
 }
