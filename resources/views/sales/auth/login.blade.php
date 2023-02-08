@@ -99,7 +99,7 @@
                         toastr.success('login successfully');
                         window.setTimeout(function() {
                             window.location.href='sales';
-                        }, 1000);
+                        }, 10000);
                       playAudio();
 
                     }else {
