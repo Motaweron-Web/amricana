@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\DB;
 
 class SupervisorController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
         $activities = Activity::with(['groups'])->orderBy('id', 'asc')->get();
 
@@ -25,8 +26,7 @@ class SupervisorController extends Controller
         $group_colors_active = GroupColor::groupColored()->get();
 
 
-
-        return view('platform.activities.index',compact('group_customers_waiting','activities'));
+        return view('platform.activities.index', compact('group_customers_waiting', 'activities'));
     }
 
     public function joinActivaties()
@@ -54,21 +54,23 @@ class SupervisorController extends Controller
 
     public function showRequest()
     {
-        $groupMovment = GroupMovement::where('accept','=','waiting')->where('supervisor_accept_id', auth('admin')->id())->get();
-       return view('platform.Accept_groups.index', compact('groupMovment'));
+        $groupMovment = GroupMovement::where('accept', '=', 'waiting')->where('supervisor_accept_id', auth('admin')->id())->get();
+        return view('platform.Accept_groups.index', compact('groupMovment'));
     }
 
     public function groupAccept(Request $request)
     {
         try {
             $accept = 'accept';
-            $group = GroupMovement::where('group_id',$request->group_id)
-                ->update(['accept' => $accept]);
+            $group = GroupMovement::find($request->id)
+                ->update([
+                    'accept' => $accept
+                ]);
             if ($group) {
-                return response()->json('success',200);
+                return response()->json('success', 200);
             }
         } catch (Exception $e) {
-          return response()->json('error');
+            return response()->json('error');
         }
     }
 
@@ -76,10 +78,31 @@ class SupervisorController extends Controller
     {
         try {
             $not_accept = 'not_accept';
-            $group = GroupMovement::where('group_id',$request->group_id)
-                ->update(['accept' => $not_accept]);
+
+            $checkOutActivity = GroupMovement::where('status', '=', 'out')
+                ->where('group_id', $request->group_id)
+                ->whereDate('date_time', Carbon::now()->format('Y-m-d'))
+                ->orderBy('date_time', 'desc')->update(['status' => 'in']);
+
+            if (!$checkOutActivity) {
+                GroupMovement::find($request->id)->delete();
+
+                GroupCustomer::where('group_id' ,$request->group_id)
+                    ->update(['status' => 'waiting']);
+                GroupColor::where('group_id' ,$request->group_id)
+                    ->update(['color' => null]);
+
+            }
+
+            $group = GroupMovement::find($request->id)
+                ->update([
+                    'accept' => $not_accept,
+                    'status' => 'out',
+                ]);
+
+
             if ($group) {
-                return response()->json('success',200);
+                return response()->json('success', 200);
             }
         } catch (Exception $e) {
             return response()->json('error');
