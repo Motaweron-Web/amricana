@@ -83,6 +83,8 @@
 
     <script>
         // Accept Group
+        import {timeout} from "../../../../public/assets/admin/plugins/charts-c3/d3.v5.min";
+
         $('.btnAccept').on('click', function (e) {
             e.preventDefault();
 
@@ -100,7 +102,7 @@
                     // 'supervisor': supervisor,
                 }, success: function () {
                     toastr.success('Accept success');
-                    href.reload();
+                    location.reload();
                 }
             });
         });
@@ -123,7 +125,7 @@
                     // 'supervisor': supervisor,
                 }, success: function () {
                     toastr.success('Not Accept success');
-                    window.reload();
+                    location.reload();
                 }
             });
         });
