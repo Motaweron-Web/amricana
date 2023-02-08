@@ -46,10 +46,26 @@
                                     <td>{{ $group->accept }}</td>
                                     <td id="status" data-id="{{ $group->status }}">{{ $group->status }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-pill btn-success btnAccept"><i
-                                                class="fa fa-check"></i></button>
-                                        <button type="button" class="btn btn-pill btn-danger btnNotAccept"><i
-                                                class="fa fa-xing-square"></i></button>
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <form action="{{ route('groupAccept') }}" method="POST">
+                                                        @csrf
+                                                        <input Hidden type="hidden" name="id" value="{{ $group->id }}">
+                                                    <button type="submit" class="btn btn-pill btn-success btnAccept"><i
+                                                            class="fa fa-check"></i></button>
+                                                    </form>
+                                                </div>
+                                            <div class="col-md-2">
+                                                <form action="{{ route('groupNotAccept') }}" method="POST">
+                                                    @csrf
+                                                    <input Hidden type="hidden" name="id" value="{{ $group->id }}">
+                                                <button type="submit" class="btn btn-pill btn-danger btnNotAccept"><i
+                                                        class="fa fa-xing-square"></i></button>
+                                                </form>
+                                            </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -80,56 +96,66 @@
     <!-- dashboard Js -->
     <script src="{{asset('museum/js/app.min.js')}}"></script>
 
+<script>
+    $(document).ready(function () {
+            toastr.options.timeOut = 5000;
+        @if (Session::has('error'))
+        toastr.error('{{ Session::get('error') }}');
+        @elseif(Session::has('success'))
+        toastr.success('{{ Session::get('success') }}');
+        @endif
+    });
 
-    <script>
-        // Accept Group
-        import {timeout} from "../../../../public/assets/admin/plugins/charts-c3/d3.v5.min";
+</script>
+{{--    <script>--}}
+{{--        // Accept Group--}}
+{{--        import {timeout} from "../../../../public/assets/admin/plugins/charts-c3/d3.v5.min";--}}
 
-        $('.btnAccept').on('click', function (e) {
-            e.preventDefault();
-
-
-            var group = $('#group_id').data('id');
-            var movementId = $('#movementId').val();
-            // var supervisor = $('#supervisor_id').val();
-            $.ajax({
-                url: "{{ route('groupAccept') }}",
-                method: 'POST',
-                _token: "{{ csrf_token() }}",
-                data: {
-                    'group_id': group,
-                    'id': movementId,
-                    // 'supervisor': supervisor,
-                }, success: function () {
-                    toastr.success('Accept success');
-                    location.reload();
-                }
-            });
-        });
-        // End Accept Group
-
-        // Not Accept Group
-        $('.btnNotAccept').on('click', function (e) {
-            e.preventDefault();
+{{--        $('.btnAccept').on('click', function (e) {--}}
+{{--            e.preventDefault();--}}
 
 
-            var group = $('#group_id').data('id');
-            var movementId = $('#movementId').val();
-            $.ajax({
-                url: "{{ route('groupNotAccept') }}",
-                method: 'POST',
-                _token: "{{ csrf_token() }}",
-                data: {
-                    'group_id': group,
-                    'id': movementId,
-                    // 'supervisor': supervisor,
-                }, success: function () {
-                    toastr.success('Not Accept success');
-                    location.reload();
-                }
-            });
-        });
-        // End Not Accept Group
-    </script>
+{{--            var group = $('#group_id').data('id');--}}
+{{--            var movementId = $('#movementId').val();--}}
+{{--            // var supervisor = $('#supervisor_id').val();--}}
+{{--            $.ajax({--}}
+{{--                url: "{{ route('groupAccept') }}",--}}
+{{--                method: 'POST',--}}
+{{--                _token: "{{ csrf_token() }}",--}}
+{{--                data: {--}}
+{{--                    'group_id': group,--}}
+{{--                    'id': movementId,--}}
+{{--                    // 'supervisor': supervisor,--}}
+{{--                }, success: function () {--}}
+{{--                    toastr.success('Accept success');--}}
+{{--                    location.reload();--}}
+{{--                }--}}
+{{--            });--}}
+{{--        });--}}
+{{--        // End Accept Group--}}
+
+{{--        // Not Accept Group--}}
+{{--        $('.btnNotAccept').on('click', function (e) {--}}
+{{--            e.preventDefault();--}}
+
+
+{{--            var group = $('#group_id').data('id');--}}
+{{--            var movementId = $('#movementId').val();--}}
+{{--            $.ajax({--}}
+{{--                url: "{{ route('groupNotAccept') }}",--}}
+{{--                method: 'POST',--}}
+{{--                _token: "{{ csrf_token() }}",--}}
+{{--                data: {--}}
+{{--                    'group_id': group,--}}
+{{--                    'id': movementId,--}}
+{{--                    // 'supervisor': supervisor,--}}
+{{--                }, success: function () {--}}
+{{--                    toastr.success('Not Accept success');--}}
+{{--                    location.reload();--}}
+{{--                }--}}
+{{--            });--}}
+{{--        });--}}
+{{--        // End Not Accept Group--}}
+{{--    </script>--}}
 
 @endsection
