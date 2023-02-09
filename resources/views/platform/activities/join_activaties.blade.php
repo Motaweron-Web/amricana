@@ -13,6 +13,9 @@
 
     <!-- content -->
     <content class="container-fluid pt-4">
+        @if($supervisor_activities->count() > 0)
+            <h1>You are selected limit</h1>
+        @else
         <form action="{{ route('addActivity') }}" method="POST">
             @csrf
             <input name="supervisor" hidden value="{{ auth()->user()->id }}">
@@ -24,6 +27,7 @@
             <br>
             <button class="btn btn-primary" type="submit">Add </button>
         </form>
+        @endif
     </content>
 
 @endsection

@@ -61,6 +61,21 @@
 @include('sales.layouts.assets.scripts')
 
 <script>
+    function playAudio() {
+        var x = new Audio('{{ asset('sound/eventually-590.ogg') }}');
+        // Show loading animation.
+        var playPromise = x.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                x.play();
+            })
+                .catch(error => {
+                });
+
+        }
+    }
+
     $("form#LoginForm").submit(function(e) {
         e.preventDefault();
         var formData = new FormData(this);
@@ -83,6 +98,7 @@
 
                     console.log(data);
                     toastr.success('login successfully');
+                    playAudio();
 
 
                     window.setTimeout(function() {
@@ -94,11 +110,13 @@
 
                     console.log(data);
                     toastr.success('login successfully');
+                    playAudio();
 
 
                     window.setTimeout(function() {
 
                         window.location.href='{{ route('adminHome') }}';
+
                     }, 1000);
 
                 }

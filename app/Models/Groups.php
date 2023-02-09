@@ -39,7 +39,7 @@ class Groups extends Model
 
     public function group_movement(){
 
-
         return $this->hasOne(GroupMovement::class,'group_id','id')->with('group_color');
     }
+
 }//end class
