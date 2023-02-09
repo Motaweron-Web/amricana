@@ -4,13 +4,17 @@
     'name' => 'Laravel',
     'env' => 'local',
     'debug' => true,
-    'url' => 'http://skypark.test',
+
+    'url' => 'http://localhost',
+
     'asset_url' => NULL,
     'timezone' => 'Africa/Cairo',
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:LPLBE0dMfiWInzrGXpml2atWVIVDNIhwUzDcMQZ09Hc=',
+
+    'key' => 'base64:1SE3ePaBbbOQSNgMjcxgHNjkDJhMWVm6PkvMp4dghPA=',
+
     'cipher' => 'AES-256-CBC',
     'providers' => 
     array (
@@ -192,7 +196,9 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\laragon\\www\\musium\\storage\\framework/cache/data',
+
+        'path' => 'D:\\xampp\\htdocs\\musium\\storage\\framework/cache/data',
+
       ),
       'memcached' => 
       array (
@@ -269,7 +275,9 @@
       array (
         'driver' => 'sqlite',
         'url' => NULL,
-        'database' => 'u657893346_kidsstation',
+
+        'database' => 'musium',
+
         'prefix' => '',
         'foreign_key_constraints' => true,
       ),
@@ -277,9 +285,11 @@
       array (
         'driver' => 'mysql',
         'url' => NULL,
-        'host' => 'localhost',
+
+        'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'u657893346_kidsstation',
+        'database' => 'musium',
+
         'username' => 'root',
         'password' => '',
         'unix_socket' => '',
@@ -329,9 +339,11 @@
       array (
         'driver' => 'pgsql',
         'url' => NULL,
-        'host' => 'localhost',
+
+        'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'u657893346_kidsstation',
+        'database' => 'musium',
+
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -344,9 +356,11 @@
       array (
         'driver' => 'sqlsrv',
         'url' => NULL,
-        'host' => 'localhost',
+
+        'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'u657893346_kidsstation',
+        'database' => 'musium',
+
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -390,13 +404,17 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\laragon\\www\\musium\\storage\\app',
+
+        'root' => 'D:\\xampp\\htdocs\\musium\\storage\\app',
+
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\laragon\\www\\musium\\storage\\app/public',
-        'url' => 'http://skypark.test/storage',
+
+        'root' => 'D:\\xampp\\htdocs\\musium\\storage\\app/public',
+        'url' => 'http://localhost/storage',
+
         'visibility' => 'public',
       ),
       's3' => 
@@ -411,7 +429,9 @@
     ),
     'links' => 
     array (
-      'C:\\laragon\\www\\musium\\public\\storage' => 'C:\\laragon\\www\\musium\\storage\\app/public',
+
+      'D:\\xampp\\htdocs\\musium\\public\\storage' => 'D:\\xampp\\htdocs\\musium\\storage\\app/public',
+
     ),
   ),
   'hashing' => 
@@ -445,13 +465,17 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\laragon\\www\\musium\\storage\\logs/laravel.log',
+
+        'path' => 'D:\\xampp\\htdocs\\musium\\storage\\logs/laravel.log',
+
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\laragon\\www\\musium\\storage\\logs/laravel.log',
+
+        'path' => 'D:\\xampp\\htdocs\\musium\\storage\\logs/laravel.log',
+
         'level' => 'debug',
         'days' => 14,
       ),
@@ -501,7 +525,9 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\laragon\\www\\musium\\storage\\logs/laravel.log',
+
+        'path' => 'D:\\xampp\\htdocs\\musium\\storage\\logs/laravel.log',
+
       ),
     ),
   ),
@@ -513,8 +539,10 @@
       'smtp' => 
       array (
         'transport' => 'smtp',
-        'host' => 'mailhog',
-        'port' => '1025',
+
+        'host' => 'smtp.mailtrap.io',
+        'port' => '2525',
+
         'encryption' => NULL,
         'username' => NULL,
         'password' => NULL,
@@ -557,7 +585,9 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\laragon\\www\\musium\\resources\\views/vendor/mail',
+
+        0 => 'D:\\xampp\\htdocs\\musium\\resources\\views/vendor/mail',
+
       ),
     ),
   ),
@@ -685,10 +715,12 @@
   'session' => 
   array (
     'driver' => 'file',
-    'lifetime' => '525600',
+
+    'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\laragon\\www\\musium\\storage\\framework/sessions',
+    'files' => 'D:\\xampp\\htdocs\\musium\\storage\\framework/sessions',
+
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -754,9 +786,11 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\laragon\\www\\musium\\resources\\views',
+
+      0 => 'D:\\xampp\\htdocs\\musium\\resources\\views',
     ),
-    'compiled' => 'C:\\laragon\\www\\musium\\storage\\framework\\views',
+    'compiled' => 'D:\\xampp\\htdocs\\musium\\storage\\framework\\views',
+
   ),
   'debugbar' => 
   array (
@@ -770,7 +804,9 @@
     array (
       'enabled' => true,
       'driver' => 'file',
-      'path' => 'C:\\laragon\\www\\musium\\storage\\debugbar',
+
+      'path' => 'D:\\xampp\\htdocs\\musium\\storage\\debugbar',
+
       'connection' => NULL,
       'provider' => '',
       'hostname' => '127.0.0.1',
@@ -1009,7 +1045,9 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'C:\\laragon\\www\\musium\\storage\\framework/cache/laravel-excel',
+
+      'local_path' => 'D:\\xampp\\htdocs\\musium\\storage\\framework/cache/laravel-excel',
+
       'remote_disk' => NULL,
       'remote_prefix' => NULL,
       'force_resync_remote' => NULL,
