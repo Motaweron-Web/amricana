@@ -14,4 +14,9 @@ class SupervisorActivity extends Model
     {
         return $this->belongsTo(Supervisor::class,'supervisor_id','id');
     }
+
+    public function activity()
+    {
+        return $this->belongsTo(Activity::class,'activity_id','id');
+    }
 }

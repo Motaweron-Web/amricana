@@ -23,9 +23,9 @@ class SupervisorController extends Controller
 
         $group_customers_waiting = GroupColor::groupNotColored()->get();
 
-        $group_colors_active = GroupColor::groupColored()->get();
+//        $group_colors_active = GroupColor::groupColored()->get();
 
-//        return $group_colors_active
+//        return $group_customers_waiting;
 
 
         return view('platform.activities.index', compact('group_customers_waiting', 'activities'));
@@ -34,7 +34,9 @@ class SupervisorController extends Controller
     public function joinActivaties()
     {
         $activities = Activity::get();
-        return view('platform.activities.join_activaties', compact('activities'));
+        $supervisor_activities = SupervisorActivity::where('supervisor_id',auth()->user()->id)
+            ->whereDate('date_time',Carbon::now()->format('Y-m-d'))->get();
+        return view('platform.activities.join_activaties', compact('activities','supervisor_activities'));
     }
 
     public function addActivity(Request $request)

@@ -60,6 +60,11 @@ class GroupController extends Controller
 
         try {
 
+            $outGroup = GroupMovement::where('group_id', $request->group_id)
+                ->whereDate('created_at', '=', $date_time)
+                ->update(['status' => 'out']);
+
+
             $inGroup = GroupMovement::create([
                 'date_time' => $date_time,
                 'group_id' => $request->group_id,
@@ -69,15 +74,12 @@ class GroupController extends Controller
                 'status' => 'in',
             ]);
 
-            if ($inGroup){
-                $outGroup = GroupMovement::where('group_id', $request->group_id)
-                    ->whereDate('created_at', '=', $date_time)
-                    ->update(['status' => 'out']);
-
-                $supervisor_old = SupervisorActivity::where('supervisor_id', $request->supervisor_old)
-                    ->where('activity_id', $request->activity_id)
-                    ->update(['status' => 'available']);
-            }
+//            if ($inGroup){
+//
+//                $supervisor_old = SupervisorActivity::where('supervisor_id', $request->supervisor_old)
+//                    ->where('activity_id', $request->activity_id)
+//                    ->update(['status' => 'available']);
+//            }
 
             if ($inGroup) {
                 return redirect()->back()->with('success', 'Group moved successfully');

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class GroupCustomer extends Model
@@ -31,4 +32,26 @@ class GroupCustomer extends Model
 
         return $this->hasMany(GroupMovement::class,'group_customer_id','id');
     }
+
+    public function nextActivity()
+    {
+        return $this->belongsTo(RouteGroup::class,'group_id','group_id')
+            ->whereDate('time_group','>=',Carbon::now()->format('H:i:s'))
+            ->orderByDesc('created_at')->take(1);
+    }
+
+    public function lastActivity()
+    {
+        return $this->belongsTo(GroupMovement::class,'group_id','group_id')
+            ->whereDate('date_time',Carbon::now()->format('Y-m-d'))
+            ->where('status','=','out');
+    }
+
+    public function currentActivity()
+    {
+      return $this->belongsTo(GroupMovement::class,'group_id','group_id')
+          ->whereDate('date_time',Carbon::now()->format('Y-m-d'))
+          ->where('status','=','in');
+    }
+
 }

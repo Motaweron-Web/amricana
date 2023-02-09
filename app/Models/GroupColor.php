@@ -61,4 +61,5 @@ class GroupColor extends Model{
             ->where('color','=',NULL)->whereDate('created_at','=',Carbon::now()->format('Y-m-d'));
 
     }
+
 }

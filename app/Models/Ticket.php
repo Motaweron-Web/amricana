@@ -51,6 +51,11 @@ class Ticket extends Model{
         return $this->belongsTo(Shifts::class,'shift_id');
     }//end fun
 
+    public function cashier()
+    {
+        return $this->belongsTo(User::class,'add_by','id');
+    }//end fun
+
     public function reason(){
         return $this->belongsTo(DiscountReason::class,'discount_id');
     }
