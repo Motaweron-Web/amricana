@@ -39,4 +39,19 @@ class GroupCustomer extends Model
             ->whereDate('time_group','>=',Carbon::now()->format('H:i:s'))
             ->orderByDesc('created_at')->take(1);
     }
+
+    public function lastActivity()
+    {
+        return $this->belongsTo(GroupMovement::class,'group_id','group_id')
+            ->whereDate('date_time',Carbon::now()->format('Y-m-d'))
+            ->where('status','=','out');
+    }
+
+    public function currentActivity()
+    {
+      return $this->belongsTo(GroupMovement::class,'group_id','group_id')
+          ->whereDate('date_time',Carbon::now()->format('Y-m-d'))
+          ->where('status','=','in');
+    }
+
 }
