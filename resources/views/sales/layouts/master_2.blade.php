@@ -27,11 +27,27 @@
                 toastr.info('please check your requests you have new');
                 var body = 'please check your requests you have new';
                  new Notification("New Requests", { body });
+                playAudio();
             }
 
             }});
 
-    }, 450000);
+    }, 10000);
+
+    function playAudio() {
+        var x = new Audio('{{url('/')}}/sound/eventually-590.ogg');
+        // Show loading animation.
+        var playPromise = x.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                x.play();
+            })
+                .catch(error => {
+                });
+
+        }
+    }
 </script>
 {{--start js for museum--}}
 @yield('js')
