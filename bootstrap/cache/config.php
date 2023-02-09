@@ -4,13 +4,17 @@
     'name' => 'Laravel',
     'env' => 'local',
     'debug' => true,
+
     'url' => 'http://localhost',
+
     'asset_url' => NULL,
     'timezone' => 'Africa/Cairo',
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
+
     'key' => 'base64:1SE3ePaBbbOQSNgMjcxgHNjkDJhMWVm6PkvMp4dghPA=',
+
     'cipher' => 'AES-256-CBC',
     'providers' => 
     array (
@@ -192,7 +196,9 @@
       'file' => 
       array (
         'driver' => 'file',
+
         'path' => 'D:\\xampp\\htdocs\\musium\\storage\\framework/cache/data',
+
       ),
       'memcached' => 
       array (
@@ -269,7 +275,9 @@
       array (
         'driver' => 'sqlite',
         'url' => NULL,
+
         'database' => 'musium',
+
         'prefix' => '',
         'foreign_key_constraints' => true,
       ),
@@ -277,9 +285,11 @@
       array (
         'driver' => 'mysql',
         'url' => NULL,
+
         'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'musium',
+
         'username' => 'root',
         'password' => '',
         'unix_socket' => '',
@@ -329,9 +339,11 @@
       array (
         'driver' => 'pgsql',
         'url' => NULL,
+
         'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'musium',
+
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -344,9 +356,11 @@
       array (
         'driver' => 'sqlsrv',
         'url' => NULL,
+
         'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'musium',
+
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -390,13 +404,17 @@
       'local' => 
       array (
         'driver' => 'local',
+
         'root' => 'D:\\xampp\\htdocs\\musium\\storage\\app',
+
       ),
       'public' => 
       array (
         'driver' => 'local',
+
         'root' => 'D:\\xampp\\htdocs\\musium\\storage\\app/public',
         'url' => 'http://localhost/storage',
+
         'visibility' => 'public',
       ),
       's3' => 
@@ -411,7 +429,9 @@
     ),
     'links' => 
     array (
+
       'D:\\xampp\\htdocs\\musium\\public\\storage' => 'D:\\xampp\\htdocs\\musium\\storage\\app/public',
+
     ),
   ),
   'hashing' => 
@@ -445,13 +465,17 @@
       'single' => 
       array (
         'driver' => 'single',
+
         'path' => 'D:\\xampp\\htdocs\\musium\\storage\\logs/laravel.log',
+
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
+
         'path' => 'D:\\xampp\\htdocs\\musium\\storage\\logs/laravel.log',
+
         'level' => 'debug',
         'days' => 14,
       ),
@@ -501,7 +525,9 @@
       ),
       'emergency' => 
       array (
+
         'path' => 'D:\\xampp\\htdocs\\musium\\storage\\logs/laravel.log',
+
       ),
     ),
   ),
@@ -513,8 +539,10 @@
       'smtp' => 
       array (
         'transport' => 'smtp',
+
         'host' => 'smtp.mailtrap.io',
         'port' => '2525',
+
         'encryption' => NULL,
         'username' => NULL,
         'password' => NULL,
@@ -557,7 +585,9 @@
       'theme' => 'default',
       'paths' => 
       array (
+
         0 => 'D:\\xampp\\htdocs\\musium\\resources\\views/vendor/mail',
+
       ),
     ),
   ),
@@ -685,10 +715,12 @@
   'session' => 
   array (
     'driver' => 'file',
+
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
     'files' => 'D:\\xampp\\htdocs\\musium\\storage\\framework/sessions',
+
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -754,9 +786,11 @@
   array (
     'paths' => 
     array (
+
       0 => 'D:\\xampp\\htdocs\\musium\\resources\\views',
     ),
     'compiled' => 'D:\\xampp\\htdocs\\musium\\storage\\framework\\views',
+
   ),
   'debugbar' => 
   array (
@@ -770,7 +804,9 @@
     array (
       'enabled' => true,
       'driver' => 'file',
+
       'path' => 'D:\\xampp\\htdocs\\musium\\storage\\debugbar',
+
       'connection' => NULL,
       'provider' => '',
       'hostname' => '127.0.0.1',
@@ -1009,7 +1045,9 @@
     ),
     'temporary_files' => 
     array (
+
       'local_path' => 'D:\\xampp\\htdocs\\musium\\storage\\framework/cache/laravel-excel',
+
       'remote_disk' => NULL,
       'remote_prefix' => NULL,
       'force_resync_remote' => NULL,
