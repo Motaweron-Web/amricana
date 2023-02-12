@@ -60,6 +60,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- popup choose showModalDetails -->
 
                         <!-- popup choose tourguide -->
                         <div class="modal modalChoose"
@@ -71,9 +72,9 @@
                                         <h6 style="color: white" class="alert alert-info">Recommended Activity
                                             :{{ $group_customer->group->group_customer[0]->nextActivity->activity->title ?? '' }}</h6>
 
-                                            <button type="button" class="btn-close btn-close-choose"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                                        <button type="button" class="btn-close btn-close-choose"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body modal-lg">
                                         <form action="{{ route('groupMoveCreate') }}" method="post">
@@ -127,9 +128,10 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- popup choose tourguide -->
 
-                        <!-- popup table -->
-                        <div class="modal modalChoose bd-example-modal-lg"
+                        <!-- popup group details -->
+                        <div class="modal bd-example-modal-lg"
                              id="exampleModalReport-{{ $group_customer->group->id }}"
                              aria-labelledby="exampleModalLabel"
                              aria-hidden="true">
@@ -180,7 +182,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal modalChoose bd-example-modal-lg"
+                        <!-- popup group details -->
+
+                        <!-- group join -->
+                        <div class="modal bd-example-modal-lg"
                              id="joinGroup-{{ $group_customer->group->id }}" aria-labelledby=""
                              aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -196,30 +201,49 @@
                                             <tr>
                                                 <th scope="col" class="color">ID</th>
                                                 <th scope="col" class="color">Name</th>
-                                                <th scope="col" class="color">Count</th>
+                                                <th scope="col" class="color">capacity</th>
                                                 <th scope="col" class="color">Actions</th>
                                             </tr>
                                             </thead>
-                                            @foreach($group_customer->group->group_customer as $ticket)
-                                                <tbody>
+                                            <tbody>
+                                            @foreach($group_customers_waiting as $join_group)
+                                                @if($group_customer->group->id == $join_group->group->id)
+                                                    @continue
+                                                @endif
                                                 <tr>
-                                                    <td>{{ $ticket->ticket_id }}</td>
-                                                    <td>{{ $ticket->ticket->client_id }}</td>
-                                                    <td>{{ $ticket->quantity }}</td>
-                                                    <td>
-                                                        <button class="joinGroup btn btn-success">
-                                                            join
-                                                        </button>
-                                                    </td>
+                                                    <td>{{ $join_group->group->id }}</td>
+                                                    <td>{{ $join_group->group->title }}</td>
+                                                    <td>{{ $join_group->group->GroupQuantity }}
+                                                        / {{ $capacity->value }}</td>
+                                                    @if($join_group->group->GroupQuantity == $capacity->value)
+                                                        <td>
+                                                            <button class="joinGroup btn btn-danger" disabled>
+                                                                full
+                                                            </button>
+                                                        </td>
+                                                    @else
+                                                        <td>
+                                                            <form action="{{ route('joinGroup') }}" method="post">
+                                                                @csrf
+                                                                <input hidden type="text" name="group_id"
+                                                                       value="{{ $group_customer->group->id }}">
+                                                                <input hidden type="text" name="group_join"
+                                                                       value="{{ $join_group->group->id }}">
+                                                                <button type="submit" class="joinGroup btn btn-success">
+                                                                    join
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    @endif
                                                 </tr>
-                                                </tbody>
                                             @endforeach
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        <!-- group join -->
                     @endforeach
 
                     <!-- </div> -->

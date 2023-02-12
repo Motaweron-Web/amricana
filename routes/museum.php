@@ -15,6 +15,10 @@ Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatfo
     Route::post('groupMove', [GroupController::class, 'groupMove'])->name('groupMove');
     Route::post('selectTourguide', [GroupController::class, 'selectTourguide'])->name('selectTourguide');
 
+
+    #### Add Join Groups ####
+    Route::post('joinGroup', [GroupController::class, 'joinGroup'])->name('joinGroup');
+
     #### Add Activaties ####
     Route::post('addActivity', [SupervisorController::class, 'addActivity'])->name('addActivity');
 

@@ -25,6 +25,11 @@ class Groups extends Model
 //        return $this->hasMany(GroupCustomer::class,'group_id','id')->whereDate('created_at','=',Carbon::now()->format('Y-m-d'));
     }
 
+//    public function availableJoinGroup()
+//    {
+//        return $this->hasMany(GroupCustomer::class,'group_id','id');
+//    }
+
     public function group_color()
     {
         return $this->hasMany(GroupColor::class,'group_id','id');
