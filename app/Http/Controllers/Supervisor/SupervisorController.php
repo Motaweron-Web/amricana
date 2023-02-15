@@ -23,6 +23,7 @@ class SupervisorController extends Controller
 
         $group_customers_waiting = GroupColor::groupNotColored()->get();
 
+
 //        $group_colors_active = GroupColor::groupColored()->get();
 
 //        return $group_customers_waiting;
