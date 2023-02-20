@@ -110,7 +110,9 @@ class SupervisorController extends Controller
 
     public function getLastRequests()
     {
-        $groupMovment = GroupMovement::where('accept', '=', 'waiting')->where('supervisor_accept_id', auth('admin')->id())->get();
+        $groupMovment = GroupMovement::where('accept', '=', 'waiting')
+            ->where('supervisor_accept_id', auth('admin')->id())
+            ->whereDate('created_at','=',Carbon::now()->format('Y-m-d'))->get();
         if($groupMovment->count() == 0) {
             return response()->json(false);
         }
