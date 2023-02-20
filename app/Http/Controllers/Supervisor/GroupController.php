@@ -38,6 +38,7 @@ class GroupController extends Controller
 
             $tourguides = SupervisorActivity::where('activity_id', $activity)
                 ->where('status', 'available')
+                ->whereDate('date_time', Carbon::now()->format('Y-m-d'))
                 ->get();
 
             if ($tourguides->count() > 0) {
@@ -64,7 +65,6 @@ class GroupController extends Controller
                 ->whereDate('created_at', '=', $date_time)
                 ->update(['status' => 'out']);
 
-
             $inGroup = GroupMovement::create([
                 'date_time' => $date_time,
                 'group_id' => $request->group_id,
@@ -74,14 +74,11 @@ class GroupController extends Controller
                 'status' => 'in',
             ]);
 
-//            if ($inGroup){
-//
-//                $supervisor_old = SupervisorActivity::where('supervisor_id', $request->supervisor_old)
-//                    ->where('activity_id', $request->activity_id)
-//                    ->update(['status' => 'available']);
-//            }
-
-            if ($inGroup) {
+            if (!$inGroup) {
+                $outGroup = GroupMovement::where('group_id', $request->group_id)
+                    ->whereDate('created_at', '=', $date_time)
+                    ->update(['status' => 'in']);
+            } else if ($inGroup) {
                 return redirect()->back()->with('success', 'Group moved successfully');
             } else {
                 return redirect()->back()->with('error', 'please fill data and try again');
@@ -91,10 +88,6 @@ class GroupController extends Controller
 
             return redirect()->back()->with('error', 'please fill data and try again');
         }
-//        $supervisor_new = SupervisorActivity::where('supervisor_id',$request->supervisor_accept_id)
-//            ->where('activity_id', $request->activity_id)
-//            ->update(['status' => 'not_available']);
-
 
     } // end group_move
 
@@ -152,6 +145,11 @@ class GroupController extends Controller
             $group = GroupCustomer::where('group_id', $request->group_id)
                 ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
                 ->first()->update(['group_id' => $groupJoin]);
+
+            $movement = GroupMovement::where('group_id', $request->group_id)
+                ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
+                ->first()
+                ->update(['status' => 'out']);
 
             if ($group) {
                 return redirect()->back()->with('success', 'Group joined successfully');

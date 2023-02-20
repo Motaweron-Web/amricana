@@ -23,13 +23,16 @@ class SupervisorController extends Controller
 
         $group_customers_waiting = GroupColor::groupNotColored()->get();
 
+        $group_customer_join = GroupCustomer::whereDate('date_time',Carbon::now()->format('Y-m-d'))
+            ->groupBy('group_id')->get();
+
 
 //        $group_colors_active = GroupColor::groupColored()->get();
 
 //        return $group_customers_waiting;
 
 
-        return view('platform.activities.index', compact('group_customers_waiting', 'activities'));
+        return view('platform.activities.index', compact('group_customers_waiting', 'activities','group_customer_join'));
     }
 
     public function joinActivaties()
