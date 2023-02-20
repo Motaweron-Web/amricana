@@ -60,6 +60,11 @@ class GroupController extends Controller
 
         try {
 
+            $outGroup = GroupMovement::where('group_id', $request->group_id)
+                ->whereDate('created_at', '=', $date_time)
+                ->update(['status' => 'out']);
+
+
             $inGroup = GroupMovement::create([
                 'date_time' => $date_time,
                 'group_id' => $request->group_id,
@@ -69,15 +74,12 @@ class GroupController extends Controller
                 'status' => 'in',
             ]);
 
-            if ($inGroup){
-                $outGroup = GroupMovement::where('group_id', $request->group_id)
-                    ->whereDate('created_at', '=', $date_time)
-                    ->update(['status' => 'out']);
-
-                $supervisor_old = SupervisorActivity::where('supervisor_id', $request->supervisor_old)
-                    ->where('activity_id', $request->activity_id)
-                    ->update(['status' => 'available']);
-            }
+//            if ($inGroup){
+//
+//                $supervisor_old = SupervisorActivity::where('supervisor_id', $request->supervisor_old)
+//                    ->where('activity_id', $request->activity_id)
+//                    ->update(['status' => 'available']);
+//            }
 
             if ($inGroup) {
                 return redirect()->back()->with('success', 'Group moved successfully');
@@ -92,7 +94,6 @@ class GroupController extends Controller
 //        $supervisor_new = SupervisorActivity::where('supervisor_id',$request->supervisor_accept_id)
 //            ->where('activity_id', $request->activity_id)
 //            ->update(['status' => 'not_available']);
-
 
 
     } // end group_move
@@ -135,9 +136,30 @@ class GroupController extends Controller
             } else {
                 return redirect()->back()->with('error', 'error try again');
             }
-        } catch (Exception $e){
+        } catch (Exception $e) {
             return redirect()->back()->with('error', 'please fill data and try again');
-    }
-    }
+        } // end try & catch
+    } // end move create
 
+    public function joinGroup(Request $request)
+    {
+
+        try {
+
+            $inputs = $request->all();
+            $groupJoin = $request->group_join;
+
+            $group = GroupCustomer::where('group_id', $request->group_id)
+                ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
+                ->first()->update(['group_id' => $groupJoin]);
+
+            if ($group) {
+                return redirect()->back()->with('success', 'Group joined successfully');
+            } else {
+                return redirect()->back()->with('error', 'error try again !');
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Please Try again as soon as possible');
+        }
+    }
 }

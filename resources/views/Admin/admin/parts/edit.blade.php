@@ -33,7 +33,7 @@
 
         <div class="form-group">
             <label for="text" class="form-control-label">Supervisor type</label>
-            <select class="form-control" name="supervisor_type">
+            <select class="form-control" name="supervisor_type" id="supervisorType">
                 <option disabled>choose role</option>
                 @foreach($roles as $role)
                     <option value="{{$role}}" {{$admin->supervisor_type == $role ? 'selected' : ''}}>{{$role}}</option>
@@ -41,7 +41,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="assignRole">
             <label class="form-label">Assign Roles</label>
             <select name="permissions[]" class="form-control select2" data-placeholder="Choose Roles" multiple>
                 @foreach($permissions as $permission)
@@ -58,6 +58,16 @@
 </div>
 <script>
     $('.dropify').dropify()
+
+    $('#supervisorType').on('change', function(){
+        var type = $(this).val();
+        if (type === 'admin'){
+            $('#assignRole').fadeIn();
+        } else if(type === 'platform' || type === 'activity'){
+            $('#assignRole').fadeOut();
+        }
+    })
+
 </script>
 <script src="{{asset('assets/admin')}}/js/select2.js"></script>
 <script src="{{asset('assets/admin')}}/plugins/select2/select2.full.min.js"></script>

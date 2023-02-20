@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Sales;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bracelets;
+use App\Models\Configuration;
+use App\Models\GroupColor;
+use App\Models\GroupCustomer;
+use App\Models\Groups;
 use App\Models\Payment;
 use App\Models\Reservations;
 use App\Models\Ticket;
@@ -169,7 +173,7 @@ class GroupAccessController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'bracelet_number'=>['nullable'],
+            'bracelet_number'=> ['nullable', Rule::unique('ticket_rev_models', 'bracelet_number')->where('status', 'in')],
             'id'=>['required','array'],
             'id.*.'=>['array',Rule::exists('ticket_rev_models','id')->where('status','append')],
             'name'=>'nullable|max:500|array',
@@ -211,6 +215,33 @@ class GroupAccessController extends Controller
                 $ticket->update($status);
             }
         }
+
+        //start groups
+        $groups = Groups::query()->where('status','=','available')->orderBy('id','ASC')->get();
+        $configration = Configuration::latest()->first();
+
+        $cap = $request->capacity >=$configration->value ? ($request->capacity / $configration->value) : 1;
+
+        $group_id = $groups->first()->id;
+        //10
+        for ($i=1;$i<= $cap;$i++){
+
+            GroupCustomer::create([
+                'rev_id' => $ticket->id,
+                'group_id' => $group_id,
+                'date_time' => Carbon::now(),
+                'quantity' => $request->capacity >=$configration->value ? $configration->value : 1,
+                'sale_type' => 'trip',
+            ]);
+            Groups::where('id','=',$group_id)->update(['status' => 'not_available']);
+            GroupColor::create([
+                'group_id' => $group_id,
+                'date_time' => Carbon::now()
+
+            ]);
+            $group_id++;
+        }
+
 
         return response(['count'=>$count,'url'=>route('reservations.show',$ticket->id)]);
     }

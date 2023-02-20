@@ -173,30 +173,30 @@ class TicketController extends Controller
                 'capacity' => $request->capacity
             ]);
 
-        $groups = Groups::query()->where('status','=','available')->orderBy('id','ASC')->get();
-        $configration = Configuration::latest()->first();
-
-        $cap = $request->capacity >=$configration->value ? ($request->capacity / $configration->value) : 1;
-
-        $group_id = $groups->first()->id;
-        //10
-        for ($i=1;$i<= $cap;$i++){
-
-          GroupCustomer::create([
-                'ticket_id' => $ticket->id,
-                'group_id' => $group_id,
-                'date_time' => Carbon::now(),
-                'quantity' => $request->capacity >=$configration->value ? $configration->value : 1,
-                'sale_type' => 'family',
-            ]);
-            Groups::where('id','=',$group_id)->update(['status' => 'not_available']);
-            GroupColor::create([
-             'group_id' => $group_id,
-             'date_time' => Carbon::now()
-
-            ]);
-            $group_id++;
-        }
+//        $groups = Groups::query()->where('status','=','available')->orderBy('id','ASC')->get();
+//        $configration = Configuration::latest()->first();
+//
+//        $cap = $request->capacity >=$configration->value ? ($request->capacity / $configration->value) : 1;
+//
+//        $group_id = $groups->first()->id;
+//        //10
+//        for ($i=1;$i<= $cap;$i++){
+//
+//          GroupCustomer::create([
+//                'ticket_id' => $ticket->id,
+//                'group_id' => $group_id,
+//                'date_time' => Carbon::now(),
+//                'quantity' => $request->capacity >=$configration->value ? $configration->value : 1,
+//                'sale_type' => 'family',
+//            ]);
+//            Groups::where('id','=',$group_id)->update(['status' => 'not_available']);
+//            GroupColor::create([
+//             'group_id' => $group_id,
+//             'date_time' => Carbon::now()
+//
+//            ]);
+//            $group_id++;
+//        }
 
 
             if($request->amount == $request->revenue){
@@ -253,7 +253,7 @@ class TicketController extends Controller
                         'name' => $request->visitor_name[$i],
                         'birthday' => $request->visitor_birthday[$i],
                         'gender' => $request->gender[$i],
-                        'total_after_discount' => $request->visitor_price[$i] - (($request->visitor_price[$i] * $ticket->discount_value) / 100),
+                        'total_after_discount' => $request->visitor_price[$i] - (($request->visitor_price[$i] * $ticket->discount_value) / 100) ?? 0,
                     ]);
 
                 }elseif ($ticket->discount_type == 'val'){
@@ -268,7 +268,7 @@ class TicketController extends Controller
                         'name' => $request->visitor_name[$i],
                         'birthday' => $request->visitor_birthday[$i],
                         'gender' => $request->gender[$i],
-                        'total_after_discount' => $request->visitor_price[$i] - (100 *  $ticket->discount_value) / $ticket->total_price * ($request->visitor_price[$i] / 100)
+                        'total_after_discount' => $request->visitor_price[$i] - (100 *  $ticket->discount_value) / $ticket->total_price * ($request->visitor_price[$i] / 100) ?? 0
                     ]);
 
                 }else{
@@ -282,7 +282,7 @@ class TicketController extends Controller
                         'name' => $request->visitor_name[$i],
                         'birthday' => $request->visitor_birthday[$i],
                         'gender' => $request->gender[$i],
-                        'total_after_discount' => $request->visitor_price[$i],
+                        'total_after_discount' => $request->visitor_price[$i] ??0,
                     ]);
                 }
 

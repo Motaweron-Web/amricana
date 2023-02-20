@@ -139,7 +139,7 @@
                 success: function (data) {
                     if (data.status == 200) {
                         $('#dataTable').DataTable().ajax.reload();
-                        toastr.success('Supervisor added successfully');
+                        toastr.success('Group Activity Created successfully');
                     }
                     else
                         toastr.error('There is an error');
@@ -188,7 +188,7 @@
                     $('#updateButton').html(`Update`).attr('disabled', false);
                     if (data.status == 200){
                         $('#dataTable').DataTable().ajax.reload();
-                        toastr.success('Supervisor updated successfully');
+                        toastr.success('Group Activity Updated Successfully');
                     }
                     else
                         toastr.error('There is an error');

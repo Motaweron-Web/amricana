@@ -23,9 +23,10 @@ class SupervisorController extends Controller
 
         $group_customers_waiting = GroupColor::groupNotColored()->get();
 
-        $group_colors_active = GroupColor::groupColored()->get();
 
-//        return $group_colors_active
+//        $group_colors_active = GroupColor::groupColored()->get();
+
+//        return $group_customers_waiting;
 
 
         return view('platform.activities.index', compact('group_customers_waiting', 'activities'));
@@ -34,7 +35,9 @@ class SupervisorController extends Controller
     public function joinActivaties()
     {
         $activities = Activity::get();
-        return view('platform.activities.join_activaties', compact('activities'));
+        $supervisor_activities = SupervisorActivity::where('supervisor_id',auth()->user()->id)
+            ->whereDate('date_time',Carbon::now()->format('Y-m-d'))->get();
+        return view('platform.activities.join_activaties', compact('activities','supervisor_activities'));
     }
 
     public function addActivity(Request $request)
@@ -62,50 +65,53 @@ class SupervisorController extends Controller
 
     public function groupAccept(Request $request)
     {
-        try {
-            $accept = 'accept';
-            $group = GroupMovement::find($request->id)
-                ->update([
-                    'accept' => $accept
-                ]);
-            if ($group) {
-                return response()->json('success', 200);
-            }
-        } catch (Exception $e) {
-            return response()->json('error');
+        $accept = 'accept';
+        $group = GroupMovement::find($request->id);
+
+        $group->update([
+            'accept' => $accept,
+        ]);
+        if ($group) {
+
+            return redirect()->back()->with('success', 'Group Accepted');
         }
+
+        return response()->json('error');
+
     }
 
     public function groupNotAccept(Request $request)
     {
-        try {
-            $not_accept = 'not_accept';
 
-            $checkOutActivity = GroupMovement::where('status', '=', 'out')
-                ->where('group_id', $request->group_id)
-                ->whereDate('date_time', Carbon::now()->format('Y-m-d'))
-                ->orderBy('date_time', 'desc')->update(['status' => 'in']);
-
-            if (!$checkOutActivity) {
-                GroupMovement::find($request->id)
-                ->update([
-                    'accept' => $not_accept,
-                    'status' => 'out'
-                ]);
-
-                GroupCustomer::where('group_id' ,$request->group_id)
-                    ->update(['status' => 'waiting']);
-                GroupColor::where('group_id' ,$request->group_id)
-                    ->update(['color' => null]);
-
-            }
+        $not_accept = 'not_accept';
 
 
-                return response()->json('Not Accept Successfully', 200);
+        $checkOutActivity = GroupMovement::where('status', '=', 'out')
+            ->where('id', $request->id)
+            ->whereDate('date_time', Carbon::now()->format('Y-m-d'))
+            ->orderBy('date_time', 'desc')->update(['status' => 'in']);
 
-        } catch (Exception $e) {
-            return response()->json('error');
+        if (!$checkOutActivity) {
+            $group = GroupMovement::find($request->id);
+//                dd($group);
+            $group->update([
+                'accept' => $not_accept,
+            ]);
+
+
+            GroupCustomer::where('group_id', $request->group_id)
+                ->update(['status' => 'waiting']);
+            GroupColor::where('group_id', $request->group_id)
+                ->update(['color' => null]);
+
         }
+        if ($group) {
+
+            return redirect()->back()->with('success', 'Not Accept Successfully');
+        }
+
+        return response()->json('error');
+
     }
 
     public function getLastRequests()
@@ -114,6 +120,7 @@ class SupervisorController extends Controller
             ->where('supervisor_accept_id', auth('admin')->id())
             ->whereDate('created_at','=',Carbon::now()->format('Y-m-d'))->get();
         if($groupMovment->count() == 0) {
+
             return response()->json(false);
         }
         return response()->json(true);
