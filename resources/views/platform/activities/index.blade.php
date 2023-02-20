@@ -10,7 +10,12 @@
 
     {{-- assets/uploads/activities  --}}
     <!-- content -->
-    <content class="container-fluid pt-4">
+    <style>
+        .activityBlock {
+            pointer-events : none;
+        }
+    </style>
+    <content class="container-fluid pt-4 {{ (auth()->user()->supervisor_type == 'activity') ? 'activityBlock' : ''  }}">
         <h2 class="MainTiltle mb-5 ms-4">Egyptian Museum</h2>
 
         <div class="row mt-5">
@@ -206,7 +211,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($group_customers_waiting as $join_group)
+                                            @foreach($group_customer_join as $join_group)
                                                 @if($group_customer->group->id == $join_group->group->id)
                                                     @continue
                                                 @endif
@@ -415,7 +420,7 @@
                                                         <td>{{ $ticket->currentActivity->activity->title }}</td>
                                                             <?php
                                                             $now = Carbon\Carbon::parse(date('H:i:s'));
-                                                            $created_at = Carbon\Carbon::parse($ticket->nextActivity->time_group);
+                                                            $created_at = Carbon\Carbon::parse($ticket->nextActivity->time_group ?? '');
                                                             $diffMinutes = $created_at->diffInMinutes($now);
 //                                                            dd($diffMinutes);
                                                             ?>
@@ -424,7 +429,8 @@
                                                         <td>{{ $ticket->ticket->cashier->name }}</td>
                                                         <td>
                                                             <button class="btn btn-success" data-bs-toggle="modal"
-                                                                    data-bs-target="#joinGroup-{{ $group->id }}">
+                                                                    {{ ($group->GroupQuantity == $capacity->value) ? 'disabled' : '' }}
+                                                                    data-bs-target="#joinGroupMove-{{ $group->id }}">
                                                                 join Group
                                                             </button>
                                                         </td>
@@ -436,8 +442,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal modalChoose bd-example-modal-lg"
-                                 id="joinGroup-{{ $group->id }}" aria-labelledby=""
+                            <!-- group join -->
+                            <div class="modal bd-example-modal-lg"
+                                 id="joinGroupMove-{{ $group->id }}" aria-labelledby=""
                                  aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div style="width:1260px;right: 180px;" class="modal-content">
@@ -452,29 +459,49 @@
                                                 <tr>
                                                     <th scope="col" class="color">ID</th>
                                                     <th scope="col" class="color">Name</th>
-                                                    <th scope="col" class="color">Count</th>
+                                                    <th scope="col" class="color">capacity</th>
                                                     <th scope="col" class="color">Actions</th>
                                                 </tr>
                                                 </thead>
-                                                @foreach($group->group_customer as $ticket)
-                                                    <tbody>
+                                                <tbody>
+                                                @foreach($group_customer_join as $join_group)
+                                                    @if($group->id == $join_group->group->id)
+                                                        @continue
+                                                    @endif
                                                     <tr>
-                                                        <td>{{ $ticket->ticket_id }}</td>
-                                                        <td>{{ $ticket->ticket->client_id }}</td>
-                                                        <td>{{ $ticket->quantity }}</td>
-                                                        <td>
-                                                            <button class="joinGroup btn btn-success">
-                                                                join
-                                                            </button>
-                                                        </td>
+                                                        <td>{{ $join_group->group->id }}</td>
+                                                        <td>{{ $join_group->group->title }}</td>
+                                                        <td>{{ $join_group->group->GroupQuantity }}
+                                                            / {{ $capacity->value }}</td>
+                                                        @if($join_group->group->GroupQuantity == $capacity->value)
+                                                            <td>
+                                                                <button class="joinGroup btn btn-danger" disabled>
+                                                                    full
+                                                                </button>
+                                                            </td>
+                                                        @else
+                                                            <td>
+                                                                <form action="{{ route('joinGroup') }}" method="post">
+                                                                    @csrf
+                                                                    <input hidden type="text" name="group_id"
+                                                                           value="{{ $group->id }}">
+                                                                    <input hidden type="text" name="group_join"
+                                                                           value="{{ $join_group->group->id }}">
+                                                                    <button type="submit" class="joinGroup btn btn-success">
+                                                                        join
+                                                                    </button>
+                                                                </form>
+                                                            </td>
+                                                        @endif
                                                     </tr>
-                                                    </tbody>
                                                 @endforeach
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- group join -->
                         @endforeach
                         <!-- </div> -->
                     </div>
@@ -594,6 +621,8 @@
             toastr.success('{{ Session::get('success') }}');
             @endif
         });
+
+        // $('.activityBlock').css('', 'none');
 
 
     </script>
