@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Sales;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bracelets;
+use App\Models\Configuration;
+use App\Models\GroupColor;
+use App\Models\GroupCustomer;
+use App\Models\Groups;
 use App\Models\Reservations;
 use App\Models\Ticket;
 use App\Models\TicketRevModel;
@@ -185,6 +189,31 @@ class FamilyAccessController extends Controller
         }
         $ticket->update($status);
 
+        //start groups
+        $groups = Groups::query()->where('status','=','available')->orderBy('id','ASC')->get();
+        $configration = Configuration::latest()->first();
+
+        $cap = $request->capacity >=$configration->value ? ($request->capacity / $configration->value) : 1;
+
+        $group_id = $groups->first()->id;
+        //10
+        for ($i=1;$i<= $cap;$i++){
+
+            GroupCustomer::create([
+                'ticket_id' => $ticket->id,
+                'group_id' => $group_id,
+                'date_time' => Carbon::now(),
+                'quantity' => $request->capacity >=$configration->value ? $configration->value : 1,
+                'sale_type' => 'family',
+            ]);
+            Groups::where('id','=',$group_id)->update(['status' => 'not_available']);
+            GroupColor::create([
+                'group_id' => $group_id,
+                'date_time' => Carbon::now()
+
+            ]);
+            $group_id++;
+        }
         return response(['count'=>$count,'url'=>route('ticket.edit',$ticket->id)]);
     }
 

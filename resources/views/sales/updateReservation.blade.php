@@ -1211,6 +1211,7 @@
                                         <div class="screen col">
                                             <span>paid</span>
                                             <strong id="oldPaid"> {{$rev->paid_amount}}</strong>
+                                            <input type="hidden" value="{{$rev->paid_amount}}" id="oldPayRev">
                                         </div>
                                         <div class="screen col">
                                             <span>dues</span>
@@ -1764,11 +1765,14 @@
                     return $(this).val();
                 }).get(),
                 rem = parseFloat($("#revenue").text()) - amount;
+            var oldPayRev = $('#oldPayRev').val();
 
             if(discount_value != 0 && discount_id.length == 0){
                 toastr.error("Choose The Discount Reasons");
             }
             else {
+
+
                 var data = {
                     'client_name': client_name,
                     'phone': client_phone,
@@ -1796,7 +1800,8 @@
                     "revenue": revenue,
                     "rev_id": "{{$rev->id}}",
                     "rem": (Math.round(rem * 100) / 100).toFixed(2),
-                    "payment_method" : $('input[name="payment"]:checked').val()
+                    "payment_method" : $('input[name="payment"]:checked').val(),
+                    "oldPayRev" : oldPayRev,
                 }
                 $.ajax({
                     type: "POST",

@@ -333,30 +333,30 @@ class ReservationController extends Controller
 //        if($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1:8000')
 //            Reservations::where('id',$request->rev_id)->first()->update(['uploaded' => true]);
 
-        $groups = Groups::query()->where('status','=','available')->orderBy('id','ASC')->get();
-        $configration = Configuration::latest()->first();
-
-        $cap = $request->capacity >=$configration->value ? ($request->capacity / $configration->value) : 1;
-
-        $group_id = $groups->first()->id;
-        //10
-        for ($i=1;$i<= $cap;$i++){
-
-            GroupCustomer::create([
-                'rev_id' => $request->rev_id,
-                'group_id' => $group_id,
-                'date_time' => Carbon::now(),
-                'quantity' => $request->capacity >=$configration->value ? $configration->value : 1,
-                'sale_type' => 'trip',
-            ]);
-            Groups::where('id','=',$group_id)->update(['status' => 'not_available']);
-            GroupColor::create([
-                'group_id' => $group_id,
-                'date_time' => Carbon::now()
-
-            ]);
-            $group_id++;
-        }
+//        $groups = Groups::query()->where('status','=','available')->orderBy('id','ASC')->get();
+//        $configration = Configuration::latest()->first();
+//
+//        $cap = $request->capacity >=$configration->value ? ($request->capacity / $configration->value) : 1;
+//
+//        $group_id = $groups->first()->id;
+//        //10
+//        for ($i=1;$i<= $cap;$i++){
+//
+//            GroupCustomer::create([
+//                'rev_id' => $request->rev_id,
+//                'group_id' => $group_id,
+//                'date_time' => Carbon::now(),
+//                'quantity' => $request->capacity >=$configration->value ? $configration->value : 1,
+//                'sale_type' => 'trip',
+//            ]);
+//            Groups::where('id','=',$group_id)->update(['status' => 'not_available']);
+//            GroupColor::create([
+//                'group_id' => $group_id,
+//                'date_time' => Carbon::now()
+//
+//            ]);
+//            $group_id++;
+//        }
 
         for ($i = 0 ; $i < count($request->visitor_type); $i++) {
 
@@ -643,8 +643,18 @@ class ReservationController extends Controller
 
         ]);
 
-        $payment = Payment::where('rev_id','=',$request->rev_id)->where('payment_method','=','cash')->first();
-        $payment->update(['amount' => $request->total_price,]);
+//        $payment = Payment::where('rev_id','=',$request->rev_id)->where('payment_method','=','cash')->first();
+//        $payment->update(['amount' => $request->total_price,]);
+
+        Payment::create([
+
+            'rev_id' => $request->rev_id,
+            'cashier_id' => auth()->user()->id,
+            'day' => Carbon::now()->format('Y-m-d'),
+            'amount' => ($request->revenue - $request->oldPayRev),
+            'payment_method' => $request->payment_method
+
+        ]);
 
 
         for ($i = 0 ; $i < count($request->visitor_type); $i++) {
