@@ -733,6 +733,7 @@
                     "payment_method" : $('input[name="payment"]:checked').val(),
                     "capacity":capacity,
 
+
                 }
                 $.ajax({
                     type: "POST",
