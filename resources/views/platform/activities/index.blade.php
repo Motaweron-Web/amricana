@@ -178,6 +178,9 @@
                                                                 data-bs-target="#joinGroup-{{ $group_customer->group->id }}">
                                                             join Group
                                                         </button>
+{{--                                                        <button class="btn btn-primary WaitingRoom" data-id="{{ $group_customer->group->id  }}">--}}
+{{--                                                            To Waiting--}}
+{{--                                                        </button>--}}
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -433,6 +436,9 @@
                                                                     data-bs-target="#joinGroupMove-{{ $group->id }}">
                                                                 join Group
                                                             </button>
+                                                            <button class="btn btn-primary WaitingRoom" data-id="{{ $group->id }}">
+                                                                To Waiting
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                     </tbody>
@@ -548,31 +554,6 @@
 
     <script>
 
-
-        // $('.box-color').on('click', function(){
-        //     var color = $(this).data('color');
-        //     alert(color);
-        // });
-
-
-        {{--$('.box-color').on('click', function () {--}}
-        {{--    var boxColor = $(this).data('color');--}}
-        {{--    var group = $(this).data('group');--}}
-        {{--    var url = '{{ route('groupColor') }}';--}}
-        {{--    $.ajax({--}}
-        {{--        url: url,--}}
-        {{--        type: 'post',--}}
-        {{--        _token: '{{ csrf_token() }}',--}}
-        {{--        data: {--}}
-        {{--            'groupId': group,--}}
-        {{--            'boxColor': boxColor,--}}
-        {{--        },--}}
-        {{--        success: function () {--}}
-        {{--            // location.reload();--}}
-        {{--        }--}}
-        {{--    })--}}
-        {{--})--}}
-
         function playAudio() {
             var x = new Audio('{{ asset('sound/eventually-590.ogg') }}');
             // Show loading animation.
@@ -609,6 +590,27 @@
             })
         })
 
+        $('.WaitingRoom').on('click', function () {
+            var group = $(this).data('id');
+            var url = '{{ route('returnWaitingRoom') }}';
+            $.ajax({
+                url: url,
+                type: 'post',
+                _token: '{{ csrf_token() }}',
+                data: {
+                    'group': group,
+                },
+                success: function (data) {
+                    if (data.status === 200){
+                        toastr.success('Group Move To Waiting Activity Successfully');
+                        setTimeout(function () {
+                        location.reload();
+                        },1000)
+                    }
+                }
+            })
+        })
+
         $('#closeChoose').on('click', function () {
             location.reload();
         })
@@ -623,7 +625,6 @@
         });
 
         // $('.activityBlock').css('', 'none');
-
 
     </script>
 @endsection

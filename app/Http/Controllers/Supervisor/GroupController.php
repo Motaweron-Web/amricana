@@ -132,13 +132,12 @@ class GroupController extends Controller
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'please fill data and try again');
         } // end try & catch
+
     } // end move create
 
     public function joinGroup(Request $request)
     {
-
         try {
-
             $inputs = $request->all();
             $groupJoin = $request->group_join;
 
@@ -158,6 +157,24 @@ class GroupController extends Controller
             }
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Please Try again as soon as possible');
+        } // end try & catch
+
+    } // end join group
+
+    public function returnWaitingRoom(Request $request)
+    {
+        $group = $request->group;
+
+        $groupMovement = GroupMovement::where('group_id', $group)
+            ->delete();
+
+        if ($groupMovement) {
+            $groupColor = GroupColor::where('group_id', $group)
+                ->update(['color' => null]);
+            return response()->json(['status' => 200]);
+        } else {
+            return response()->json(['status' => 500]);
         }
-    }
+
+    } // end returnGroupWaiting
 }

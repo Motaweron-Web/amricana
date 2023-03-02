@@ -18,6 +18,7 @@ Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatfo
 
     #### Add Join Groups ####
     Route::post('joinGroup', [GroupController::class, 'joinGroup'])->name('joinGroup');
+    Route::post('returnWaitingRoom', [GroupController::class, 'returnWaitingRoom'])->name('returnWaitingRoom');
 
     #### Add Activaties ####
     Route::post('addActivity', [SupervisorController::class, 'addActivity'])->name('addActivity');
