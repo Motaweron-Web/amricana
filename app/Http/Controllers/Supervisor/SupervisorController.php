@@ -74,8 +74,12 @@ class SupervisorController extends Controller
         $group->update([
             'accept' => $accept,
         ]);
-        if ($group) {
 
+        SupervisorActivity::where('supervisor_id',$request->platform)
+            ->where('date_time',Carbon::now()->format('Y-m-d'))
+            ->update(['status' => 'not_available']);
+
+        if ($group) {
             return redirect()->back()->with('success', 'Group Accepted');
         }
 

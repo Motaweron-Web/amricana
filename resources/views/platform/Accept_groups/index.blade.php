@@ -51,7 +51,9 @@
                                                 <div class="col-md-2">
                                                     <form action="{{ route('groupAccept') }}" method="POST">
                                                         @csrf
+
                                                         <input Hidden type="hidden" name="id" value="{{ $group->id }}">
+                                                        <input Hidden type="hidden" name="platform" value="{{ $group->supervisor->id }}">
                                                     <button type="submit" class="btn btn-pill btn-success btnAccept"><i
                                                             class="fa fa-check"></i></button>
                                                     </form>
