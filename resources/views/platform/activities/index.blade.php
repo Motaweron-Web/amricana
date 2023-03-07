@@ -17,7 +17,7 @@
     </style>
     @if($supervisor_activities->count() > 0 && auth()->user()->supervisor_type == 'activity')
         <content
-            class="container-fluid pt-4 {{ (auth()->user()->supervisor_type == 'activity') ? 'activityBlock' : ''  }}">
+            class="container-fluid pt-4 {{ (auth()->user()->supervisor_type == 'activity') ? '' : ''  }}">
             <h2 class="MainTiltle mb-5 ms-4">Egyptian Museum</h2>
 
             <div class="row mt-5">
@@ -167,16 +167,17 @@
                                                 </tr>
                                                 </thead>
                                                 @foreach($group_customer->group->group_customer as $ticket)
+{{--                                                    @dd($ticket->reservation)--}}
                                                     <tbody>
                                                     <tr>
-                                                        <td>{{ $ticket->ticket_id }}</td>
-                                                        <td>{{ $ticket->ticket->client->name }}</td>
+                                                        <td>{{ $ticket->rev_id ?? $ticket->ticket_id }}</td>
+                                                        <td>{{ ($ticket->ticket != null) ? $ticket->ticket->client->name : $ticket->reservation->client_name }}</td>
                                                         <td>{{ $ticket->quantity }}</td>
                                                         <td>No activity at moment</td>
                                                         <td>Waiting Room</td>
                                                         <td>00:00</td>
                                                         <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
-                                                        <td>{{ $ticket->ticket->cashier->name }}</td>
+                                                        <td>{{ ($ticket->ticket != null) ? $ticket->ticket->cashier->name : $ticket->reservation->cashier->name }}</td>
                                                         <td>
                                                             <button class="btn btn-success" data-bs-toggle="modal"
                                                                     data-bs-target="#joinGroup-{{ $group_customer->group->id }}">
@@ -407,6 +408,7 @@
                                                     <tr>
                                                         <th scope="col" class="color">ID</th>
                                                         <th scope="col" class="color">Name</th>
+                                                        <th scope="col" class="color">Type</th>
                                                         <th scope="col" class="color">Count</th>
                                                         <th scope="col" class="color">Finished Activities</th>
                                                         <th scope="col" class="color">Current Activity</th>
@@ -419,8 +421,9 @@
                                                     @foreach($group->group_customer as $ticket)
                                                         <tbody>
                                                         <tr>
-                                                            <td>{{ $ticket->ticket_id }}</td>
-                                                            <td>{{ $ticket->ticket->client->name }}</td>
+                                                            <td>{{ $ticket->rev_id ?? $ticket->ticket_id }}</td>
+                                                            <td>{{ ($ticket->ticket != null) ? $ticket->ticket->client->name : $ticket->reservation->client_name }}</td>
+                                                            <td>{{ $ticket->sale_type }}</td>
                                                             <td>{{ $ticket->quantity }}</td>
                                                             <td>{{ $ticket->lastActivity()->count() }}
                                                                 /{{ $activities->count() }} of Activities
@@ -434,7 +437,7 @@
                                                                 ?>
                                                             <td>{{ $diffMinutes . 'Mins' ?? '00:00' }}</td>
                                                             <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
-                                                            <td>{{ $ticket->ticket->cashier->name }}</td>
+                                                            <td>{{ ($ticket->ticket != null) ? $ticket->ticket->cashier->name : $ticket->reservation->cashier->name }}</td>
                                                             <td>
                                                                 <button class="btn btn-success" data-bs-toggle="modal"
                                                                         {{ ($group->GroupQuantity == $capacity->value) ? 'disabled' : '' }}

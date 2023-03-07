@@ -296,6 +296,8 @@ class ReservationController extends Controller
             $status = '1';
         else
             $status = '0';
+
+//        dd($request);
         $rev = Reservations::where('id',$request->rev_id)->first()->update([
             'add_by'         => auth()->user()->id,
             'shift_id'       => $request->shift_id,
@@ -318,6 +320,8 @@ class ReservationController extends Controller
             'capacity'           => $request->capacity,
 
         ]);
+
+
 
         Payment::create([
 

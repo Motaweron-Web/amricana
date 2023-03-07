@@ -62,4 +62,9 @@ class Reservations extends Model
         return $this->hasMany(Payment::class,'rev_id');
     }
 
+    public function cashier()
+    {
+        return $this->belongsTo(User::class,'add_by','id');
+    }
+
 }//end class
