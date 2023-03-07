@@ -147,8 +147,12 @@ class GroupController extends Controller
 
             $movement = GroupMovement::where('group_id', $request->group_id)
                 ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
-                ->first()
-                ->update(['status' => 'out']);
+                ->first();
+
+            if ($movement !== null) {
+                $movement->update(['status' => 'out']);
+            }
+
 
             if ($group) {
                 return redirect()->back()->with('success', 'Group joined successfully');

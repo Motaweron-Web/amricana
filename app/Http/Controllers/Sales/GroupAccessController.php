@@ -216,6 +216,7 @@ class GroupAccessController extends Controller
             }
         }
 
+//        dd($request->capacity);
         //start groups
         $groups = Groups::query()->where('status','=','available')->orderBy('id','ASC')->get();
         $configration = Configuration::latest()->first();
