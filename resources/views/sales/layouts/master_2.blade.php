@@ -9,8 +9,15 @@
 </head>
 <body class="g-sidenav-show  bg-gray-100">
 @include('layouts.loader.mainLoader.loader')
-
+@php
+    $supervisor_activities = \App\Models\SupervisorActivity::where('supervisor_id',auth()->user()->id)
+            ->whereDate('date_time',\Carbon\Carbon::now()->format('Y-m-d'))->get();
+@endphp
+@if($supervisor_activities->count() > 0 && auth()->user()->supervisor_type == 'activity')
 @include('sales.layouts.inc_2.sidebar')
+@elseif(auth()->user()->supervisor_type == 'platform')
+    @include('sales.layouts.inc_2.sidebar')
+@endif
 <main class="main-content position-relative h-100 border-radius-lg ">
     @include('sales.layouts.inc_2.navbar')
     <content class="container-fluid pt-4">

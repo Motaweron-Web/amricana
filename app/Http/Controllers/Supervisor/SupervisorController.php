@@ -26,13 +26,15 @@ class SupervisorController extends Controller
         $group_customer_join = GroupCustomer::whereDate('date_time',Carbon::now()->format('Y-m-d'))
             ->groupBy('group_id')->get();
 
+        $supervisor_activities = SupervisorActivity::where('supervisor_id',auth()->user()->id)
+            ->whereDate('date_time',Carbon::now()->format('Y-m-d'))->get();
 
 //        $group_colors_active = GroupColor::groupColored()->get();
 
 //        return $group_customers_waiting;
 
 
-        return view('platform.activities.index', compact('group_customers_waiting', 'activities','group_customer_join'));
+        return view('platform.activities.index', compact('group_customers_waiting', 'activities','group_customer_join','supervisor_activities'));
     }
 
     public function joinActivaties()
@@ -48,11 +50,11 @@ class SupervisorController extends Controller
         SupervisorActivity::create([
             'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
             'status' => 'available',
-            'activity_id' => $request->activaty,
+            'activity_id' => $request->activity,
             'supervisor_id' => $request->supervisor,
         ]);
 
-        return redirect()->back();
+        return redirect()->route('platform');
     }
 
     public function requestsActivity()

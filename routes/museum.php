@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthActivityController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\AuthPlatformController;
 use App\Http\Controllers\Supervisor\GroupController;
 use App\Http\Controllers\Supervisor\SupervisorController;
 use Illuminate\Support\Facades\Route;
@@ -31,5 +33,19 @@ Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatfo
 
 
     // logout
-    Route::get('logout', [AuthController::class,'logoutPlatform'])->name('platform.logout');
+    Route::get('platform/logout', [AuthPlatformController::class,'logout'])->name('platform.logout');
+    Route::get('activity/logout', [AuthActivityController::class,'logout'])->name('activity.logout');
+});
+
+
+Route::group(['prefix'=>'platform'],function (){
+
+    Route::get('login', [AuthPlatformController::class,'index'])->name('platform.login');
+    Route::POST('login', [AuthPlatformController::class,'login'])->name('platform.login');
+});
+
+Route::group(['prefix'=>'supervisor'],function (){
+
+    Route::get('login', [AuthActivityController::class,'index'])->name('activity.login');
+    Route::POST('login', [AuthActivityController::class,'login'])->name('activity.login');
 });

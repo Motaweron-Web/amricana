@@ -22,16 +22,24 @@
     </div>
     <div class="collapse navbar-collapse  me-md-0 me-sm-4" id="navbar">
         <ul class="ms-md-auto navbar-nav  justify-content-end">
-{{--            @if(auth()->check())--}}
+            @if(auth()->user()->supervisor_type == 'platform')
                 <li class="nav-item d-flex align-items-center">
-                    <span class="d-inline p-3">Cashier : name</span>
+                    <span class="d-inline p-3">Name : {{ auth('admin')->user()->name }}</span>
                     <a href="{{route('platform.logout')}}" class="nav-link text-body font-weight-bold px-0">
+                        <span class="d-inline">Log out</span>
+                    </a>
+
+                </li>
+            @elseif(auth()->user()->supervisor_type == 'activity')
+                <li class="nav-item d-flex align-items-center">
+                    <span class="d-inline p-3">Name : {{ auth('admin')->user()->name }}</span>
+                    <a href="{{route('activity.logout')}}" class="nav-link text-body font-weight-bold px-0">
                         <span class="d-inline">Log out</span>
 
                     </a>
 
                 </li>
-
+            @endif
 {{--            @else--}}
 {{--                <li class="nav-item d-flex align-items-center">--}}
 {{--                    <a href="{{route('lo')}}" class="nav-link text-body font-weight-bold px-0">--}}
