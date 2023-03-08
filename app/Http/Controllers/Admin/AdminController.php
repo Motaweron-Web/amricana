@@ -140,7 +140,6 @@ class AdminController extends Controller
         foreach ($names as $name)
             $admin->revokePermissionTo($name);
 
-
         $admin->givePermissionTo($request->permissions);
         if ($admin->update($inputs))
             return response()->json(['status' => 200]);
