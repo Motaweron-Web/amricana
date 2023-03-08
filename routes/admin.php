@@ -69,6 +69,11 @@ Route::group(['prefix'=>'admin','middleware'=>['auth:admin','CheckAdmin'],'names
     Route::resource('roles','RoleController');
     Route::POST('role.delete','RoleController@delete')->name('roles.delete');
 
+
+    #### Roles Admin ####
+    Route::resource('roles_supervisors','RoleSuperVisorController');
+    Route::post('roles_supervisors.delete','RoleSuperVisorController@delete')->name('roles_supervisors.delete');
+
     #### Capacity ####
     Route::resource('capacities','CapacityController');
     Route::POST('capacities.delete','CapacityController@delete')->name('capacities.delete');

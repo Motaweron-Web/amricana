@@ -215,6 +215,7 @@ class FamilyAccessController extends Controller
             $group_id++;
         }
         return response(['count'=>$count,'url'=>route('ticket.edit',$ticket->id)]);
+
     }
 
     /**

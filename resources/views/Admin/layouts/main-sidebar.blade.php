@@ -41,12 +41,15 @@
             </a>
         </li>
 
-        <li class="slide">
-            <a class="side-menu__item" href="{{route('routes.index')}}">
-                <i class="fe fe-zap side-menu__icon"></i>
-                <span class="side-menu__label">Set routes</span>
-            </a>
-        </li>
+        @if(admin()->user()->can('Master'))
+            <li class="slide">
+                <a class="side-menu__item" href="{{route('routes.index')}}">
+                    <i class="fe fe-zap side-menu__icon"></i>
+                    <span class="side-menu__label">Set routes</span>
+                </a>
+            </li>
+        @endif
+
 
 
 
@@ -171,6 +174,8 @@
                     </a>
                 </li>
             @endif
+
+
             @if(auth()->user()->can('Setting') || admin()->user()->can('Master'))
                 <li class="slide">
                     <a class="side-menu__item" href="{{route('general_setting.index')}}">
@@ -179,6 +184,8 @@
                     </a>
                 </li>
             @endif
+
+
             @if(auth()->user()->can('Marketing') || admin()->user()->can('Master'))
 
                 <li class="slide">
