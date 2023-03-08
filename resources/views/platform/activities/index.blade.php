@@ -15,16 +15,16 @@
             pointer-events: none;
         }
     </style>
-    @if($supervisor_activities->count() > 0 && auth()->user()->supervisor_type == 'activity')
+    @if($supervisor_activities && auth()->user()->supervisor_type == 'activity')
         <content
-            class="container-fluid pt-4 {{ (auth()->user()->supervisor_type == 'activity') ? '' : ''  }}">
+            class="container-fluid pt-4">
             <h2 class="MainTiltle mb-5 ms-4">Egyptian Museum</h2>
 
             <div class="row mt-5">
                 <div class="col-md-6 col-12">
 
                     {{--start div box--}}
-                    <div class="box"
+                    <div class="box {{ (auth()->user()->supervisor_type == 'activity') ? 'activityBlock' : ''  }}"
                     >
                         <h3 class="title-box">Waiting Room</h3>
                         <div class="d-flex justify-content-between">
@@ -106,9 +106,9 @@
                                                         <select style="padding: 5px;" name="activity_id"
                                                                 class="selectform form-select activitySelect"
                                                                 id="activitySelect">
-                                                            @foreach($activities as $activity)
+                                                            @foreach($activities_test as $activity)
                                                                 <option
-                                                                    value="{{ $activity->id }}">{{ $activity->title }}</option>
+                                                                    value="{{ $activity->activity_id }}">{{ $activity->activity->title }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -167,7 +167,7 @@
                                                 </tr>
                                                 </thead>
                                                 @foreach($group_customer->group->group_customer as $ticket)
-{{--                                                    @dd($ticket->reservation)--}}
+                                                    {{--                                                    @dd($ticket->reservation)--}}
                                                     <tbody>
                                                     <tr>
                                                         <td>{{ $ticket->rev_id ?? $ticket->ticket_id }}</td>
@@ -267,263 +267,531 @@
 
 
                 {{--------------------------------------------------------------------------------------------------------- start activity-----------------------}}
-                @foreach($activities as $activity)
-                    <div class="col-md-6 col-12">
+                @if(auth()->user()->supervisor_type == 'activity' && $supervisor_activities != null)
+{{--                    @foreach($activities as $activity)--}}
+                        <div class="col-md-6 col-12">
 
 
-                        {{--start div box--}}
-                        <div class="box"
-                             style="  background-image: linear-gradient(rgba(246, 238, 207, 0.7), rgba(246, 238, 207,0.9)), url({{URL::to($activity->photo)}}) !important;">
-                            <h3 class="title-box">{{$activity->title}}</h3>
-                            <div class="d-flex justify-content-between">
-                                {{--                        <button class="btn-report mb-2" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModalReport">--}}
-                                {{--                            Report--}}
-                                {{--                        </button>--}}
-                                {{--                        <button class="btn-report btn-end mb-2" type="submit">End Tour</button>--}}
-                            </div>
-                            <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
-
-
-                            @foreach($activity->groups as $group)
-                                <div style="background-color: {{ $group->group_movement->group_color->color ?? ''}}"
-                                     class="items item d-flex justify-content-between divGroup" draggable="true"
-                                     data-bs-toggle="modal"
-                                     data-bs-target="#showgroupDetails-{{ $group->id }}"
-                                     data-id="{{ $group->id }}">
-                                    {{ $group->title }}
-                                    <span>{{ ($group->group_movement->accept == 'waiting') ? 'Pending' : 'Active' }}</span>
-                                    {{--                                <button type="button" ">Group-{{$group->group->id}}</button>--}}
-                                    <span class="me-2">{{ $group->group_quantity ?? ''}}</span>
+                            {{--start div box--}}
+                            <div class="box"
+                                 style="  background-image: linear-gradient(rgba(246, 238, 207, 0.7), rgba(246, 238, 207,0.9)), url({{URL::to($supervisor_activities->activity->photo)}}) !important;">
+                                <h3 class="title-box">{{$supervisor_activities->activity->title}}</h3>
+                                <div class="d-flex justify-content-between">
+                                    {{--                        <button class="btn-report mb-2" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModalReport">--}}
+                                    {{--                            Report--}}
+                                    {{--                        </button>--}}
+                                    {{--                        <button class="btn-report btn-end mb-2" type="submit">End Tour</button>--}}
                                 </div>
+                                <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
 
 
-                                <!-- popup choose showModalDetails -->
-                                <div class="modal"
-                                     id="showgroupDetails-{{ $group->id }}"
-                                     data-id="{{$group->id}}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content modalContentChoose modal-All">
-                                            <div class="d-flex justify-content-end m-3">
-                                                <button type="button" class="btn-close btn-close-choose"
-                                                        data-bs-dismiss="modal"
-                                                        aria-label="Close" id="closeChoose"></button>
-                                            </div>
-                                            <div class="modal-body d-flex justify-content-between">
-                                                <button class="btn-group mb-2" type="submit" data-bs-toggle="modal"
-                                                        data-bs-target="#groupReport-{{ $group->id }}">
-                                                    Group Details
-                                                </button>
-                                                <button class="btn-report mb-2" type="submit" data-bs-toggle="modal"
-                                                        data-bs-target="#moveGroup-{{ $group->id }}">
-                                                    Move group
-                                                </button>
-                                            </div>
-                                        </div>
+                                @foreach($supervisor_activities->activity->groups as $group)
+                                    <div style="background-color: {{ $group->group_movement->group_color->color ?? ''}}"
+                                         class="items item d-flex justify-content-between divGroup" draggable="true"
+                                         data-bs-toggle="modal"
+                                         data-bs-target="#showgroupDetails-{{ $group->id }}"
+                                         data-id="{{ $group->id }}">
+                                        {{ $group->title }}
+                                        <span>{{ ($group->group_movement->accept == 'waiting') ? 'Pending' : 'Active' }}</span>
+                                        {{--                                <button type="button" ">Group-{{$group->group->id}}</button>--}}
+                                        <span class="me-2">{{ $group->group_quantity ?? ''}}</span>
                                     </div>
-                                </div>
 
-                                <!-- popup choose tourguide -->
-                                <div class="modal "
-                                     id="moveGroup-{{ $group->id }}"
-                                     data-id="{{$group->id}}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content modalContentChoose modal-All">
-                                            <div class="d-flex justify-content-between p-4">
-                                                <h6 class="modal-title text-danger" id="exampleModalLabel">Recommended
-                                                    Activity
-                                                    :</h5>
+
+                                    <!-- popup choose showModalDetails -->
+                                    <div class="modal"
+                                         id="showgroupDetails-{{ $group->id }}"
+                                         data-id="{{$group->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content modalContentChoose modal-All">
+                                                <div class="d-flex justify-content-end m-3">
                                                     <button type="button" class="btn-close btn-close-choose"
                                                             data-bs-dismiss="modal"
+                                                            aria-label="Close" id="closeChoose"></button>
+                                                </div>
+                                                <div class="modal-body d-flex justify-content-between">
+                                                    <button class="btn-group mb-2" type="submit" data-bs-toggle="modal"
+                                                            data-bs-target="#groupReport-{{ $group->id }}">
+                                                        Group Details
+                                                    </button>
+                                                    <button class="btn-report mb-2" type="submit" data-bs-toggle="modal"
+                                                            data-bs-target="#moveGroup-{{ $group->id }}">
+                                                        Move group
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- popup choose tourguide -->
+                                    <div class="modal "
+                                         id="moveGroup-{{ $group->id }}"
+                                         data-id="{{$group->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content modalContentChoose modal-All">
+                                                <div class="d-flex justify-content-between p-4">
+                                                    <h6 class="modal-title text-danger" id="exampleModalLabel">
+                                                        Recommended
+                                                        Activity
+                                                        :</h5>
+                                                        <button type="button" class="btn-close btn-close-choose"
+                                                                data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ route('groupMove') }}" method="post">
+                                                        @csrf
+                                                        <input type="text" name="group_id" value="{{ $group->id }}"
+                                                               hidden>
+                                                        {{--                                                @if($group->group_color->color == null)--}}
+                                                        {{--                                                <div class="activity mb-lg-3">--}}
+                                                        {{--                                                    <h6 class="title-choose mb-2">Select color</h6>--}}
+                                                        {{--                                                    <input style="width:200px;right: 66px;top: 16px;position: absolute;"--}}
+                                                        {{--                                                           type="color" name="color">--}}
+                                                        {{--                                                </div>--}}
+                                                        {{--                                                @endif--}}
+
+                                                        <input type="text" name="supervisor_old"
+                                                               value="{{ $group->supervisor_accept_id }}" hidden>
+
+                                                        <div class="activity mt-4">
+                                                            <h6 class="title-choose mb-3">Select Activity</h6>
+                                                            <div class="form-check">
+                                                                <select style="padding: 5px;" name="activity_id"
+                                                                        class="selectform form-select activitySelect"
+                                                                        id="activitySelect">
+                                                                    @foreach($activities_test as $activity)
+                                                                        <option
+                                                                            value="{{ $activity->activity_id }}">{{ $activity->activity->title }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="activity mt-3">
+                                                            <h6 class="title-choose mb-3">Select Tourguide</h6>
+                                                            <div class="form-check">
+                                                                <select style="padding: 5px;"
+                                                                        name="supervisor_accept_id"
+                                                                        class="form-select selectform tourGuideSelect"
+                                                                        id="tourGuideSelect">
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="button mt-3 d-flex justify-content-center">
+                                                            <button class="btn-accept mb-2" type="submit">
+                                                                Move group
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                    <!-- <div class="d-flex justify-content-end">
+                                                      <button class="btn-select mb-2 mt-3" type="submit">Done</button>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- popup table -->
+                                    <div class="modal modalChoose bd-example-modal-lg"
+                                         id="groupReport-{{ $group->id }}"
+                                         aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div style="width:1260px;right: 180px;" class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Group Details</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="{{ route('groupMove') }}" method="post">
-                                                    @csrf
-                                                    <input type="text" name="group_id" value="{{ $group->id }}"
-                                                           hidden>
-                                                    {{--                                                @if($group->group_color->color == null)--}}
-                                                    {{--                                                <div class="activity mb-lg-3">--}}
-                                                    {{--                                                    <h6 class="title-choose mb-2">Select color</h6>--}}
-                                                    {{--                                                    <input style="width:200px;right: 66px;top: 16px;position: absolute;"--}}
-                                                    {{--                                                           type="color" name="color">--}}
-                                                    {{--                                                </div>--}}
-                                                    {{--                                                @endif--}}
-
-                                                    <input type="text" name="supervisor_old"
-                                                           value="{{ $group->supervisor_accept_id }}" hidden>
-
-                                                    <div class="activity mt-4">
-                                                        <h6 class="title-choose mb-3">Select Activity</h6>
-                                                        <div class="form-check">
-                                                            <select style="padding: 5px;" name="activity_id"
-                                                                    class="selectform form-select activitySelect"
-                                                                    id="activitySelect">
-                                                                @foreach($activities as $activity)
-                                                                    <option
-                                                                        value="{{ $activity->id }}">{{ $activity->title }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="activity mt-3">
-                                                        <h6 class="title-choose mb-3">Select Tourguide</h6>
-                                                        <div class="form-check">
-                                                            <select style="padding: 5px;" name="supervisor_accept_id"
-                                                                    class="form-select selectform tourGuideSelect"
-                                                                    id="tourGuideSelect">
-
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="button mt-3 d-flex justify-content-center">
-                                                        <button class="btn-accept mb-2" type="submit">
-                                                            Move group
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                                <!-- <div class="d-flex justify-content-end">
-                                                  <button class="btn-select mb-2 mt-3" type="submit">Done</button>
-                                                </div> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- popup table -->
-                                <div class="modal modalChoose bd-example-modal-lg"
-                                     id="groupReport-{{ $group->id }}"
-                                     aria-labelledby="exampleModalLabel"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div style="width:1260px;right: 180px;" class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Group Details</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body table-responsive">
-                                                <table class="table border">
-                                                    <thead>
-                                                    <tr>
-                                                        <th scope="col" class="color">ID</th>
-                                                        <th scope="col" class="color">Name</th>
-                                                        <th scope="col" class="color">Type</th>
-                                                        <th scope="col" class="color">Count</th>
-                                                        <th scope="col" class="color">Finished Activities</th>
-                                                        <th scope="col" class="color">Current Activity</th>
-                                                        <th scope="col" class="color">Time left (mins)</th>
-                                                        <th scope="col" class="color">Next Activity</th>
-                                                        <th scope="col" class="color">cashier</th>
-                                                        <th scope="col" class="color">Actions</th>
-                                                    </tr>
-                                                    </thead>
-                                                    @foreach($group->group_customer as $ticket)
-                                                        <tbody>
+                                                </div>
+                                                <div class="modal-body table-responsive">
+                                                    <table class="table border">
+                                                        <thead>
                                                         <tr>
-                                                            <td>{{ $ticket->rev_id ?? $ticket->ticket_id }}</td>
-                                                            <td>{{ ($ticket->ticket != null) ? $ticket->ticket->client->name : $ticket->reservation->client_name }}</td>
-                                                            <td>{{ $ticket->sale_type }}</td>
-                                                            <td>{{ $ticket->quantity }}</td>
-                                                            <td>{{ $ticket->lastActivity()->count() }}
-                                                                /{{ $activities->count() }} of Activities
-                                                            </td>
-                                                            <td>{{ $ticket->currentActivity->activity->title }}</td>
-                                                                <?php
-                                                                $now = Carbon\Carbon::parse(date('H:i:s'));
-                                                                $created_at = Carbon\Carbon::parse($ticket->nextActivity->time_group ?? '');
-                                                                $diffMinutes = $created_at->diffInMinutes($now);
-//                                                            dd($diffMinutes);
-                                                                ?>
-                                                            <td>{{ $diffMinutes . 'Mins' ?? '00:00' }}</td>
-                                                            <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
-                                                            <td>{{ ($ticket->ticket != null) ? $ticket->ticket->cashier->name : $ticket->reservation->cashier->name }}</td>
-                                                            <td>
-                                                                <button class="btn btn-success" data-bs-toggle="modal"
-                                                                        {{ ($group->GroupQuantity == $capacity->value) ? 'disabled' : '' }}
-                                                                        data-bs-target="#joinGroupMove-{{ $group->id }}">
-                                                                    join Group
-                                                                </button>
-                                                                <button class="btn btn-primary WaitingRoom"
-                                                                        data-id="{{ $group->id }}">
-                                                                    To Waiting
-                                                                </button>
-                                                            </td>
+                                                            <th scope="col" class="color">ID</th>
+                                                            <th scope="col" class="color">Name</th>
+                                                            <th scope="col" class="color">Type</th>
+                                                            <th scope="col" class="color">Count</th>
+                                                            <th scope="col" class="color">Finished Activities</th>
+                                                            <th scope="col" class="color">Current Activity</th>
+                                                            <th scope="col" class="color">Time left (mins)</th>
+                                                            <th scope="col" class="color">Next Activity</th>
+                                                            <th scope="col" class="color">cashier</th>
+                                                            <th scope="col" class="color">Actions</th>
                                                         </tr>
-                                                        </tbody>
-                                                    @endforeach
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group join -->
-                                <div class="modal bd-example-modal-lg"
-                                     id="joinGroupMove-{{ $group->id }}" aria-labelledby=""
-                                     aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div style="width:1260px;right: 180px;" class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Groups</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body table-responsive">
-                                                <table class="table border">
-                                                    <thead>
-                                                    <tr>
-                                                        <th scope="col" class="color">ID</th>
-                                                        <th scope="col" class="color">Name</th>
-                                                        <th scope="col" class="color">capacity</th>
-                                                        <th scope="col" class="color">Actions</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    @foreach($group_customer_join as $join_group)
-                                                        @if($group->id == $join_group->group->id)
-                                                            @continue
-                                                        @endif
-                                                        <tr>
-                                                            <td>{{ $join_group->group->id }}</td>
-                                                            <td>{{ $join_group->group->title }}</td>
-                                                            <td>{{ $join_group->group->GroupQuantity }}
-                                                                / {{ $capacity->value }}</td>
-                                                            @if($join_group->group->GroupQuantity == $capacity->value)
+                                                        </thead>
+                                                        @foreach($group->group_customer as $ticket)
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>{{ $ticket->rev_id ?? $ticket->ticket_id }}</td>
+                                                                <td>{{ ($ticket->ticket != null) ? $ticket->ticket->client->name : $ticket->reservation->client_name }}</td>
+                                                                <td>{{ $ticket->sale_type }}</td>
+                                                                <td>{{ $ticket->quantity }}</td>
+                                                                <td>{{ $ticket->lastActivity()->count() }}
+                                                                    /{{ $activities->count() }} of Activities
+                                                                </td>
+                                                                <td>{{ $ticket->currentActivity->activity->title }}</td>
+                                                                    <?php
+                                                                    $now = Carbon\Carbon::parse(date('H:i:s'));
+                                                                    $created_at = Carbon\Carbon::parse($ticket->nextActivity->time_group ?? '');
+                                                                    $diffMinutes = $created_at->diffInMinutes($now);
+//                                                            dd($diffMinutes);
+                                                                    ?>
+                                                                <td>{{ $diffMinutes . 'Mins' ?? '00:00' }}</td>
+                                                                <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
+                                                                <td>{{ ($ticket->ticket != null) ? $ticket->ticket->cashier->name : $ticket->reservation->cashier->name }}</td>
                                                                 <td>
-                                                                    <button class="joinGroup btn btn-danger" disabled>
-                                                                        full
+                                                                    <button class="btn btn-success"
+                                                                            data-bs-toggle="modal"
+                                                                            {{ ($group->GroupQuantity == $capacity->value) ? 'disabled' : '' }}
+                                                                            data-bs-target="#joinGroupMove-{{ $group->id }}">
+                                                                        join Group
+                                                                    </button>
+                                                                    <button class="btn btn-primary WaitingRoom"
+                                                                            data-id="{{ $group->id }}">
+                                                                        To Waiting
                                                                     </button>
                                                                 </td>
-                                                            @else
-                                                                <td>
-                                                                    <form action="{{ route('joinGroup') }}"
-                                                                          method="post">
-                                                                        @csrf
-                                                                        <input hidden type="text" name="group_id"
-                                                                               value="{{ $group->id }}">
-                                                                        <input hidden type="text" name="group_join"
-                                                                               value="{{ $join_group->group->id }}">
-                                                                        <button type="submit"
-                                                                                class="joinGroup btn btn-success">
-                                                                            join
-                                                                        </button>
-                                                                    </form>
-                                                                </td>
-                                                            @endif
-                                                        </tr>
-                                                    @endforeach
-                                                    </tbody>
-                                                </table>
+                                                            </tr>
+                                                            </tbody>
+                                                        @endforeach
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- group join -->
-                            @endforeach
-                            <!-- </div> -->
+                                    <!-- group join -->
+                                    <div class="modal bd-example-modal-lg"
+                                         id="joinGroupMove-{{ $group->id }}" aria-labelledby=""
+                                         aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div style="width:1260px;right: 180px;" class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Groups</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body table-responsive">
+                                                    <table class="table border">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col" class="color">ID</th>
+                                                            <th scope="col" class="color">Name</th>
+                                                            <th scope="col" class="color">capacity</th>
+                                                            <th scope="col" class="color">Actions</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($group_customer_join as $join_group)
+                                                            @if($group->id == $join_group->group->id)
+                                                                @continue
+                                                            @endif
+                                                            <tr>
+                                                                <td>{{ $join_group->group->id }}</td>
+                                                                <td>{{ $join_group->group->title }}</td>
+                                                                <td>{{ $join_group->group->GroupQuantity }}
+                                                                    / {{ $capacity->value }}</td>
+                                                                @if($join_group->group->GroupQuantity == $capacity->value)
+                                                                    <td>
+                                                                        <button class="joinGroup btn btn-danger"
+                                                                                disabled>
+                                                                            full
+                                                                        </button>
+                                                                    </td>
+                                                                @else
+                                                                    <td>
+                                                                        <form action="{{ route('joinGroup') }}"
+                                                                              method="post">
+                                                                            @csrf
+                                                                            <input hidden type="text" name="group_id"
+                                                                                   value="{{ $group->id }}">
+                                                                            <input hidden type="text" name="group_join"
+                                                                                   value="{{ $join_group->group->id }}">
+                                                                            <button type="submit"
+                                                                                    class="joinGroup btn btn-success">
+                                                                                join
+                                                                            </button>
+                                                                        </form>
+                                                                    </td>
+                                                                @endif
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- group join -->
+                                @endforeach
+                                <!-- </div> -->
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+{{--                    @endforeach--}}
+                @else
+                    @foreach($activities as $activity)
+                        <div class="col-md-6 col-12">
+
+
+                            {{--start div box--}}
+                            <div class="box"
+                                 style="  background-image: linear-gradient(rgba(246, 238, 207, 0.7), rgba(246, 238, 207,0.9)), url({{URL::to($activity->photo)}}) !important;">
+                                <h3 class="title-box">{{$activity->title}}</h3>
+                                <div class="d-flex justify-content-between">
+                                    {{--                        <button class="btn-report mb-2" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModalReport">--}}
+                                    {{--                            Report--}}
+                                    {{--                        </button>--}}
+                                    {{--                        <button class="btn-report btn-end mb-2" type="submit">End Tour</button>--}}
+                                </div>
+                                <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
+
+
+                                @foreach($activity->groups as $group)
+                                    <div style="background-color: {{ $group->group_movement->group_color->color ?? ''}}"
+                                         class="items item d-flex justify-content-between divGroup" draggable="true"
+                                         data-bs-toggle="modal"
+                                         data-bs-target="#showgroupDetails-{{ $group->id }}"
+                                         data-id="{{ $group->id }}">
+                                        {{ $group->title }}
+                                        <span>{{ ($group->group_movement->accept == 'waiting') ? 'Pending' : 'Active' }}</span>
+                                        {{--                                <button type="button" ">Group-{{$group->group->id}}</button>--}}
+                                        <span class="me-2">{{ $group->group_quantity ?? ''}}</span>
+                                    </div>
+
+
+                                    <!-- popup choose showModalDetails -->
+                                    <div class="modal"
+                                         id="showgroupDetails-{{ $group->id }}"
+                                         data-id="{{$group->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content modalContentChoose modal-All">
+                                                <div class="d-flex justify-content-end m-3">
+                                                    <button type="button" class="btn-close btn-close-choose"
+                                                            data-bs-dismiss="modal"
+                                                            aria-label="Close" id="closeChoose"></button>
+                                                </div>
+                                                <div class="modal-body d-flex justify-content-between">
+                                                    <button class="btn-group mb-2" type="submit" data-bs-toggle="modal"
+                                                            data-bs-target="#groupReport-{{ $group->id }}">
+                                                        Group Details
+                                                    </button>
+                                                    <button class="btn-report mb-2" type="submit" data-bs-toggle="modal"
+                                                            data-bs-target="#moveGroup-{{ $group->id }}">
+                                                        Move group
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- popup choose tourguide -->
+                                    <div class="modal "
+                                         id="moveGroup-{{ $group->id }}"
+                                         data-id="{{$group->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content modalContentChoose modal-All">
+                                                <div class="d-flex justify-content-between p-4">
+                                                    <h6 class="modal-title text-danger" id="exampleModalLabel">
+                                                        Recommended
+                                                        Activity
+                                                        :</h5>
+                                                        <button type="button" class="btn-close btn-close-choose"
+                                                                data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ route('groupMove') }}" method="post">
+                                                        @csrf
+                                                        <input type="text" name="group_id" value="{{ $group->id }}"
+                                                               hidden>
+                                                        {{--                                                @if($group->group_color->color == null)--}}
+                                                        {{--                                                <div class="activity mb-lg-3">--}}
+                                                        {{--                                                    <h6 class="title-choose mb-2">Select color</h6>--}}
+                                                        {{--                                                    <input style="width:200px;right: 66px;top: 16px;position: absolute;"--}}
+                                                        {{--                                                           type="color" name="color">--}}
+                                                        {{--                                                </div>--}}
+                                                        {{--                                                @endif--}}
+
+                                                        <input type="text" name="supervisor_old"
+                                                               value="{{ $group->supervisor_accept_id }}" hidden>
+
+                                                        <div class="activity mt-4">
+                                                            <h6 class="title-choose mb-3">Select Activity</h6>
+                                                            <div class="form-check">
+                                                                <select style="padding: 5px;" name="activity_id"
+                                                                        class="selectform form-select activitySelect"
+                                                                        id="activitySelect">
+                                                                    @foreach($activities_test as $activity)
+                                                                        <option
+                                                                            value="{{ $activity->activity_id }}">{{ $activity->activity->title }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="activity mt-3">
+                                                            <h6 class="title-choose mb-3">Select Tourguide</h6>
+                                                            <div class="form-check">
+                                                                <select style="padding: 5px;"
+                                                                        name="supervisor_accept_id"
+                                                                        class="form-select selectform tourGuideSelect"
+                                                                        id="tourGuideSelect">
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="button mt-3 d-flex justify-content-center">
+                                                            <button class="btn-accept mb-2" type="submit">
+                                                                Move group
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                    <!-- <div class="d-flex justify-content-end">
+                                                      <button class="btn-select mb-2 mt-3" type="submit">Done</button>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- popup table -->
+                                    <div class="modal modalChoose bd-example-modal-lg"
+                                         id="groupReport-{{ $group->id }}"
+                                         aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div style="width:1260px;right: 180px;" class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Group Details</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body table-responsive">
+                                                    <table class="table border">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col" class="color">ID</th>
+                                                            <th scope="col" class="color">Name</th>
+                                                            <th scope="col" class="color">Type</th>
+                                                            <th scope="col" class="color">Count</th>
+                                                            <th scope="col" class="color">Finished Activities</th>
+                                                            <th scope="col" class="color">Current Activity</th>
+                                                            <th scope="col" class="color">Time left (mins)</th>
+                                                            <th scope="col" class="color">Next Activity</th>
+                                                            <th scope="col" class="color">cashier</th>
+                                                            <th scope="col" class="color">Actions</th>
+                                                        </tr>
+                                                        </thead>
+                                                        @foreach($group->group_customer as $ticket)
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>{{ $ticket->rev_id ?? $ticket->ticket_id }}</td>
+                                                                <td>{{ ($ticket->ticket != null) ? $ticket->ticket->client->name : $ticket->reservation->client_name }}</td>
+                                                                <td>{{ $ticket->sale_type }}</td>
+                                                                <td>{{ $ticket->quantity }}</td>
+                                                                <td>{{ $ticket->lastActivity()->count() }}
+                                                                    /{{ $activities->count() }} of Activities
+                                                                </td>
+                                                                <td>{{ $ticket->currentActivity->activity->title }}</td>
+                                                                    <?php
+                                                                    $now = Carbon\Carbon::parse(date('H:i:s'));
+                                                                    $created_at = Carbon\Carbon::parse($ticket->nextActivity->time_group ?? '');
+                                                                    $diffMinutes = $created_at->diffInMinutes($now);
+//                                                            dd($diffMinutes);
+                                                                    ?>
+                                                                <td>{{ $diffMinutes . 'Mins' ?? '00:00' }}</td>
+                                                                <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
+                                                                <td>{{ ($ticket->ticket != null) ? $ticket->ticket->cashier->name : $ticket->reservation->cashier->name }}</td>
+                                                                <td>
+                                                                    <button class="btn btn-success"
+                                                                            data-bs-toggle="modal"
+                                                                            {{ ($group->GroupQuantity == $capacity->value) ? 'disabled' : '' }}
+                                                                            data-bs-target="#joinGroupMove-{{ $group->id }}">
+                                                                        join Group
+                                                                    </button>
+                                                                    <button class="btn btn-primary WaitingRoom"
+                                                                            data-id="{{ $group->id }}">
+                                                                        To Waiting
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        @endforeach
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- group join -->
+                                    <div class="modal bd-example-modal-lg"
+                                         id="joinGroupMove-{{ $group->id }}" aria-labelledby=""
+                                         aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div style="width:1260px;right: 180px;" class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Groups</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body table-responsive">
+                                                    <table class="table border">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col" class="color">ID</th>
+                                                            <th scope="col" class="color">Name</th>
+                                                            <th scope="col" class="color">capacity</th>
+                                                            <th scope="col" class="color">Actions</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($group_customer_join as $join_group)
+                                                            @if($group->id == $join_group->group->id)
+                                                                @continue
+                                                            @endif
+                                                            <tr>
+                                                                <td>{{ $join_group->group->id }}</td>
+                                                                <td>{{ $join_group->group->title }}</td>
+                                                                <td>{{ $join_group->group->GroupQuantity }}
+                                                                    / {{ $capacity->value }}</td>
+                                                                @if($join_group->group->GroupQuantity == $capacity->value)
+                                                                    <td>
+                                                                        <button class="joinGroup btn btn-danger"
+                                                                                disabled>
+                                                                            full
+                                                                        </button>
+                                                                    </td>
+                                                                @else
+                                                                    <td>
+                                                                        <form action="{{ route('joinGroup') }}"
+                                                                              method="post">
+                                                                            @csrf
+                                                                            <input hidden type="text" name="group_id"
+                                                                                   value="{{ $group->id }}">
+                                                                            <input hidden type="text" name="group_join"
+                                                                                   value="{{ $join_group->group->id }}">
+                                                                            <button type="submit"
+                                                                                    class="joinGroup btn btn-success">
+                                                                                join
+                                                                            </button>
+                                                                        </form>
+                                                                    </td>
+                                                                @endif
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- group join -->
+                                @endforeach
+                                <!-- </div> -->
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </content>
     @elseif(auth()->user()->supervisor_type == 'platform')
@@ -617,9 +885,9 @@
                                                         <select style="padding: 5px;" name="activity_id"
                                                                 class="selectform form-select activitySelect"
                                                                 id="activitySelect">
-                                                            @foreach($activities as $activity)
+                                                            @foreach($activities_test as $activity)
                                                                 <option
-                                                                    value="{{ $activity->id }}">{{ $activity->title }}</option>
+                                                                    value="{{ $activity->activity_id }}">{{ $activity->activity->title }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -868,9 +1136,9 @@
                                                             <select style="padding: 5px;" name="activity_id"
                                                                     class="selectform form-select activitySelect"
                                                                     id="activitySelect">
-                                                                @foreach($activities as $activity)
+                                                                @foreach($activities_test as $activity)
                                                                     <option
-                                                                        value="{{ $activity->id }}">{{ $activity->title }}</option>
+                                                                        value="{{ $activity->activity_id }}">{{ $activity->activity->title }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -1042,9 +1310,9 @@
                     <input name="supervisor" hidden value="{{ auth()->user()->id }}">
                     <label for="activity">Select Activity</label>
                     <select name="activity" class="form-control">
-                        <option value="" selected disabled >Please Select Activity</option>
-                        @foreach($activities as $activity)
-                            <option value="{{ $activity->id }}">{{ $activity->title }}</option>
+                        <option value="" selected disabled>Please Select Activity</option>
+                        @foreach($activities_test as $activity)
+                            <option value="{{ $activity->activity_id }}">{{ $activity->activity->title }}</option>
                         @endforeach
                     </select>
                     <br>

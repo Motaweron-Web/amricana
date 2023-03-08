@@ -19,22 +19,25 @@ class SupervisorController extends Controller
     {
 
         $activities = Activity::with(['groups'])->orderBy('id', 'asc')->get();
+        $activities_test = SupervisorActivity::whereDate('date_time',Carbon::now()->format('Y-m-d'))->get();
 
+//        return $activities_test;
 
         $group_customers_waiting = GroupColor::groupNotColored()->get();
 
         $group_customer_join = GroupCustomer::whereDate('date_time',Carbon::now()->format('Y-m-d'))
             ->groupBy('group_id')->get();
 
-        $supervisor_activities = SupervisorActivity::where('supervisor_id',auth()->user()->id)
-            ->whereDate('date_time',Carbon::now()->format('Y-m-d'))->get();
+            $supervisor_activities = SupervisorActivity::where('supervisor_id',auth()->user()->id)
+            ->whereDate('date_time',Carbon::now()->format('Y-m-d'))->first();
 
 //        $group_colors_active = GroupColor::groupColored()->get();
 
 //        return $group_customers_waiting;
+//        return $supervisor_activities;
 
 
-        return view('platform.activities.index', compact('group_customers_waiting', 'activities','group_customer_join','supervisor_activities'));
+        return view('platform.activities.index', compact('group_customers_waiting', 'activities','group_customer_join','supervisor_activities','activities_test'));
     }
 
     public function joinActivaties()
