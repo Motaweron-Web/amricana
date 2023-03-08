@@ -145,6 +145,10 @@ class FamilyAccessController extends Controller
 
     public function update(Request $request, $id)
     {
+
+
+        //start groups
+
         $data = $request->validate([
             'bracelet_number' => ['nullable', Rule::unique('ticket_rev_models', 'bracelet_number')->where('status', 'in')],
             'id' => ['required', Rule::exists('ticket_rev_models', 'id')->where('status', 'append')],
@@ -189,13 +193,19 @@ class FamilyAccessController extends Controller
         }
         $ticket->update($status);
 
-        //start groups
         $groups = Groups::query()->where('status','=','available')->orderBy('id','ASC')->get();
         $configration = Configuration::latest()->first();
 
         $cap = $request->capacity >=$configration->value ? ($request->capacity / $configration->value) : 1;
 
         $group_id = $groups->first()->id;
+        $group_color = GroupColor::with('group')->whereNull('color')->first();
+        if(isset($group_color)){
+            $group_qty =  $group_color->group->group_quantity;
+            if($group_qty < $configration->value){
+                $group_id = $group_color->group->id;
+            }
+        }
         //10
         for ($i=1;$i<= $cap;$i++){
 
@@ -207,11 +217,18 @@ class FamilyAccessController extends Controller
                 'sale_type' => 'family',
             ]);
             Groups::where('id','=',$group_id)->update(['status' => 'not_available']);
-            GroupColor::create([
-                'group_id' => $group_id,
-                'date_time' => Carbon::now()
+            if(isset($group_color)){
+                $group_qty =  $group_color->group->group_quantity;
+                if($group_qty < $configration->value){
+                    $group_id = $group_color->group->id;
+                }
+            }else {
+                GroupColor::create([
+                    'group_id' => $group_id,
+                    'date_time' => Carbon::now()
 
-            ]);
+                ]);
+            }
             $group_id++;
         }
         return response(['count'=>$count,'url'=>route('ticket.edit',$ticket->id)]);

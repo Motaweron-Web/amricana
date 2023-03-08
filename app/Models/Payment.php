@@ -9,7 +9,6 @@ class Payment extends Model{
 
     protected $table = 'payments';
     protected $fillable = [
-
         'rev_id',
         'ticket_id',
         'cashier_id',
