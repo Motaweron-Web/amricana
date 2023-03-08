@@ -1311,8 +1311,8 @@
                     <label for="activity">Select Activity</label>
                     <select name="activity" class="form-control">
                         <option value="" selected disabled>Please Select Activity</option>
-                        @foreach($activities_test as $activity)
-                            <option value="{{ $activity->activity_id }}">{{ $activity->activity->title }}</option>
+                        @foreach($activities as $activity)
+                            <option value="{{ $activity->id }}">{{ $activity->title }}</option>
                         @endforeach
                     </select>
                     <br>
