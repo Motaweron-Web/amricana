@@ -7,10 +7,12 @@ use App\Http\Controllers\Supervisor\GroupController;
 use App\Http\Controllers\Supervisor\SupervisorController;
 use Illuminate\Support\Facades\Route;
 
+Route::group(['middleware' => ['auth:admin','CheckPlatform']], function () {
+    Route::get('/supervisor', [SupervisorController::class, 'index'])->name('platform');
+});
 
 Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatform']], function () {
 
-    Route::get('/', [SupervisorController::class, 'index'])->name('platform');
     Route::get('/joinActivaties', [SupervisorController::class, 'joinActivaties'])->name('joinActivaties');
     Route::post('groupColor', [GroupController::class, 'groupColor'])->name('groupColor');
     Route::post('groupMoveCreate', [GroupController::class, 'groupMoveCreate'])->name('groupMoveCreate');
@@ -44,7 +46,7 @@ Route::group(['prefix'=>'platform'],function (){
     Route::POST('login', [AuthPlatformController::class,'login'])->name('platform.login');
 });
 
-Route::group(['prefix'=>'supervisor'],function (){
+Route::group(['prefix'=>'activity'],function (){
 
     Route::get('login', [AuthActivityController::class,'index'])->name('activity.login');
     Route::POST('login', [AuthActivityController::class,'login'])->name('activity.login');
