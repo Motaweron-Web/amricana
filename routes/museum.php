@@ -34,6 +34,13 @@ Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatfo
     Route::post('groupNotAccept', [SupervisorController::class, 'groupNotAccept'])->name('groupNotAccept');
 
 
+    //in break
+    Route::get('activityBreak', [SupervisorController::class, 'activityBreak'])->name('activityBreak');
+
+    // group Moves
+    Route::get('groupMoves', [SupervisorController::class, 'groupMoves'])->name('groupMoves');
+
+
     // logout
     Route::get('platform/logout', [AuthPlatformController::class,'logout'])->name('platform.logout');
     Route::get('activity/logout', [AuthActivityController::class,'logout'])->name('activity.logout');

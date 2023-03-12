@@ -152,6 +152,8 @@ class TicketController extends Controller
 //        } else {
 
 
+//        dd($request);
+
             $ticket = Ticket::create([
                 'add_by' => auth()->user()->id,
                 'visit_date' => $request->visit_date,

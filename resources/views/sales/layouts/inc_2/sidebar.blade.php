@@ -82,6 +82,32 @@
                 </li>
             @endif
 
+            @if(auth('admin')->user()->supervisor_type == 'platform')
+
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#groupMoves" class="nav-link " id="main-group"
+                       aria-controls="groupSale" role="button"
+                       aria-expanded="false">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                            <i class="fad fa-bus-school"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Group Moves</span>
+                    </a>
+                    <div class="collapse" id="groupMoves">
+                        <ul class="nav ms-4 ps-3">
+                            <li class="nav-item createReservation">
+                                <a class="nav-link createReservation" href="{{route('groupMoves')}}">
+
+                                    <span class="sidenav-normal">Group Moves</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                @endif
+
         </ul>
     </div>
 </aside>
