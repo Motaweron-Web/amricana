@@ -8,10 +8,13 @@ use App\Models\GroupColor;
 use App\Models\GroupCustomer;
 use App\Models\GroupMovement;
 use App\Models\RouteGroup;
+use App\Models\Supervisor;
 use App\Models\SupervisorActivity;
 use Carbon\Carbon;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function Composer\Autoload\includeFile;
 
 class SupervisorController extends Controller
 {
@@ -19,17 +22,17 @@ class SupervisorController extends Controller
     {
 
         $activities = Activity::with(['groups'])->orderBy('id', 'asc')->get();
-        $activities_test = SupervisorActivity::whereDate('date_time',Carbon::now()->format('Y-m-d'))->get();
+        $activities_test = SupervisorActivity::whereDate('date_time', Carbon::now()->format('Y-m-d'))->get();
 
 //        return $activities_test;
 
         $group_customers_waiting = GroupColor::groupNotColored()->get();
 
-        $group_customer_join = GroupCustomer::whereDate('date_time',Carbon::now()->format('Y-m-d'))
+        $group_customer_join = GroupCustomer::whereDate('date_time', Carbon::now()->format('Y-m-d'))
             ->groupBy('group_id')->get();
 
-            $supervisor_activities = SupervisorActivity::where('supervisor_id',auth()->user()->id)
-            ->whereDate('date_time',Carbon::now()->format('Y-m-d'))->first();
+        $supervisor_activities = SupervisorActivity::where('supervisor_id', auth()->user()->id)
+            ->whereDate('date_time', Carbon::now()->format('Y-m-d'))->first();
 
 //        $group_colors_active = GroupColor::groupColored()->get();
 
@@ -37,15 +40,15 @@ class SupervisorController extends Controller
 //        return $supervisor_activities;
 
 
-        return view('platform.activities.index', compact('group_customers_waiting', 'activities','group_customer_join','supervisor_activities','activities_test'));
+        return view('platform.activities.index', compact('group_customers_waiting', 'activities', 'group_customer_join', 'supervisor_activities', 'activities_test'));
     }
 
     public function joinActivaties()
     {
         $activities = Activity::get();
-        $supervisor_activities = SupervisorActivity::where('supervisor_id',auth()->user()->id)
-            ->whereDate('date_time',Carbon::now()->format('Y-m-d'))->get();
-        return view('platform.activities.join_activaties', compact('activities','supervisor_activities'));
+        $supervisor_activities = SupervisorActivity::where('supervisor_id', auth()->user()->id)
+            ->whereDate('date_time', Carbon::now()->format('Y-m-d'))->get();
+        return view('platform.activities.join_activaties', compact('activities', 'supervisor_activities'));
     }
 
     public function addActivity(Request $request)
@@ -80,8 +83,8 @@ class SupervisorController extends Controller
             'accept' => $accept,
         ]);
 
-        SupervisorActivity::where('supervisor_id',$request->platform)
-            ->where('date_time',Carbon::now()->format('Y-m-d'))
+        SupervisorActivity::where('supervisor_id', $request->platform)
+            ->where('date_time', Carbon::now()->format('Y-m-d'))
             ->update(['status' => 'not_available']);
 
         if ($group) {
@@ -130,11 +133,38 @@ class SupervisorController extends Controller
     {
         $groupMovment = GroupMovement::where('accept', '=', 'waiting')
             ->where('supervisor_accept_id', auth('admin')->id())
-            ->whereDate('created_at','=',Carbon::now()->format('Y-m-d'))->get();
-        if($groupMovment->count() == 0) {
+            ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))->get();
+        if ($groupMovment->count() == 0) {
 
             return response()->json(false);
         }
         return response()->json(true);
+    }
+
+    public function activityBreak()
+    {
+        $user = SupervisorActivity::where('supervisor_id', auth('admin')->user()->id)
+            ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))->first();
+
+        ($user->status == 'available') ? $user->status = 'break' : $user->status = 'available';
+        $user->save();
+//        return $user;
+
+        if ($user->status == 'available') {
+            return redirect()->back()->with('success', 'You are Available From Now !');
+        } else {
+            return redirect()->back()->with('success', 'Your Are in Break Now !');
+        }
+
+    } // end activityBreak
+
+    public function groupMoves()
+    {
+        $groups = GroupMovement::orderBy('created_at','DESC')->get();
+
+
+//        return $groups;
+
+        return view('platform.activities.group_moves',compact('groups'));
     }
 }

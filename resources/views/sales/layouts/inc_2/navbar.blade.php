@@ -1,7 +1,8 @@
 <!-- ================================ NavBar ================== -->
 <nav id="navbarBlur"
      class="navbar navbar-main navbar-expand-lg position-sticky mt-2 top-1 p-2 px-3 mx-4 bg-white shadow-blur  border-radius-xl z-index-sticky"
-     data-scroll="true"> <nav aria-label="breadcrumb">
+     data-scroll="true">
+    <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-2">
             <li class="breadcrumb-item text-sm">
                 <a class="opacity-3 text-dark" href="{{route('sales')}}">
@@ -28,7 +29,6 @@
                     <a href="{{route('platform.logout')}}" class="nav-link text-body font-weight-bold px-0">
                         <span class="d-inline">Log out</span>
                     </a>
-
                 </li>
             @elseif(auth()->user()->supervisor_type == 'activity')
                 <li class="nav-item d-flex align-items-center">
@@ -38,16 +38,28 @@
 
                     </a>
 
+                    <a href="{{route('activityBreak')}}" style="margin-left:50px"
+                       class="nav-link text-body font-weight-bold px-0">
+                        @php
+                            $user = \App\Models\SupervisorActivity::where('supervisor_id', auth('admin')->user()->id)
+                                ->whereDate('created_at', '=', \Carbon\Carbon::now()->format('Y-m-d'))->first();
+                        @endphp
+                        @if($user->status == 'available')
+                            <span class="d-inline btn-sm btn-danger">Take Break</span>
+{{--                            @else--}}
+{{--                            <span class="d-inline btn-sm btn-primary">Back From Break</span>--}}
+                        @endif
+                    </a>
                 </li>
             @endif
-{{--            @else--}}
-{{--                <li class="nav-item d-flex align-items-center">--}}
-{{--                    <a href="{{route('lo')}}" class="nav-link text-body font-weight-bold px-0">--}}
-{{--                        <span class="d-inline">Log In</span>--}}
-{{--                        <i class="fa fa-user ms-2"></i>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--            @endif--}}
+            {{--            @else--}}
+            {{--                <li class="nav-item d-flex align-items-center">--}}
+            {{--                    <a href="{{route('lo')}}" class="nav-link text-body font-weight-bold px-0">--}}
+            {{--                        <span class="d-inline">Log In</span>--}}
+            {{--                        <i class="fa fa-user ms-2"></i>--}}
+            {{--                    </a>--}}
+            {{--                </li>--}}
+            {{--            @endif--}}
 
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                 <a href="#!" class="nav-link text-body p-0" id="iconNavbarSidenav">
@@ -59,5 +71,6 @@
                 </a>
             </li>
         </ul>
-    </div> </nav>
+    </div>
+</nav>
 <!-- ================================ end NavBar ================== -->

@@ -9,7 +9,7 @@ class GroupCustomer extends Model
 {
 
     protected $table = 'group_customers';
-    protected $fillable = ['ticket_id','group_id','rev_id','date_time','quantity', 'sale_type'];
+    protected $fillable = ['ticket_id','group_id','rev_id','date_time','quantity', 'sale_type','member_name'];
 
 
     public function ticket(){

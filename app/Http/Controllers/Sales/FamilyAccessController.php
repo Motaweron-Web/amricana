@@ -146,6 +146,7 @@ class FamilyAccessController extends Controller
     public function update(Request $request, $id)
     {
 
+//        dd($request->all());
 
         //start groups
 
@@ -233,6 +234,7 @@ class FamilyAccessController extends Controller
             GroupCustomer::create([
                 'ticket_id' => $ticket->id,
                 'group_id' => $group_id,
+                'member_name' => $request->name,
                 'date_time' => Carbon::now(),
                 'quantity' => 1,
                 'sale_type' => 'family',
