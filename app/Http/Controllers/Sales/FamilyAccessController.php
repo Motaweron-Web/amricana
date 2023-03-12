@@ -196,31 +196,32 @@ class FamilyAccessController extends Controller
         $groups = Groups::query()->where('status','=','available')->orderBy('id','ASC')->get();
         $configration = Configuration::latest()->first();
 
-        $cap = $request->capacity >=$configration->value ? ($request->capacity / $configration->value) : 1;
+//        $cap = $request->capacity >=$configration->value ? ($request->capacity / $configration->value) : 1;
 
         $group_id = $groups->first()->id;
-        $group_color = GroupColor::with('group')->whereNull('color')->first();
-        if(isset($group_color)){
+        $group_color = GroupColor::with('group')->whereNull('color')->latest()->first();
+        if(isset($group_color) && ($group_color->group->group_quantity < $configration->value)){
             $group_qty =  $group_color->group->group_quantity;
             if($group_qty < $configration->value){
                 $group_id = $group_color->group->id;
+            }else{
+                $group_color = GroupColor::with('group')->whereNull('color')->where('id', '>', $group_color->id)->orderBy('id')->first();
             }
         }
         //10
-        for ($i=1;$i<= $cap;$i++){
+//        for ($i=1;$i<= $cap;$i++){
 
-            GroupCustomer::create([
-                'ticket_id' => $ticket->id,
-                'group_id' => $group_id,
-                'date_time' => Carbon::now(),
-                'quantity' => $request->capacity >=$configration->value ? $configration->value : 1,
-                'sale_type' => 'family',
-            ]);
+
             Groups::where('id','=',$group_id)->update(['status' => 'not_available']);
             if(isset($group_color)){
                 $group_qty =  $group_color->group->group_quantity;
                 if($group_qty < $configration->value){
                     $group_id = $group_color->group->id;
+                }else{
+                    GroupColor::create([
+                        'group_id' => $group_id,
+                        'date_time' => Carbon::now()
+                    ]);
                 }
             }else {
                 GroupColor::create([
@@ -229,8 +230,15 @@ class FamilyAccessController extends Controller
 
                 ]);
             }
-            $group_id++;
-        }
+            GroupCustomer::create([
+                'ticket_id' => $ticket->id,
+                'group_id' => $group_id,
+                'date_time' => Carbon::now(),
+                'quantity' => 1,
+                'sale_type' => 'family',
+            ]);
+//            $group_id++;
+//        }
         return response(['count'=>$count,'url'=>route('ticket.edit',$ticket->id)]);
 
     }
