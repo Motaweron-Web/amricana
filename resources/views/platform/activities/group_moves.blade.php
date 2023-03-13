@@ -9,45 +9,47 @@
 @endsection
 @section('content')
 
-    <div class="row">
-        <div class="col-md-12 col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Group Moves</h3>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <!--begin::Table-->
-                        <table class="table table-striped table-bordered text-nowrap w-100" id="dataTable">
-                            <thead>
-                            <tr class="fw-bolder text-muted bg-light">
-                                <th class="min-w-25px">#</th>
-                                <th class="min-w-125px">Group</th>
-                                <th class="min-w-125px">SuperVisor</th>
-                                <th class="min-w-125px">Activity</th>
-                                <th class="min-w-125px">Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+   @if(auth('admin')->user()->supervisor_type == 'platform')
+       <div class="row">
+           <div class="col-md-12 col-lg-12">
+               <div class="card">
+                   <div class="card-header">
+                       <h3 class="card-title">Group Moves</h3>
+                   </div>
+                   <div class="card-body">
+                       <div class="table-responsive">
+                           <!--begin::Table-->
+                           <table class="table table-striped table-bordered text-nowrap w-100" id="dataTable">
+                               <thead>
+                               <tr class="fw-bolder text-muted bg-light">
+                                   <th class="min-w-25px">#</th>
+                                   <th class="min-w-125px">Group</th>
+                                   <th class="min-w-125px">SuperVisor</th>
+                                   <th class="min-w-125px">Activity</th>
+                                   <th class="min-w-125px">Status</th>
+                               </tr>
+                               </thead>
+                               <tbody>
 
-                            @foreach($groups as $group)
+                               @foreach($groups as $group)
 
-                                <tr>
-                                    <td>{{ $group->group->id }}</td>
-                                    <td>{{ $group->group->title }}</td>
-                                    <td>{{ $group->supervisor->name }}</td>
-                                    <td>{{ $group->activity->title }}</td>
-                                    <td>{{ $group->accept }}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                   <tr>
+                                       <td>{{ $group->group->id }}</td>
+                                       <td>{{ $group->group->title }}</td>
+                                       <td>{{ $group->supervisor->name }}</td>
+                                       <td>{{ $group->activity->title }}</td>
+                                       <td>{{ $group->accept }}</td>
+                                   </tr>
+                               @endforeach
+                               </tbody>
+                           </table>
+                       </div>
+                   </div>
+               </div>
+           </div>
 
-    </div>
+       </div>
+   @endif
 @endsection
 
 @section('js')

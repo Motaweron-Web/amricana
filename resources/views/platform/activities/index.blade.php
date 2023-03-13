@@ -171,7 +171,9 @@
                                                         <th scope="col" class="color">Time left (mins)</th>
                                                         <th scope="col" class="color">Next Activity</th>
                                                         <th scope="col" class="color">cashier</th>
-                                                        <th scope="col" class="color">Actions</th>
+                                                        @if(auth()->user()->supervisor_type == 'platform')
+                                                            <th scope="col" class="color">Actions</th>
+                                                        @endif
                                                     </tr>
                                                     </thead>
                                                     @foreach($group_customer->group->group_customer as $ticket)
@@ -186,15 +188,18 @@
                                                             <td>00:00</td>
                                                             <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
                                                             <td>{{ ($ticket->ticket != null) ? $ticket->ticket->cashier->name : $ticket->reservation->cashier->name }}</td>
-                                                            <td>
-                                                                <button class="btn btn-success" data-bs-toggle="modal"
-                                                                        data-bs-target="#joinGroup-{{ $group_customer->group->id }}">
-                                                                    join Group
-                                                                </button>
-                                                                {{--                                                        <button class="btn btn-primary WaitingRoom" data-id="{{ $group_customer->group->id  }}">--}}
-                                                                {{--                                                            To Waiting--}}
-                                                                {{--                                                        </button>--}}
-                                                            </td>
+                                                            @if(auth()->user()->supervisor_type == 'platform')
+                                                                <td>
+                                                                    <button class="btn btn-success"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#joinGroup-{{ $group_customer->group->id }}">
+                                                                        join Group
+                                                                    </button>
+                                                                    {{--                                                        <button class="btn btn-primary WaitingRoom" data-id="{{ $group_customer->group->id  }}">--}}
+                                                                    {{--                                                            To Waiting--}}
+                                                                    {{--                                                        </button>--}}
+                                                                </td>
+                                                            @endif
                                                         </tr>
                                                         </tbody>
                                                     @endforeach
@@ -427,7 +432,9 @@
                                                             <th scope="col" class="color">Time left (mins)</th>
                                                             <th scope="col" class="color">Next Activity</th>
                                                             <th scope="col" class="color">cashier</th>
-                                                            <th scope="col" class="color">Actions</th>
+                                                            @if(auth()->user()->supervisor_type == 'platform')
+                                                                <th scope="col" class="color">Actions</th>
+                                                            @endif
                                                         </tr>
                                                         </thead>
                                                         @foreach($group->group_customer as $ticket)
@@ -451,12 +458,14 @@
                                                                 <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
                                                                 <td>{{ ($ticket->ticket != null) ? $ticket->ticket->cashier->name : $ticket->reservation->cashier->name }}</td>
                                                                 <td>
-                                                                    <button class="btn btn-success"
-                                                                            data-bs-toggle="modal"
-                                                                            {{ ($group->GroupQuantity == $capacity->value) ? 'disabled' : '' }}
-                                                                            data-bs-target="#joinGroupMove-{{ $group->id }}">
-                                                                        join Group
-                                                                    </button>
+                                                                    @if(auth()->user()->supervisor_type == 'platform')
+                                                                        <button class="btn btn-success"
+                                                                                data-bs-toggle="modal"
+                                                                                {{ ($group->GroupQuantity == $capacity->value) ? 'disabled' : '' }}
+                                                                                data-bs-target="#joinGroupMove-{{ $group->id }}">
+                                                                            join Group
+                                                                        </button>
+                                                                    @endif
                                                                     <button class="btn btn-primary WaitingRoom"
                                                                             data-id="{{ $group->id }}">
                                                                         To Waiting
