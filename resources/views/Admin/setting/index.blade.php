@@ -79,6 +79,11 @@
                                            placeholder="Default Capacity Of The Park" value="{{$setting->capacity}}">
                                 </div>
                                 <div class="form-group">
+                                    <label class="form-label">Activity Capacity</label>
+                                    <input type="number" min="0" class="form-control" name="activity_capacity"
+                                           placeholder="Capacity Of The Activities" value="{{$capacity->value}}">
+                                </div>
+                                <div class="form-group">
                                     <label class="form-label">Facebook</label>
                                     <input type="text" class="form-control" name="facebook"
                                            placeholder="https://www.facebook.com/your_id"

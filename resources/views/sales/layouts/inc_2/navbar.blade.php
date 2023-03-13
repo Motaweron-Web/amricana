@@ -44,10 +44,12 @@
                             $user = \App\Models\SupervisorActivity::where('supervisor_id', auth('admin')->user()->id)
                                 ->whereDate('created_at', '=', \Carbon\Carbon::now()->format('Y-m-d'))->first();
                         @endphp
+                        @if($user)
                         @if($user->status == 'available')
                             <span class="d-inline btn-sm btn-danger">Take Break</span>
 {{--                            @else--}}
 {{--                            <span class="d-inline btn-sm btn-primary">Back From Break</span>--}}
+                        @endif
                         @endif
                     </a>
                 </li>

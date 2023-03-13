@@ -60,30 +60,39 @@ class GroupController extends Controller
 
 
         try {
-
-            $outGroup = GroupMovement::where('group_id', $request->group_id)
+            $group_movment = GroupMovement::where('group_id', $request->group_id)
                 ->whereDate('created_at', '=', $date_time)
-                ->update(['status' => 'out']);
+                ->where('status', 'in')
+                ->first();
+//            return $group_movment;
+            if ($request->activity_id == $group_movment->activity_id) {
+                return redirect()->back()->with('success', 'You Are Already In The Same Activity');
+            } else {
 
-            $inGroup = GroupMovement::create([
-                'date_time' => $date_time,
-                'group_id' => $request->group_id,
-                'activity_id' => $request->activity_id,
-                'supervisor_accept_id' => $request->supervisor_accept_id,
-                'accept' => $accept,
-                'status' => 'in',
-            ]);
-
-            if (!$inGroup) {
                 $outGroup = GroupMovement::where('group_id', $request->group_id)
                     ->whereDate('created_at', '=', $date_time)
-                    ->update(['status' => 'in']);
-            } else if ($inGroup) {
-                return redirect()->back()->with('success', 'Group moved successfully');
-            } else {
-                return redirect()->back()->with('error', 'please fill data and try again');
-            }
+                    ->update(['status' => 'out']);
 
+                $inGroup = GroupMovement::create([
+                    'date_time' => $date_time,
+                    'group_id' => $request->group_id,
+                    'activity_id' => $request->activity_id,
+                    'supervisor_accept_id' => $request->supervisor_accept_id,
+                    'accept' => $accept,
+                    'status' => 'in',
+                ]);
+
+                if (!$inGroup) {
+                    $outGroup = GroupMovement::where('group_id', $request->group_id)
+                        ->whereDate('created_at', '=', $date_time)
+                        ->update(['status' => 'in']);
+                } else if ($inGroup) {
+                    return redirect()->back()->with('success', 'Group moved successfully');
+                } else {
+                    return redirect()->back()->with('error', 'please fill data and try again');
+                }
+
+            }
         } catch (Exception $e) {
 
             return redirect()->back()->with('error', 'please fill data and try again');

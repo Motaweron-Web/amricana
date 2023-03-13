@@ -160,7 +160,8 @@ class SupervisorController extends Controller
 
     public function groupMoves()
     {
-        $groups = GroupMovement::orderBy('created_at','DESC')->get();
+        $groups = GroupMovement::whereDate('created_at',Carbon::now()->format('Y-m-d'))
+            ->orderBy('created_at','DESC')->get();
 
 
 //        return $groups;
