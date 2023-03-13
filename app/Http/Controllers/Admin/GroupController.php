@@ -15,7 +15,7 @@ class GroupController extends Controller
 
     public function __construct()
     {
-        $this->middleware('adminPermission:Marketing');
+        $this->middleware('adminPermission:Marketing')->except('makeAllGroupsAvailable');
     }
     /**
      * Display a listing of the resource.
@@ -124,4 +124,19 @@ class GroupController extends Controller
         Groups::destroy($request->id);
         return response()->json(['status' => 200]);
     }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function makeAllGroupsAvailable()
+    {
+       return Groups::select('*')->update(['status' => 'available']);
+    }
+
+
+
 }

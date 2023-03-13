@@ -163,6 +163,8 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function (){
 
     Route::get('login', 'AuthController@index')->name('admin.login');
     Route::POST('login', 'AuthController@login')->name('admin.login');
+    Route::get('make-all-groups-available','GroupController@makeAllGroupsAvailable')->name('group.makeAllGroupsAvailable');
+
 });
 
 
