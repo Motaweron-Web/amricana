@@ -39,6 +39,7 @@ Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatfo
 
     // group Moves
     Route::get('groupMoves', [SupervisorController::class, 'groupMoves'])->name('groupMoves');
+    Route::get('supervisorMoving', [SupervisorController::class, 'supervisorMoving'])->name('supervisorMoving');
 
 
     // logout

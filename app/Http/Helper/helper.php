@@ -328,7 +328,7 @@ if (!function_exists('GetImg')) {
 
 
 if (!function_exists('upload_image')) {
-    function upload_image($path_ = '', $img, $plus, $file_name = '', $delete_file = '')
+    function upload_image($path_ = '', $img = '', $plus = '', $file_name = '', $delete_file = '')
     {
         // delete old file
         $delete_file != '' ? Storage::delete($delete_file) : '';
@@ -689,7 +689,7 @@ if (!function_exists('get_user_photo')) {
 }
 
 if (!function_exists('optionForEach')) {
-    function optionForEach($array=[] , $of,$name='' , $eq=''){
+    function optionForEach($array=[] , $of='',$name='' , $eq=''){
         $option = '';
         foreach ($array as $key => $item){
             $selected = $item->$of == $eq ?'selected' :'';

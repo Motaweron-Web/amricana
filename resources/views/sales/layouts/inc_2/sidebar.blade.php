@@ -106,6 +106,28 @@
                     </div>
                 </li>
 
+
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#supervisorMoving" class="nav-link " id="main-group"
+                       aria-controls="groupSale" role="button"
+                       aria-expanded="false">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                            <i class="fad fa-bus-school"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Supervisor Status</span>
+                    </a>
+                    <div class="collapse" id="supervisorMoving">
+                        <ul class="nav ms-4 ps-3">
+                            <li class="nav-item createReservation">
+                                <a class="nav-link createReservation" href="{{route('supervisorMoving')}}">
+                                    <span class="sidenav-normal">Supervisor Status</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
                 @endif
 
         </ul>

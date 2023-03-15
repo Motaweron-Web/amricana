@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\SupervisorActivity;
+use App\Models\SupervisorLog;
 use Carbon\Carbon;
 use App\Models\Ticket;
 use App\Models\Reservations;
@@ -37,7 +38,21 @@ class AuthActivityController extends Controller
     } // end login
 
     public function logout(){
+        $supervisor = SupervisorActivity::where('supervisor_id', auth('admin')->user()->id)
+            ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
+            ->first();
+
+        $supervisor->status = 'break';
+        $supervisor->save();
+
+        SupervisorLog::create([
+            'name' => $supervisor->supervisors->name,
+            'status' => $supervisor->status,
+        ]);
+
+
         Auth::guard('admin')->logout();
+
         toastr()->info('logged out successfully');
         return redirect()->route('activity.login');
     } // end logout

@@ -10,6 +10,7 @@ use App\Models\GroupMovement;
 use App\Models\RouteGroup;
 use App\Models\Supervisor;
 use App\Models\SupervisorActivity;
+use App\Models\SupervisorLog;
 use Carbon\Carbon;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
@@ -148,7 +149,11 @@ class SupervisorController extends Controller
 
         ($user->status == 'available') ? $user->status = 'break' : $user->status = 'available';
         $user->save();
-//        return $user;
+
+        $logs = SupervisorLog::create([
+            'name' => $user->supervisors->name,
+            'status' => $user->status,
+        ]);
 
         if ($user->status == 'available') {
             return redirect()->back()->with('success', 'You are Available From Now !');
@@ -160,12 +165,17 @@ class SupervisorController extends Controller
 
     public function groupMoves()
     {
-        $groups = GroupMovement::whereDate('created_at',Carbon::now()->format('Y-m-d'))
-            ->orderBy('created_at','DESC')->get();
+        $groups = GroupMovement::whereDate('created_at', Carbon::now()->format('Y-m-d'))
+            ->orderBy('created_at', 'DESC')->get();
+
+        return view('platform.activities.group_moves', compact('groups'));
+    } // end groupMoves
+
+    public function supervisorMoving()
+    {
+        $supervisor = SupervisorLog::orderByDesc('created_at')->get();
+        return view('platform.activities.supervisor_moves',compact('supervisor'));
+    } // end supervisorMoving
 
 
-//        return $groups;
-
-        return view('platform.activities.group_moves',compact('groups'));
-    }
 }

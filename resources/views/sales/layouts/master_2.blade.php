@@ -41,6 +41,21 @@
 
     }, 10000);
 
+
+    setInterval(function(){
+
+        $.ajax({url: "{{url('platform/getLastRequests')}}", success: function(result){
+                if(result){
+                    toastr.info('please check your requests you have new');
+                    var body = 'please check your requests you have new';
+                    new Notification("New Requests", { body });
+                    playAudio();
+                }
+
+            }});
+
+    }, 10000);
+
     function playAudio() {
         var x = new Audio('{{url('/')}}/sound/eventually-590.ogg');
         // Show loading animation.
