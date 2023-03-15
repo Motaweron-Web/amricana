@@ -36,6 +36,7 @@ Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatfo
 
     //in break
     Route::get('activityBreak', [SupervisorController::class, 'activityBreak'])->name('activityBreak');
+    Route::get('resetSupervisorActivity', [SupervisorController::class, 'resetSupervisorActivity'])->name('resetSupervisorActivity');
 
     // group Moves
     Route::get('groupMoves', [SupervisorController::class, 'groupMoves'])->name('groupMoves');

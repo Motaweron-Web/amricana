@@ -46,10 +46,22 @@
                         @endphp
                         @if($user)
                         @if($user->status == 'available')
-                            <span class="d-inline btn-sm btn-danger">Take Break</span>
+                            <span class="d-inline btn btn-sm btn-danger">Take Break</span>
 {{--                            @else--}}
 {{--                            <span class="d-inline btn-sm btn-primary">Back From Break</span>--}}
                         @endif
+                        @endif
+                    </a>
+
+
+                    <a href="{{route('resetSupervisorActivity')}}" style="margin-left:50px"
+                       class="nav-link text-body font-weight-bold px-0">
+                        @if($user)
+                            @if($user->status == 'available')
+                                <span class="d-inline btn btn-sm btn-primary">change Activity</span>
+                                {{--                            @else--}}
+                                {{--                            <span class="d-inline btn-sm btn-primary">Back From Break</span>--}}
+                            @endif
                         @endif
                     </a>
                 </li>

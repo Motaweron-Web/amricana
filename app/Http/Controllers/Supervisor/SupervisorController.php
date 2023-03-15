@@ -144,6 +144,7 @@ class SupervisorController extends Controller
 
     public function activityBreak()
     {
+
         $user = SupervisorActivity::where('supervisor_id', auth('admin')->user()->id)
             ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))->first();
 
@@ -174,8 +175,39 @@ class SupervisorController extends Controller
     public function supervisorMoving()
     {
         $supervisor = SupervisorLog::orderByDesc('created_at')->get();
-        return view('platform.activities.supervisor_moves',compact('supervisor'));
+        return view('platform.activities.supervisor_moves', compact('supervisor'));
     } // end supervisorMoving
 
+
+    public function resetSupervisorActivity()
+    {
+        $super_setup = SupervisorActivity::where('supervisor_id', auth()->user()->id)
+            ->whereDate('created_at', Carbon::now()->format('Y-m-d'))->first();
+
+        $activity_setup = SupervisorActivity::where('activity_id', $super_setup->activity_id)
+            ->whereDate('created_at', Carbon::now()->format('Y-m-d'))
+            ->count('activity_id');
+
+        $groups = GroupMovement::whereDate('created_at', Carbon::now()->format('Y-m-d'))
+            ->where('supervisor_accept_id', auth()->user()->id)
+            ->where('activity_id', $super_setup->activity_id)
+            ->where('accept', 'accept')
+            ->get();
+
+//        return $groups;
+
+        if ($activity_setup > 1 && $groups->count() < 1) {
+            SupervisorActivity::whereDate('created_at', Carbon::now()->format('Y-m-d'))
+                ->where('supervisor_id', auth('admin')->user()->id)
+                ->delete();
+
+
+            return redirect()->route('platform')->with('success', 'you are leave activity');
+
+        } else {
+            return redirect()->route('platform')->with('success', 'you are not have this permission now');
+        }
+
+    }
 
 }
