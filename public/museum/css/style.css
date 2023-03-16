@@ -158,7 +158,7 @@ content {
 }
 .btn-report::before{
   content: '';
-  width: 100px;
+  width: 50%;
   height: 100%;
   position: absolute;
   background-color: #B58744;
@@ -169,7 +169,7 @@ content {
 }
 .btn-report::after{
   content: '';
-  width: 100px;
+  width: 50%;
   height: 100%;
   position: absolute;
   background-color: #B58744;
@@ -271,7 +271,7 @@ content {
 }
 .btn-group::before{
     content: '';
-    width: 100px;
+    width: 50%;
     height: 100%;
     position: absolute;
     background-color: #5c4523;
@@ -282,7 +282,7 @@ content {
 }
 .btn-group::after{
     content: '';
-    width: 100px;
+    width: 50%;
     height: 100%;
     position: absolute;
     background-color: #5c4523;

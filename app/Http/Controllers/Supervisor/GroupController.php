@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\GroupColor;
 use App\Models\GroupCustomer;
 use App\Models\GroupMovement;
+use App\Models\Groups;
 use App\Models\SupervisorActivity;
 use Carbon\Carbon;
 use Exception;
@@ -190,4 +191,83 @@ class GroupController extends Controller
         }
 
     } // end returnGroupWaiting
+
+    public function breakGroup(Request $request)
+    {
+        $inputs = $request->except('_token');
+        $newGroup = Groups::where('status', '=', 'available')->first();
+        $groupCustomer = GroupCustomer::where('group_id', $inputs['group_id'])
+            ->where('sale_type', 'trip')
+            ->whereDate('created_at', Carbon::now()->format('Y-m-d'))
+            ->get();
+
+            $arr = [
+                'inputs' => $inputs,
+                'old_group' => $groupCustomer,
+                'new group' => $newGroup,
+            ];
+
+//            return $arr;
+
+        if ($inputs['break_count'] < $groupCustomer->quantity) {
+
+
+            $groupCustomer->quantity = $groupCustomer->quantity - $inputs['break_count'];
+            $groupCustomer->save();
+
+            GroupCustomer::create([
+                'member_name' => $groupCustomer->member_name,
+                'ticket_id' => $groupCustomer->ticket_id,
+                'group_id' => $newGroup->id,
+                'rev_id' => $groupCustomer->rev_id,
+                'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
+                'quantity' => $inputs['break_count'],
+                'sale_type' => $groupCustomer->sale_type,
+                'status' => $groupCustomer->status,
+            ]);
+
+            GroupColor::create([
+                'group_id' => $newGroup->id,
+                'color' => null,
+                'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
+            ]);
+
+            Groups::where('id', $newGroup->id)->update(['status' =>'not_available']);
+
+        } else {
+            return redirect()->back()->with('error', 'group can\'t break');
+        }
+    } // end break group
+
+    public function newGroup()
+    {
+        $newGroup = Groups::where('status', '=', 'available')->first();
+
+        if ($newGroup){
+
+            Groups::where('id', $newGroup->id)->update(['status' =>'not_available']);
+
+            GroupCustomer::create([
+                'member_name' => 'manual group',
+                'ticket_id' => null,
+                'group_id' => $newGroup->id,
+                'rev_id' => null,
+                'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
+                'quantity' => 0,
+                'sale_type' => 'family',
+                'status' => 'waiting',
+            ]);
+
+            GroupColor::create([
+                'group_id' => $newGroup->id,
+                'color' => null,
+                'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
+            ]);
+
+            return redirect()->back()->with('success','group created successfully !');
+        } else {
+            return redirect()->back()->with('success','no group are available now');
+        }
+
+    } // end new group
 }

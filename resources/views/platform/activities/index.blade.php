@@ -181,13 +181,13 @@
                                                         <tbody>
                                                         <tr>
                                                             <td>{{ $ticket->rev_id ?? $ticket->ticket_id }}</td>
-                                                            <td>{{ ($ticket->ticket != null) ? $ticket->ticket->client->name : $ticket->reservation->client_name }}</td>
+                                                            <td>{{ ($ticket->ticket != null) ? $ticket->ticket->client->name : $ticket->reservation->client_name ?? '--' }}</td>
                                                             <td>{{ $ticket->quantity }}</td>
                                                             <td>No activity at moment</td>
                                                             <td>Waiting Room</td>
                                                             <td>00:00</td>
                                                             <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
-                                                            <td>{{ ($ticket->ticket != null) ? $ticket->ticket->cashier->name : $ticket->reservation->cashier->name }}</td>
+                                                            <td>{{ ($ticket->ticket != null) ? $ticket->ticket->cashier->name : $ticket->reservation->cashier->name ?? '--' }}</td>
                                                             @if(auth()->user()->supervisor_type == 'platform')
                                                                 <td>
                                                                     <button class="btn btn-success"
@@ -441,7 +441,7 @@
                                                             <tbody>
                                                             <tr>
                                                                 <td>{{ $ticket->rev_id ?? $ticket->ticket_id }}</td>
-                                                                <td>{{ ($ticket->ticket != null) ? $ticket->ticket->client->name : $ticket->reservation->client_name }}</td>
+                                                                <td>{{ ($ticket->ticket != null) ? $ticket->ticket->client->name : $ticket->reservation->client_name ?? '' }}</td>
                                                                 <td>{{ $ticket->sale_type }}</td>
                                                                 <td>{{ $ticket->quantity }}</td>
                                                                 <td>{{ $ticket->lastActivity()->count() }}
@@ -456,7 +456,7 @@
                                                                     ?>
                                                                 <td>{{ $diffMinutes . 'Mins' ?? '00:00' }}</td>
                                                                 <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
-                                                                <td>{{ ($ticket->ticket != null) ? $ticket->ticket->cashier->name : $ticket->reservation->cashier->name }}</td>
+                                                                <td>{{ ($ticket->ticket != null) ? $ticket->ticket->cashier->name : $ticket->reservation->cashier->name ?? '--' }}</td>
                                                                 <td>
                                                                     @if(auth()->user()->supervisor_type == 'platform')
                                                                         <button class="btn btn-success"
@@ -709,7 +709,7 @@
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>{{ $ticket->rev_id ?? $ticket->ticket_id }}</td>
-                                                                    <td>{{ ($ticket->ticket != null) ? $ticket->ticket->client->name : $ticket->reservation->client_name }}</td>
+                                                                    <td>{{ ($ticket->ticket != null) ? $ticket->ticket->client->name : $ticket->reservation->client_name ?? '--' }}</td>
                                                                     <td>{{ $ticket->sale_type }}</td>
                                                                     <td>{{ $ticket->quantity }}</td>
                                                                     <td>{{ $ticket->lastActivity()->count() }}
@@ -724,7 +724,7 @@
                                                                         ?>
                                                                     <td>{{ $diffMinutes . 'Mins' ?? '00:00' }}</td>
                                                                     <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
-                                                                    <td>{{ ($ticket->ticket != null) ? $ticket->ticket->cashier->name : $ticket->reservation->cashier->name }}</td>
+                                                                    <td>{{ ($ticket->ticket != null) ? $ticket->ticket->cashier->name : $ticket->reservation->cashier->name ?? '--' }}</td>
                                                                     <td>
                                                                         <button class="btn btn-success"
                                                                                 data-bs-toggle="modal"
@@ -832,6 +832,13 @@
                     >
                         <h3 class="title-box">Waiting Room</h3>
                         <div class="d-flex justify-content-between">
+
+                            <form action="{{ route('newGroup') }}" method="post">
+                                @csrf
+                                <button class="btn-report  mb-2" type="submit">
+                                    create group
+                                </button>
+                            </form>
                             {{--                        <button class="btn-report mb-2" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModalReport">--}}
                             {{--                            Report--}}
                             {{--                        </button>--}}
@@ -867,6 +874,18 @@
                                                     data-bs-target="#moveGroup-{{ $group_customer->group->id }}">
                                                 Move group
                                             </button>
+                                        </div>
+                                        <div class="modal-body d-flex justify-content-between">
+                                            <button class="btn-report  mb-2" type="submit" data-bs-toggle="modal"
+                                                    data-bs-target="#breakGroup-{{ $group_customer->group->id }}">
+                                                Break group
+                                            </button>
+                                            <form action="{{ route('newGroup') }}" method="post">
+                                                @csrf
+                                                <button class="btn-report  mb-2" type="submit">
+                                                    create group
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -974,14 +993,14 @@
                                                     <tbody>
                                                     <tr>
                                                         <td>{{ $ticket->ticket_id }}</td>
-                                                        <td>{{ $ticket->ticket->client->name }}</td>
+                                                        <td>{{ $ticket->ticket->client->name ?? $ticket->reservation->client_name ?? '--' }}</td>
                                                         <td>{{ $ticket->member_name ?? '--' }}</td>
                                                         <td>{{ $ticket->quantity }}</td>
                                                         <td>No activity at moment</td>
                                                         <td>Waiting Room</td>
                                                         <td>00:00</td>
                                                         <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
-                                                        <td>{{ $ticket->ticket->cashier->name }}</td>
+                                                        <td>{{ $ticket->ticket->cashier->name ?? $ticket->reservation->cashier->name ?? '--' }}</td>
                                                         <td>
                                                             <button class="btn btn-success" data-bs-toggle="modal"
                                                                     data-bs-target="#joinGroup-{{ $group_customer->group->id }}">
@@ -1062,6 +1081,40 @@
                                 </div>
                             </div>
                             <!-- group join -->
+
+                            <!-- breakGroup -->
+                            <div class="modal"
+                                 id="breakGroup-{{ $group_customer->group->id }}" aria-labelledby=""
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div style="width:500px;" class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Groups</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body table-responsive">
+                                            <form action="{{ route('breakGroup') }}" method="post">
+                                                @csrf
+                                                <input hidden type="text" name="group_id"
+                                                       value="{{ $group_customer->group->id }}">
+                                                <label>break count</label>
+                                                <input type="number" class="form-control" name="break_count"/>
+                                                <small class="d-flex text-danger">* well add this count to new group
+                                                    *</small>
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="submit"
+                                                            class="joinGroup d-flex justify-content-center mt-2 btn btn-dark">
+                                                        submit
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- breakGroup -->
+
                         @endforeach
 
                         <!-- </div> -->
@@ -1226,7 +1279,7 @@
                                                         <tbody>
                                                         <tr>
                                                             <td>{{ $ticket->ticket_id }}</td>
-                                                            <td>{{ $ticket->ticket->client->name }}</td>
+                                                            <td>{{ $ticket->ticket->client->name ?? $ticket->reservation->client_name ?? '--' }}</td>
                                                             <td>{{ $ticket->member_name }}</td>
                                                             <td>{{ $ticket->quantity }}</td>
                                                             <td>{{ $ticket->lastActivity()->count() }}
@@ -1241,7 +1294,7 @@
                                                                 ?>
                                                             <td>{{ $diffMinutes . 'Mins' ?? '00:00' }}</td>
                                                             <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
-                                                            <td>{{ $ticket->ticket->cashier->name }}</td>
+                                                            <td>{{ $ticket->ticket->cashier->name ?? $ticket->reservation->cashier->name ?? '--' }}</td>
                                                             <td>
                                                                 <button class="btn btn-success" data-bs-toggle="modal"
                                                                         {{ ($group->GroupQuantity == $capacity->value) ? 'disabled' : '' }}

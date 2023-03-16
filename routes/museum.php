@@ -22,6 +22,8 @@ Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatfo
 
     #### Add Join Groups ####
     Route::post('joinGroup', [GroupController::class, 'joinGroup'])->name('joinGroup');
+    Route::post('newGroup', [GroupController::class, 'newGroup'])->name('newGroup');
+    Route::post('breakGroup', [GroupController::class, 'breakGroup'])->name('breakGroup');
     Route::post('returnWaitingRoom', [GroupController::class, 'returnWaitingRoom'])->name('returnWaitingRoom');
 
     #### Add Activaties ####
@@ -36,9 +38,11 @@ Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatfo
 
     //in break
     Route::get('activityBreak', [SupervisorController::class, 'activityBreak'])->name('activityBreak');
+    Route::get('resetSupervisorActivity', [SupervisorController::class, 'resetSupervisorActivity'])->name('resetSupervisorActivity');
 
     // group Moves
     Route::get('groupMoves', [SupervisorController::class, 'groupMoves'])->name('groupMoves');
+    Route::get('supervisorMoving', [SupervisorController::class, 'supervisorMoving'])->name('supervisorMoving');
 
 
     // logout
