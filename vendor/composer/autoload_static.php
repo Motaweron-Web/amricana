@@ -207,10 +207,10 @@ class ComposerStaticInit5adebc6c948317d5c2392b91ea4c80f0
         'Yajra\\DataTables\\' => 
         array (
             0 => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src',
-            1 => __DIR__ . '/..' . '/yajra/laravel-datatables-fractal/src',
-            2 => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src',
-            3 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
-            4 => __DIR__ . '/..' . '/yajra/laravel-datatables-editor/src',
+            1 => __DIR__ . '/..' . '/yajra/laravel-datatables-editor/src',
+            2 => __DIR__ . '/..' . '/yajra/laravel-datatables-fractal/src',
+            3 => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src',
+            4 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
         ),
         'Whoops\\' => 
         array (
@@ -666,6 +666,7 @@ class ComposerStaticInit5adebc6c948317d5c2392b91ea4c80f0
         'App\\Models\\Slider' => __DIR__ . '/../..' . '/app/Models/Slider.php',
         'App\\Models\\Supervisor' => __DIR__ . '/../..' . '/app/Models/Supervisor.php',
         'App\\Models\\SupervisorActivity' => __DIR__ . '/../..' . '/app/Models/SupervisorActivity.php',
+        'App\\Models\\SupervisorLog' => __DIR__ . '/../..' . '/app/Models/SupervisorLog.php',
         'App\\Models\\Ticket' => __DIR__ . '/../..' . '/app/Models/Ticket.php',
         'App\\Models\\TicketRevModel' => __DIR__ . '/../..' . '/app/Models/TicketRevModel.php',
         'App\\Models\\TicketRevProducts' => __DIR__ . '/../..' . '/app/Models/TicketRevProducts.php',
