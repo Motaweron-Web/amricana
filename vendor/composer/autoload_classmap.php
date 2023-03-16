@@ -111,6 +111,7 @@ return array(
     'App\\Models\\Slider' => $baseDir . '/app/Models/Slider.php',
     'App\\Models\\Supervisor' => $baseDir . '/app/Models/Supervisor.php',
     'App\\Models\\SupervisorActivity' => $baseDir . '/app/Models/SupervisorActivity.php',
+    'App\\Models\\SupervisorLog' => $baseDir . '/app/Models/SupervisorLog.php',
     'App\\Models\\Ticket' => $baseDir . '/app/Models/Ticket.php',
     'App\\Models\\TicketRevModel' => $baseDir . '/app/Models/TicketRevModel.php',
     'App\\Models\\TicketRevProducts' => $baseDir . '/app/Models/TicketRevProducts.php',
