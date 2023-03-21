@@ -75,7 +75,7 @@ class GroupController extends Controller
                     ->update(['status' => 'out']);
 
                 $inGroup = GroupMovement::create([
-                    'date_time' => $date_time,
+                    'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
                     'group_id' => $request->group_id,
                     'activity_id' => $request->activity_id,
                     'supervisor_accept_id' => $request->supervisor_accept_id,
@@ -114,7 +114,7 @@ class GroupController extends Controller
         try {
 
             $groupMovement = GroupMovement::create([
-                'date_time' => $date_time,
+                'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'group_id' => $request->group_id,
                 'activity_id' => $request->activity_id,
                 'supervisor_accept_id' => $request->supervisor_accept_id,
@@ -199,7 +199,7 @@ class GroupController extends Controller
         $groupCustomer = GroupCustomer::where('group_id', $inputs['group_id'])
             ->where('sale_type', 'trip')
             ->whereDate('created_at', Carbon::now()->format('Y-m-d'))
-            ->get();
+            ->first();
 
             $arr = [
                 'inputs' => $inputs,
@@ -208,6 +208,7 @@ class GroupController extends Controller
             ];
 
 //            return $arr;
+//            return $groupCustomer->quantity;
 
         if ($inputs['break_count'] < $groupCustomer->quantity) {
 
@@ -233,6 +234,8 @@ class GroupController extends Controller
             ]);
 
             Groups::where('id', $newGroup->id)->update(['status' =>'not_available']);
+
+            return redirect()->back()->with('error', 'group broked successfully');
 
         } else {
             return redirect()->back()->with('error', 'group can\'t break');
