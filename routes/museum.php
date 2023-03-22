@@ -36,6 +36,9 @@ Route::group(['prefix' => 'platform', 'middleware' => ['auth:admin','CheckPlatfo
     Route::post('groupNotAccept', [SupervisorController::class, 'groupNotAccept'])->name('groupNotAccept');
 
 
+    #### listSupervisors ####
+    Route::get('listSupervisors', [SupervisorController::class, 'listSupervisors'])->name('listSupervisors');
+
     //in break
     Route::get('activityBreak', [SupervisorController::class, 'activityBreak'])->name('activityBreak');
     Route::get('resetSupervisorActivity', [SupervisorController::class, 'resetSupervisorActivity'])->name('resetSupervisorActivity');

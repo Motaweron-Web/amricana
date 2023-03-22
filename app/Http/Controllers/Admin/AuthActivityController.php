@@ -31,6 +31,13 @@ class AuthActivityController extends Controller
             'password'=>'required'
         ]);
         if (Auth::guard('admin')->attempt($data) && (Auth::guard('admin')->user()->supervisor_type == 'activity') ){
+
+            $check = SupervisorActivity::where('supervisor_id',auth::guard('admin')->user()->id)
+                ->whereDate('date_time',Carbon::now()->format('Y-m-d'))
+            ->first();
+            if ($check){
+                $check->update(['status' => 'available']);
+            }
             return response()->json(200);
         }else{
             return response()->json(500);

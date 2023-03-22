@@ -209,4 +209,11 @@ class SupervisorController extends Controller
 
     } // end resetSupervisorActivity
 
+    public function listSupervisors(Request $request)
+    {
+        $supervisors = SupervisorActivity::where('activity_id',$request->activity_id)->get();
+
+        return $supervisors;
+    }
+
 } // end controller
