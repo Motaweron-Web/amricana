@@ -42,16 +42,20 @@
                             $activity = \App\Models\SupervisorActivity::where('supervisor_id', auth('admin')->user()->id)
                                        ->whereDate('date_time', '=', \Carbon\Carbon::now()->format('Y-m-d'))->first('activity_id');
 
+                            if ($activity){
                             $supervisors_list = \App\Models\SupervisorActivity::where('activity_id', $activity->activity_id)
                                        ->whereDate('date_time', '=', \Carbon\Carbon::now()->format('Y-m-d'))->get();
+                            }
                         @endphp
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            @if(isset($supervisors_list))
                             @foreach($supervisors_list as $supervisor_list)
                                 @if($supervisor_list->supervisor_id == auth('admin')->user()->id)
                                     @continue
                                 @endif
                                 <li class="m-1">{{ $supervisor_list->supervisors->name }}</li>
                             @endforeach
+                                @endif
                         </ul>
                     </div>
                 </li>
