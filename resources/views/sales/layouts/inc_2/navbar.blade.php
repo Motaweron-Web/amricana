@@ -5,7 +5,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-2">
             <li class="breadcrumb-item text-sm">
-                <a class="opacity-3 text-dark" href="{{route('sales')}}">
+                <a class="opacity-3 text-dark" href="#">
                     <i class="fas fa-house-day"></i>
                 </a>
             </li>
@@ -31,6 +31,35 @@
                     </a>
                 </li>
             @elseif(auth()->user()->supervisor_type == 'activity')
+
+                <li class="nav-item d-flex align-items-center">
+                    <div class="dropdown">
+                    <span class="dropdown-toggle d-inline p-3" role="button" id="dropdownMenuLink"
+                          data-bs-toggle="dropdown" aria-expanded="false">
+                        Supervisors List
+                    </span>
+                        @php
+                            $activity = \App\Models\SupervisorActivity::where('supervisor_id', auth('admin')->user()->id)
+                                       ->whereDate('date_time', '=', \Carbon\Carbon::now()->format('Y-m-d'))->first('activity_id');
+
+                            if ($activity){
+                            $supervisors_list = \App\Models\SupervisorActivity::where('activity_id', $activity->activity_id)
+                                       ->whereDate('date_time', '=', \Carbon\Carbon::now()->format('Y-m-d'))->get();
+                            }
+                        @endphp
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            @if(isset($supervisors_list))
+                            @foreach($supervisors_list as $supervisor_list)
+                                @if($supervisor_list->supervisor_id == auth('admin')->user()->id)
+                                    @continue
+                                @endif
+                                <li class="m-1">{{ $supervisor_list->supervisors->name }}</li>
+                            @endforeach
+                                @endif
+                        </ul>
+                    </div>
+                </li>
+
                 <li class="nav-item d-flex align-items-center">
                     <span class="d-inline p-3">Name : {{ auth('admin')->user()->name }}</span>
                     <a href="{{route('activity.logout')}}" class="nav-link text-body font-weight-bold px-0">
@@ -45,11 +74,11 @@
                                 ->whereDate('created_at', '=', \Carbon\Carbon::now()->format('Y-m-d'))->first();
                         @endphp
                         @if($user)
-                        @if($user->status == 'available')
-                            <span class="d-inline btn btn-sm btn-danger">Take Break</span>
-{{--                            @else--}}
-{{--                            <span class="d-inline btn-sm btn-primary">Back From Break</span>--}}
-                        @endif
+                            @if($user->status == 'available')
+                                <span class="d-inline btn btn-sm btn-danger">Take Break</span>
+                                {{--                            @else--}}
+                                {{--                            <span class="d-inline btn-sm btn-primary">Back From Break</span>--}}
+                            @endif
                         @endif
                     </a>
 
