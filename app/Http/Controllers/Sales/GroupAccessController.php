@@ -180,9 +180,12 @@ class GroupAccessController extends Controller
             'gender'=>'nullable|array',
             'gender.*.'=>'in:male,female',
         ]);
+       $capacity =  count($request->bracelet_number);
 
         foreach($request->id as $key=>$bracelet)
         {
+
+
             $model = TicketRevModel::findOrFail($request->id[$key]);
 
             if($model->reservation->rem_amount > 0){
@@ -216,12 +219,11 @@ class GroupAccessController extends Controller
             }
         }
 
-//        dd($request->capacity);
         //start groups
         $groups = Groups::query()->where('status','=','available')->orderBy('id','ASC')->get();
         $configration = Configuration::latest()->first();
 
-        $cap = $request->capacity >=$configration->value ? ($request->capacity / $configration->value) : 1;
+        $cap = $capacity >=$configration->value ? ceil($capacity / $configration->value) : 1;
 
         $group_id = $groups->first()->id;
         //10
@@ -231,7 +233,7 @@ class GroupAccessController extends Controller
                 'rev_id' => $ticket->id,
                 'group_id' => $group_id,
                 'date_time' => Carbon::now(),
-                'quantity' => $request->capacity >=$configration->value ? $configration->value : 1,
+                'quantity' => ($cap == $i && ($capacity / $configration->value) < $cap) ? $capacity % $configration->value : $configration->value,
                 'sale_type' => 'trip',
             ]);
             Groups::where('id','=',$group_id)->update(['status' => 'not_available']);
