@@ -155,21 +155,14 @@ class GroupController extends Controller
             $group = GroupCustomer::where('id', $groupFrom)
                 ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
                 ->first();
-//            $group->update(['group_id' => $groupTo]);
-
-//            return $groupTo;
-
-//            $movement = GroupMovement::where('group_id', $group->group_id)
-//                ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
-//                ->first();
-
+            $movement = GroupMovement::where('group_id', $group->group_id)
+                ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
+                ->first();
             $group->update(['group_id' => $groupTo]);
 
-//            return $movement;
-
-//            if ($movement !== null) {
-//                $movement->update(['status' => 'out']);
-//            }
+            if ($movement !== null) {
+                $movement->update(['status' => 'out']);
+            }
 
             if ($group) {
 //                return redirect()->back()->with('success', 'Group joined successfully');
