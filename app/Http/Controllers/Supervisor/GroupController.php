@@ -148,26 +148,28 @@ class GroupController extends Controller
     public function joinGroup(Request $request)
     {
         try {
-            $inputs = $request->all();
-            $groupJoin = $request->group_join;
 
-            $group = GroupCustomer::where('group_id', $request->group_id)
-                ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
-                ->first()->update(['group_id' => $groupJoin]);
+            $groupFrom = $request->groupId;
+            $groupTo = $request->groupJoin;
 
-            $movement = GroupMovement::where('group_id', $request->group_id)
+            $group = GroupCustomer::where('id', $groupFrom)
                 ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
                 ->first();
+            $movement = GroupMovement::where('group_id', $group->group_id)
+                ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
+                ->first();
+            $group->update(['group_id' => $groupTo]);
 
             if ($movement !== null) {
                 $movement->update(['status' => 'out']);
             }
 
-
             if ($group) {
-                return redirect()->back()->with('success', 'Group joined successfully');
+//                return redirect()->back()->with('success', 'Group joined successfully');
+                return response()->json(['status' => 200]);
             } else {
-                return redirect()->back()->with('error', 'error try again !');
+//                return redirect()->back()->with('error', 'error try again !');
+                return response()->json(['status'=> 405]);
             }
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Please Try again as soon as possible');
@@ -196,16 +198,16 @@ class GroupController extends Controller
     {
         $inputs = $request->except('_token');
         $newGroup = Groups::where('status', '=', 'available')->first();
-        $groupCustomer = GroupCustomer::where('group_id', $inputs['group_id'])
+        $groupCustomer = GroupCustomer::where('id', $inputs['group_id'])
             ->where('sale_type', 'trip')
             ->whereDate('created_at', Carbon::now()->format('Y-m-d'))
             ->first();
 
-            $arr = [
-                'inputs' => $inputs,
-                'old_group' => $groupCustomer,
-                'new group' => $newGroup,
-            ];
+        $arr = [
+            'inputs' => $inputs,
+            'old_group' => $groupCustomer,
+            'new group' => $newGroup,
+        ];
 
 //            return $arr;
 //            return $groupCustomer->quantity;
@@ -233,7 +235,7 @@ class GroupController extends Controller
                 'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
 
-            Groups::where('id', $newGroup->id)->update(['status' =>'not_available']);
+            Groups::where('id', $newGroup->id)->update(['status' => 'not_available']);
 
             return redirect()->back()->with('error', 'group broked successfully');
 
@@ -246,9 +248,9 @@ class GroupController extends Controller
     {
         $newGroup = Groups::where('status', '=', 'available')->first();
 
-        if ($newGroup){
+        if ($newGroup) {
 
-            Groups::where('id', $newGroup->id)->update(['status' =>'not_available']);
+            Groups::where('id', $newGroup->id)->update(['status' => 'not_available']);
 
             GroupCustomer::create([
                 'member_name' => 'manual group',
@@ -267,9 +269,9 @@ class GroupController extends Controller
                 'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
 
-            return redirect()->back()->with('success','group created successfully !');
+            return redirect()->back()->with('success', 'group created successfully !');
         } else {
-            return redirect()->back()->with('success','no group are available now');
+            return redirect()->back()->with('success', 'no group are available now');
         }
 
     } // end new group

@@ -876,10 +876,6 @@
                                             </button>
                                         </div>
                                         <div class="modal-body d-flex justify-content-between">
-                                            <button class="btn-report  mb-2" type="submit" data-bs-toggle="modal"
-                                                    data-bs-target="#breakGroup-{{ $group_customer->group->id }}">
-                                                Break group
-                                            </button>
                                             <form action="{{ route('newGroup') }}" method="post">
                                                 @csrf
                                                 <button class="btn-report  mb-2" type="submit">
@@ -992,7 +988,7 @@
                                                 @foreach($group_customer->group->group_customer as $ticket)
                                                     <tbody>
                                                     <tr>
-                                                        <td>{{ $ticket->ticket_id }}</td>
+                                                        <td>{{ $ticket->id }}</td>
                                                         <td>{{ $ticket->ticket->client->name ?? $ticket->reservation->client_name ?? '--' }}</td>
                                                         <td>{{ $ticket->member_name ?? '--' }}</td>
                                                         <td>{{ $ticket->quantity }}</td>
@@ -1002,10 +998,19 @@
                                                         <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
                                                         <td>{{ $ticket->ticket->cashier->name ?? $ticket->reservation->cashier->name ?? '--' }}</td>
                                                         <td>
-                                                            <button class="btn btn-success" data-bs-toggle="modal"
+                                                            <button class="btn btn-success d-flex btnGroup"
+                                                                    data-bs-toggle="modal"
+                                                                    data-group-id="{{ $ticket->id }}"
                                                                     data-bs-target="#joinGroup-{{ $group_customer->group->id }}">
                                                                 join Group
                                                             </button>
+                                                            @if($ticket->sale_type == 'trip')
+                                                            <button class="btn btn-primary d-flex btnBreak mb-2" type="submit" data-bs-toggle="modal"
+                                                                    data-group-id="{{ $ticket->id }}"
+                                                                    data-bs-target="#breakGroup-{{ $group_customer->group->id }}">
+                                                                Break group
+                                                            </button>
+                                                            @endif
                                                             {{--                                                        <button class="btn btn-primary WaitingRoom" data-id="{{ $group_customer->group->id  }}">--}}
                                                             {{--                                                            To Waiting--}}
                                                             {{--                                                        </button>--}}
@@ -1059,17 +1064,11 @@
                                                             </td>
                                                         @else
                                                             <td>
-                                                                <form action="{{ route('joinGroup') }}" method="post">
-                                                                    @csrf
-                                                                    <input hidden type="text" name="group_id"
-                                                                           value="{{ $group_customer->group->id }}">
-                                                                    <input hidden type="text" name="group_join"
-                                                                           value="{{ $join_group->group->id }}">
-                                                                    <button type="submit"
-                                                                            class="joinGroup btn btn-success">
-                                                                        join
-                                                                    </button>
-                                                                </form>
+                                                                <button type="submit"
+                                                                        data-join-group="{{ $join_group->group->id }}"
+                                                                        class="joinGroupCustom btn btn-success">
+                                                                    join
+                                                                </button>
                                                             </td>
                                                         @endif
                                                     </tr>
@@ -1094,10 +1093,11 @@
                                                     aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body table-responsive">
-                                            <form action="{{ route('breakGroup') }}" method="post">
+                                            <form action="{{ route('breakGroup')  }}" method="post">
                                                 @csrf
-                                                <input hidden type="text" name="group_id"
-                                                       value="{{ $group_customer->group->id }}">
+                                                <input hidden class="inputGroupCustomer" type="text" name="group_id"
+                                                       value="">
+{{--                                                <h4 class="inputGroupCustomer"></h4>--}}
                                                 <label>break count</label>
                                                 <input type="number" class="form-control" name="break_count"/>
                                                 <small class="d-flex text-danger">* well add this count to new group
@@ -1353,18 +1353,11 @@
                                                                 </td>
                                                             @else
                                                                 <td>
-                                                                    <form action="{{ route('joinGroup') }}"
-                                                                          method="post">
-                                                                        @csrf
-                                                                        <input hidden type="text" name="group_id"
-                                                                               value="{{ $group->id }}">
-                                                                        <input hidden type="text" name="group_join"
-                                                                               value="{{ $join_group->group->id }}">
-                                                                        <button type="submit"
-                                                                                class="joinGroup btn btn-success">
-                                                                            join
-                                                                        </button>
-                                                                    </form>
+                                                                    <button type="submit"
+                                                                            data-join-group="{{ $join_group->group->id }}"
+                                                                            class="joinGroupCustom btn btn-success">
+                                                                        join
+                                                                    </button>
                                                                 </td>
                                                             @endif
                                                         </tr>
@@ -1511,7 +1504,57 @@
             @endif
         });
 
-        // $('.activityBlock').css('', 'none');
+        $('.btnGroup').on('click', function (e) {
+            e.preventDefault();
+            var groupIds = $(this).data('group-id');
+            // console.log(groupIds);
+            localStorage.setItem("groupId", groupIds);
+
+        })
+
+        $('.joinGroupCustom').on('click', function (e) {
+            e.preventDefault();
+            var groupJoin = $(this).data('join-group');
+            var groupId = localStorage.getItem("groupId");
+            // console.log(groupJoin);
+
+            $.ajax({
+                url: '{{ route('joinGroup') }}',
+                method: 'Post',
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    'groupId': groupId,
+                    'groupJoin': groupJoin,
+                },beforeSend: function(){
+                    $(this).text('Loading ..');
+                    toastr.success('Waiting for ......');
+                },
+                success: function (data) {
+                    if(data.status === 200){
+                        console.log(data);
+                        toastr.success('Group joined successfully');
+                        setTimeout(function () {
+                            location.reload();
+                        },1000)
+                    }
+                }, error : function (data) {
+                    if(data.status === 405){
+                        console.log(data);
+                        toastr.success('error try again !');
+                        setTimeout(function () {
+                            location.reload();
+                        },1000)
+                    }
+                }
+            }) // ajax
+        }) // join Group
+
+        $('.btnBreak').on('click', function(){
+            var break_id = $(this).data('group-id');
+            localStorage.setItem('break_id',break_id);
+            // console.log(break_id);
+            $('.inputGroupCustomer').val(break_id);
+        })
 
     </script>
 @endsection
