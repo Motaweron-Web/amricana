@@ -85,9 +85,15 @@ class SupervisorController extends Controller
             'accept' => $accept,
         ]);
 
-        $super = SupervisorActivity::where('supervisor_id','=', auth('admin')->user()->id)
-            ->whereDate('date_time',Carbon::now()->format('Y-m-d'))
+        $super = SupervisorActivity::where('supervisor_id', '=', auth('admin')->user()->id)
+            ->whereDate('date_time', Carbon::now()->format('Y-m-d'))
             ->update(['status' => 'not_available']);
+        if ($super) {
+            SupervisorLog::created([
+                'name' => auth('admin')->user()->name,
+                'status' => 'not_available',
+            ]);
+        }
 
         if ($super) {
             return redirect()->back()->with('success', 'Group Accepted');
@@ -103,30 +109,47 @@ class SupervisorController extends Controller
         $not_accept = 'not_accept';
 
 
-        $checkOutActivity = GroupMovement::where('status', '=', 'out')
-            ->where('id', $request->id)
-            ->whereDate('date_time', Carbon::now()->format('Y-m-d'))
-            ->orderBy('date_time', 'desc')->update(['status' => 'in']);
+        $groupRequest = GroupMovement::find($request->id);
 
-        if (!$checkOutActivity) {
-            $group = GroupMovement::find($request->id);
-//                dd($group);
-            $group->update([
-                'accept' => $not_accept,
+
+        $checkLastActivity = GroupMovement::where('status', '=', 'out')
+            ->where('accept', '!=','not_accept')
+            ->where('group_id', '=', $groupRequest->group_id)
+            ->whereDate('date_time', Carbon::now()->format('Y-m-d'))
+            ->latest()->first();
+
+//        return $checkLastActivity;
+
+        if ($checkLastActivity) {
+            $checkLastActivity->update([
+                'status' => 'in'
             ]);
 
-            GroupCustomer::where('group_id', $request->group_id)
-                ->update(['status' => 'waiting']);
-            GroupColor::where('group_id', $request->group_id)
-                ->update(['color' => null]);
+            $groupRequest->update([
+                'accept' => $not_accept,
+                'status' => 'out',
+            ]);
 
-        }
-        if ($group) {
+
+            SupervisorLog::created([
+                'name' => auth('admin')->user()->name,
+                'status' => 'not_available',
+            ]);
+            return redirect()->back()->with('success', 'Not Accept Successfully');
+
+        } else {
+
+            $groupRequest->update([
+                'accept' => $not_accept,
+                'status' => 'out',
+            ]);
+
+            GroupCustomer::where('group_id', $groupRequest->group_id)->update(['status' => 'waiting']);
+            GroupColor::where('group_id', $groupRequest->group_id)->update(['color' => null]);
 
             return redirect()->back()->with('success', 'Not Accept Successfully');
         }
 
-        return response()->json('error');
 
     } // end groupNotAccept
 
@@ -211,7 +234,7 @@ class SupervisorController extends Controller
 
     public function listSupervisors(Request $request)
     {
-        $supervisors = SupervisorActivity::where('activity_id',$request->activity_id)->get();
+        $supervisors = SupervisorActivity::where('activity_id', $request->activity_id)->get();
 
         return $supervisors;
     }

@@ -8,26 +8,13 @@ use App\Models\GroupCustomer;
 use App\Models\GroupMovement;
 use App\Models\Groups;
 use App\Models\SupervisorActivity;
+use App\Models\SupervisorLog;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
-
+//
 class GroupController extends Controller
 {
-    public function groupColor(Request $request)
-    {
-        if ($request->ajax()) {
-            $color = $request->boxColor;
-            $group = $request->groupId;
-
-            GroupColor::where('group_id', $group)
-                ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
-                ->update(['color' => $color]);
-            // update group color
-
-        } // end if
-
-    } // end of move
 
     public function selectTourguide(Request $request)
     {
@@ -126,6 +113,8 @@ class GroupController extends Controller
                 GroupColor::where('group_id', $group)
                     ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
                     ->update(['color' => $color]);
+
+                GroupCustomer::where('group_id', $group)->update(['color' => $color]);
             }
 
             $GroupCustomer = GroupCustomer::where('group_id', $request->group_id)
@@ -147,7 +136,7 @@ class GroupController extends Controller
 
     public function joinGroup(Request $request)
     {
-        try {
+//        try {
 
             $groupFrom = $request->groupId;
             $groupTo = $request->groupJoin;
@@ -155,14 +144,16 @@ class GroupController extends Controller
             $group = GroupCustomer::where('id', $groupFrom)
                 ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
                 ->first();
-            $movement = GroupMovement::where('group_id', $group->group_id)
-                ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
-                ->first();
+
+//            $movement = GroupMovement::where('group_id', $group->group_id)
+//                ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
+//                ->first();
+
             $group->update(['group_id' => $groupTo]);
 
-            if ($movement !== null) {
-                $movement->update(['status' => 'out']);
-            }
+//            if ($movement !== null) {
+//                $movement->update(['status' => 'out']);
+//            }
 
             if ($group) {
 //                return redirect()->back()->with('success', 'Group joined successfully');
@@ -171,9 +162,9 @@ class GroupController extends Controller
 //                return redirect()->back()->with('error', 'error try again !');
                 return response()->json(['status'=> 405]);
             }
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Please Try again as soon as possible');
-        } // end try & catch
+//        } catch (Exception $e) {
+//            return redirect()->route('platform');
+//        } // end try & catch
 
     } // end join group
 
@@ -183,6 +174,16 @@ class GroupController extends Controller
 
         $groupMovement = GroupMovement::where('group_id', $group)
             ->delete();
+
+
+        SupervisorActivity::where('supervisor_id',auth()->user()->id)
+            ->where('status','not_available')
+            ->update(['status' => 'available']);
+
+        SupervisorLog::created([
+            'name' => auth()->user()->name,
+            'status' => 'available'
+        ]);
 
         if ($groupMovement) {
             $groupColor = GroupColor::where('group_id', $group)

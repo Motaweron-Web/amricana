@@ -43,7 +43,7 @@
                             <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
 
                             @foreach($group_customers_waiting as $group_customer)
-                                <div style="background-color: {{ $group_customer->color ?? '' }}"
+                                <div style="background-color: {{ $group_customer->group->group_customer[0]->color ?? '' }}"
                                      class="items item d-flex justify-content-between" draggable="true"
                                      data-bs-toggle="modal"
                                      data-bs-target="#showModalDetails-{{ $group_customer->group->id }}">
@@ -102,7 +102,7 @@
                                                         <h6 class="title-choose mb-2">Select color</h6>
                                                         <input
                                                             style="width:200px;right: 66px;top: 16px;position: absolute;"
-                                                            type="color" name="color">
+                                                            type="color" name="color" value="{{  $group_customer->group->group_customer[0]->color }}">
                                                     </div>
 
                                                     <input type="text" name="supervisor_old"
@@ -347,7 +347,7 @@
                                                     <h6 class="modal-title text-danger" id="exampleModalLabel">
                                                         Recommended
                                                         Activity
-                                                        :</h5>
+                                                        :{{ $group_customer->group->group_customer[0]->nextActivity->activity->title ?? '' }}</h5>
                                                         <button type="button" class="btn-close btn-close-choose"
                                                                 data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
@@ -461,7 +461,6 @@
                                                                     @if(auth()->user()->supervisor_type == 'platform')
                                                                         <button class="btn btn-success"
                                                                                 data-bs-toggle="modal"
-                                                                                {{ ($group->GroupQuantity == $capacity->value) ? 'disabled' : '' }}
                                                                                 data-bs-target="#joinGroupMove-{{ $group->id }}">
                                                                             join Group
                                                                         </button>
@@ -573,7 +572,7 @@
                                             data-bs-target="#showgroupDetails-{{ $group->id }}"
                                             data-id="{{ $group->id }}">
                                             {{ $group->title }}
-                                            <span>{{ ($group->group_movement->accept == 'waiting') ? 'Pending' : 'Active' }}</span>
+                                            <span>{{ ($activity->group_movements_today[0]->accept == 'waiting') ? 'Pending' : 'Active' }}</span>
                                             {{--                                <button type="button" ">Group-{{$group->group->id}}</button>--}}
                                             <span class="me-2">{{ $group->group_quantity ?? ''}}</span>
                                         </div>
@@ -616,7 +615,7 @@
                                                         <h6 class="modal-title text-danger" id="exampleModalLabel">
                                                             Recommended
                                                             Activity
-                                                            :</h5>
+                                                            :{{ $group_customer->group->group_customer[0]->nextActivity->activity->title ?? '' }}</h5>
                                                             <button type="button" class="btn-close btn-close-choose"
                                                                     data-bs-dismiss="modal"
                                                                     aria-label="Close"></button>
@@ -728,7 +727,6 @@
                                                                     <td>
                                                                         <button class="btn btn-success"
                                                                                 data-bs-toggle="modal"
-                                                                                {{ ($group->GroupQuantity == $capacity->value) ? 'disabled' : '' }}
                                                                                 data-bs-target="#joinGroupMove-{{ $group->id }}">
                                                                             join Group
                                                                         </button>
@@ -839,14 +837,9 @@
                                     create group
                                 </button>
                             </form>
-                            {{--                        <button class="btn-report mb-2" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModalReport">--}}
-                            {{--                            Report--}}
-                            {{--                        </button>--}}
-                            {{--                        <button class="btn-report btn-end mb-2" type="submit">End Tour</button>--}}
                         </div>
-                        <!-- <div class="item p-3" draggable="true" data-bs-toggle="modal" data-bs-target="#exampleModalAll"> -->
                         @foreach($group_customers_waiting as $group_customer)
-                            <div style="background-color: {{ $group_customer->color ?? '' }}"
+                            <div style="background-color: {{ $group_customer->group->group_customer[0]->color ?? '' }}"
                                  class="items item d-flex justify-content-between" draggable="true"
                                  data-bs-toggle="modal"
                                  data-bs-target="#showModalDetails-{{ $group_customer->group->id }}">
@@ -912,7 +905,7 @@
                                                 <div class="activity mb-lg-3 form-group">
                                                     <h6 class="title-choose mb-2">Select color</h6>
                                                     <input style="width:200px;right: 66px;top: 16px;position: absolute;"
-                                                           type="color" name="color">
+                                                           type="color" name="color" value="{{ $group_customer->group->group_customer[0]->color ?? '' }}">
                                                 </div>
 
                                                 <input type="text" name="supervisor_old"
@@ -1005,11 +998,11 @@
                                                                 join Group
                                                             </button>
                                                             @if($ticket->sale_type == 'trip')
-                                                            <button class="btn btn-primary d-flex btnBreak mb-2" type="submit" data-bs-toggle="modal"
-                                                                    data-group-id="{{ $ticket->id }}"
-                                                                    data-bs-target="#breakGroup-{{ $group_customer->group->id }}">
-                                                                Break group
-                                                            </button>
+                                                                <button class="btn btn-primary d-flex btnBreak mb-2" type="submit" data-bs-toggle="modal"
+                                                                        data-group-id="{{ $ticket->id }}"
+                                                                        data-bs-target="#breakGroup-{{ $group_customer->group->id }}">
+                                                                    Break group
+                                                                </button>
                                                             @endif
                                                             {{--                                                        <button class="btn btn-primary WaitingRoom" data-id="{{ $group_customer->group->id  }}">--}}
                                                             {{--                                                            To Waiting--}}
@@ -1097,7 +1090,7 @@
                                                 @csrf
                                                 <input hidden class="inputGroupCustomer" type="text" name="group_id"
                                                        value="">
-{{--                                                <h4 class="inputGroupCustomer"></h4>--}}
+                                                {{--                                                <h4 class="inputGroupCustomer"></h4>--}}
                                                 <label>break count</label>
                                                 <input type="number" class="form-control" name="break_count"/>
                                                 <small class="d-flex text-danger">* well add this count to new group
@@ -1198,14 +1191,6 @@
                                                     @csrf
                                                     <input type="text" name="group_id" value="{{ $group->id }}"
                                                            hidden>
-                                                    {{--                                                @if($group->group_color->color == null)--}}
-                                                    {{--                                                <div class="activity mb-lg-3">--}}
-                                                    {{--                                                    <h6 class="title-choose mb-2">Select color</h6>--}}
-                                                    {{--                                                    <input style="width:200px;right: 66px;top: 16px;position: absolute;"--}}
-                                                    {{--                                                           type="color" name="color">--}}
-                                                    {{--                                                </div>--}}
-                                                    {{--                                                @endif--}}
-
                                                     <input type="text" name="supervisor_old"
                                                            value="{{ $group->supervisor_accept_id }}" hidden>
 
@@ -1296,8 +1281,8 @@
                                                             <td>{{ $ticket->nextActivity->activity->title ?? '' }}</td>
                                                             <td>{{ $ticket->ticket->cashier->name ?? $ticket->reservation->cashier->name ?? '--' }}</td>
                                                             <td>
-                                                                <button class="btn btn-success" data-bs-toggle="modal"
-                                                                        {{ ($group->GroupQuantity == $capacity->value) ? 'disabled' : '' }}
+                                                                <button class="btn btn-success btnGroup" data-bs-toggle="modal"
+                                                                        data-group-id="{{ $ticket->id }}"
                                                                         data-bs-target="#joinGroupMove-{{ $group->id }}">
                                                                     join Group
                                                                 </button>
@@ -1507,8 +1492,8 @@
         $('.btnGroup').on('click', function (e) {
             e.preventDefault();
             var groupIds = $(this).data('group-id');
-            // console.log(groupIds);
             localStorage.setItem("groupId", groupIds);
+            console.log(groupIds);
 
         })
 
