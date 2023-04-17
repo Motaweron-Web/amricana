@@ -1,29 +1,16 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 
-class RoleController extends Controller
+class RoleSuperVisorController extends Controller
 {
-
-//    function __construct()
-//    {
-//
-//        $this->middleware('permission:عرض صلاحية', ['only' => ['index']]);
-//        $this->middleware('permission:اضافة صلاحية', ['only' => ['create','store']]);
-//        $this->middleware('permission:تعديل صلاحية', ['only' => ['edit','update']]);
-//        $this->middleware('permission:حذف صلاحية', ['only' => ['destroy']]);
-//
-//    }
     public function __construct()
     {
         $this->middleware('adminPermission:Master');
@@ -34,11 +21,11 @@ class RoleController extends Controller
     public function index(request $request)
     {
         if ($request->ajax()) {
-            $roles = Role::where('guard_name','web')->latest()->get();
+            $roles = Role::where('guard_name','admin')->latest()->get();
             return Datatables::of($roles)
                 ->addColumn('action', function ($roles) {
                     return '
-                            <a href="'.route('roles.edit',$roles->id).'" class="btn btn-pill btn-info-light editBtn"><i class="fa fa-edit"></i></a>
+                            <a href="'.route('roles_supervisors.edit',$roles->id).'" class="btn btn-pill btn-info-light editBtn"><i class="fa fa-edit"></i></a>
                             <button class="btn btn-pill btn-danger-light" data-toggle="modal" data-target="#delete_modal"
                                     data-id="' . $roles->id . '" data-title="' . $roles->name . '">
                                     <i class="fas fa-trash"></i>
@@ -51,7 +38,7 @@ class RoleController extends Controller
                 ->escapeColumns([])
                 ->make(true);
         } else {
-            return view('Admin.roles.index');
+            return view('Admin.roles.supervisor.index');
         }
     }
 
@@ -59,8 +46,8 @@ class RoleController extends Controller
 
     public function create()
     {
-        $permissions = Permission::where('guard_name','web')->get();
-        return view('Admin.roles.create',compact('permissions'));
+        $permissions = Permission::where('guard_name','admin')->get();
+        return view('Admin.roles.supervisor.create',compact('permissions'));
     }
 
 
@@ -70,10 +57,10 @@ class RoleController extends Controller
             'name'       => 'required|unique:roles,name',
             'permission' => 'required',
         ]);
-        $role = Role::create(['name' => $request->input('name')]);
+        $role = Role::create(['name' => $request->input('name'),'guard_name'=>'admin']);
         $role->syncPermissions($request->input('permission'));
 
-        return redirect()->route('roles.index')
+        return redirect()->route('roles_supervisors.index')
             ->with('success','Role created successfully');
     }
 
@@ -91,11 +78,11 @@ class RoleController extends Controller
     public function edit($id)
     {
         $role = Role::findOrFail($id);
-        $permissions = Permission::where('guard_name','web')->get();
+        $permissions = Permission::where('guard_name','admin')->get();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
-        return view('Admin.roles.edit',compact('role','permissions','rolePermissions'));
+        return view('Admin.roles.supervisor.edit',compact('role','permissions','rolePermissions'));
     }
 
 
@@ -109,7 +96,7 @@ class RoleController extends Controller
         $role->name = $request->input('name');
         $role->save();
         $role->syncPermissions($request->input('permission'));
-        return redirect()->route('roles.index')
+        return redirect()->route('roles_supervisors.index')
             ->with('success','Role updated successfully');
     }
 

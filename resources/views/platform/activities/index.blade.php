@@ -347,7 +347,7 @@
                                                     <h6 class="modal-title text-danger" id="exampleModalLabel">
                                                         Recommended
                                                         Activity
-                                                        :</h5>
+                                                        :{{ $group_customer->group->group_customer[0]->nextActivity->activity->title ?? '' }}</h5>
                                                         <button type="button" class="btn-close btn-close-choose"
                                                                 data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
@@ -616,7 +616,7 @@
                                                         <h6 class="modal-title text-danger" id="exampleModalLabel">
                                                             Recommended
                                                             Activity
-                                                            :</h5>
+                                                            :{{ $group_customer->group->group_customer[0]->nextActivity->activity->title ?? '' }}</h5>
                                                             <button type="button" class="btn-close btn-close-choose"
                                                                     data-bs-dismiss="modal"
                                                                     aria-label="Close"></button>

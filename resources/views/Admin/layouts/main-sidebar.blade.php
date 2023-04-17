@@ -54,11 +54,17 @@
 
 
     @if(admin()->user()->can('Master'))
+
             <li class="slide">
-                <a class="side-menu__item" href="{{route('admins.index')}}">
-                    <i class="fe fe-users side-menu__icon"></i>
-                    <span class="side-menu__label">Supervisors</span>
+                <a class="side-menu__item" data-toggle="slide" href="#">
+                    <i class="fe fe-user-plus side-menu__icon"></i>
+                    <span class="side-menu__label">Supervisors</span><i class="angle fa fa-angle-right"></i>
                 </a>
+                <ul class="slide-menu">
+                    <li><a href="{{route('admins.index')}}" class="slide-item" style="font-size: 14px">Supervisors</a>
+                    </li>
+                    <li><a href="{{route('roles_supervisors.index')}}" class="slide-item" style="font-size: 14px">Roles</a></li>
+                </ul>
             </li>
 
             <li class="slide">

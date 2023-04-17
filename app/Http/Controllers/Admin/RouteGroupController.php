@@ -32,7 +32,7 @@ class RouteGroupController extends Controller
                     return '
                             <button type="button" data-id="' . $routes->id . '" class="btn btn-pill btn-info-light editBtn"><i class="fa fa-edit"></i></button>
                             <button class="btn btn-pill btn-danger-light" data-toggle="modal" data-target="#delete_modal"
-                                    data-id="' . $routes->id . '" data-title="' . $routes->group->title . '">
+                                    data-id="' . $routes->id . '" data-title="' . $routes->id . '">
                                     <i class="fas fa-trash"></i>
                             </button>
                        ';
@@ -44,7 +44,8 @@ class RouteGroupController extends Controller
                 ->editColumn('activity_id', function ($routes) {
                     return $routes->activity->title;
 
-                })->escapeColumns([])
+                })
+                ->escapeColumns([])
                 ->make(true);
         }else{
             return view('Admin/route_group/index');
