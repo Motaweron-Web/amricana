@@ -15,52 +15,68 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthActivityController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
-        if (Auth::guard('admin')->check()){
+        if (Auth::guard('admin')->check()) {
             return redirect()->route('activity.login');
         }
         $activities = Activity::get();
-        return view('platform.auth_activity.login',compact('activities'));
+        return view('platform.auth_activity.login', compact('activities'));
     } // end index
 
     public function login(Request $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->validate([
-            'email'   =>'required|exists:supervisors',
-            'password'=>'required'
+            'email' => 'required|exists:supervisors',
+            'password' => 'required'
         ]);
-        if (Auth::guard('admin')->attempt($data) && (Auth::guard('admin')->user()->supervisor_type == 'activity') ){
+        if (Auth::guard('admin')->attempt($data) && (Auth::guard('admin')->user()->supervisor_type == 'activity')) {
 
-            $check = SupervisorActivity::where('supervisor_id',auth::guard('admin')->user()->id)
-                ->whereDate('date_time',Carbon::now()->format('Y-m-d'))
-            ->first();
-            if ($check){
+            $check = SupervisorActivity::where('supervisor_id', auth::guard('admin')->user()->id)
+                ->whereDate('date_time', Carbon::now()->format('Y-m-d'))
+                ->first();
+            if ($check) {
                 $check->update(['status' => 'available']);
             }
+
+            SupervisorLog::create([
+                'name' => auth::guard('admin')->user()->name,
+                'status' => 'available',
+            ]);
+
             return response()->json(200);
-        }else{
+        } else {
             return response()->json(500);
         }
     } // end login
 
-    public function logout(){
+    public function logout()
+    {
         $supervisor = SupervisorActivity::where('supervisor_id', auth('admin')->user()->id)
             ->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))
             ->first();
 
-        $supervisor->status = 'break';
-        $supervisor->save();
 
-        SupervisorLog::create([
-            'name' => $supervisor->supervisors->name,
-            'status' => $supervisor->status,
-        ]);
+        if ($supervisor->status == 'available') {
+            Auth::guard('admin')->logout();
+
+            $supervisor->status = 'logout';
+            $supervisor->save();
+
+            SupervisorLog::create([
+                'name' => $supervisor->supervisors->name,
+                'status' => $supervisor->status,
+            ]);
+
+            toastr()->info('logged out successfully');
+            return redirect()->route('activity.login');
+
+        } else {
+            toastr()->info('You couldn\'t log out Now !');
+            return redirect()->back();
+        }
 
 
-        Auth::guard('admin')->logout();
-
-        toastr()->info('logged out successfully');
-        return redirect()->route('activity.login');
     } // end logout
 }
