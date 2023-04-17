@@ -7,11 +7,13 @@ use App\Models\Activity;
 use App\Models\GroupColor;
 use App\Models\GroupCustomer;
 use App\Models\GroupMovement;
+use App\Models\Groups;
 use App\Models\RouteGroup;
 use App\Models\Supervisor;
 use App\Models\SupervisorActivity;
 use App\Models\SupervisorLog;
 use Carbon\Carbon;
+use Couchbase\Group;
 use Exception;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
@@ -238,5 +240,6 @@ class SupervisorController extends Controller
 
         return $supervisors;
     }
+
 
 } // end controller

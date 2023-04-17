@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateSetting;
 use App\Models\Configuration;
 use App\Models\GeneralSetting;
+use App\Models\Groups;
 use App\Models\Setting;
 use App\Traits\PhotoTrait;
 use Illuminate\Http\Request;
@@ -48,5 +49,16 @@ class SettingController extends Controller
 
     public function getLogo(){
         return asset(GeneralSetting::first()->logo);
+    }
+
+
+
+    public function resetGroup()
+    {
+        Groups::where('status','=','not_available')
+            ->update(['status' => 'available']);
+
+        toastr()->success('Group rested Successfully');
+        return redirect()->route('adminHome');
     }
 }

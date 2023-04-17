@@ -34,6 +34,11 @@
                         <i class="fullscreen-button fe fe-maximize-2" id="fullscreen-button3"></i>
                     </a>
                 </div>
+                <div class="dropdown d-none d-lg-flex">
+                    <a href="{{ route('resetGroup') }}" class="btn btn-sm btn-primary-gradient">
+                        Reset Group
+                    </a>
+                </div>
                 <!-- FULL-SCREEN -->
 {{--                <div class="dropdown d-md-flex notifications">--}}
 {{--                    <a class="nav-link icon" data-toggle="dropdown">--}}
