@@ -114,6 +114,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth:admin','CheckAdmin'],'names
     Route::get('general_setting','SettingController@index')->name('general_setting.index');
     Route::POST('edit_setting','SettingController@edit')->name('admin.edit.setting');
     Route::get('getLogo','SettingController@getLogo')->name('getLogo');
+    Route::get('resetGroup','SettingController@resetGroup')->name('resetGroup');
 
     ### Group ####
     Route::resource('group','GroupController');
