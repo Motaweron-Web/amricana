@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 
 class AdminController extends Controller
@@ -77,7 +78,7 @@ class AdminController extends Controller
 
     public function create()
     {
-        $permissions = Permission::where('guard_name', 'admin')->get();
+        $permissions = Role::where('guard_name', 'admin')->get();
         return view('Admin/admin.parts.create', compact('permissions'));
     }
 
@@ -91,14 +92,16 @@ class AdminController extends Controller
             'supervisor_type' => 'required',
         ]);
 
+//        dd($request->permissions);
+
         if ($request->has('photo')) {
             $file_name = $this->saveImage($request->photo, 'assets/uploads/admins');
             $inputs['photo'] = 'assets/uploads/admins/' . $file_name;
         }
         $inputs['password'] = Hash::make($request->password);
         $admin = Supervisor::create($inputs);
-        $admin->givePermissionTo($request->permissions);
-
+//        $admin->givePermissionTo($request->permissions);
+        $admin->assignRole($request->permissions);
         if ($admin)
             return response()->json(['status' => 200]);
         else
