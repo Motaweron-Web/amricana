@@ -26,7 +26,8 @@ class SupervisorController extends Controller
     {
 
         $activities = Activity::with(['groups'])->orderBy('id', 'asc')->get();
-        $activities_test = SupervisorActivity::whereDate('date_time', Carbon::now()->format('Y-m-d'))->get();
+        $activities_test = SupervisorActivity::whereDate('date_time', Carbon::now()->format('Y-m-d'))
+            ->groupBy('activity_id')->get();
 
 //        return $activities_test;
 
